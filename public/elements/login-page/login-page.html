@@ -77,15 +77,27 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </div>
 
       <div class="inputs">
-        <paper-input label="USN" type="text"></paper-input>
-        <paper-input label="Password" type="password"></paper-input>
+        <paper-input label="USN" type="text" value="{{ usn::input }}"></paper-input>
+        <paper-input label="Password" type="password" value="{{ password::input }}"></paper-input>
       </div>
 
       <div class="horizontal layout">
         <span class="flex"></span>
-        <paper-button raised>Login</paper-button>
+        <paper-button id="login" raised>Login</paper-button>
       </div>
     </paper-material>
+
+    <iron-ajax
+      id="ajaxLogin"
+      url="/api/authenticate" 
+      method="post"
+      params="{{ params }}"
+      handle-as="json"
+      on-error="handleError"
+      on-response="handleResponse"
+      last-response="{{ response }}"
+      debounce-duration="300"></iron-ajax>
+
 
   </template>
   <script>
@@ -95,12 +107,39 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     Polymer({
       is: 'login-page',
 
+      properties: {
+        usn: String,
+        password: String,
+        params: {
+          computed: '_params(usn, password)'
+        }
+      },
+
+
       listeners: {
-        'aTeacher.tap': '_aTeacher'
+        'aTeacher.tap': '_aTeacher',
+        'login.tap': '_login'
       },
 
       _aTeacher: function() {
         alert("You are a teacher!");
+      },
+
+      _login: function() {
+        document.querySelector('#ajaxLogin').generateRequest();
+      },
+
+      _params: function(usn, password) {
+        return {usn: this.usn, password: this.password};
+      },
+
+      handleError: function() {
+        alert("Login failed!");
+      },
+
+      handleResponse: function() {
+        localStorage.token = this.response.token;
+        window.location.assign("/");
       }
 
     });
