@@ -184,18 +184,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </paper-drawer-panel>
     </template>
     <template is="dom-if" if="@{{ !isAuthenticated() }}">
-      <paper-toolbar id="mainToolbar" class="tall">
-        <!-- Application name -->
-        <div class="middle middle-container center horizontal layout">
-          <div class="app-name">AMACC Naga E-Learning Hub</div>
-        </div>
 
-        <!-- Application sub title -->
-        <div class="bottom bottom-container center horizontal layout">
-          <div class="bottom-title paper-font-subhead">AMA Computer College Naga</div>
-        </div>
+      <paper-scroll-header-panel main condenses keep-condensed-header>
+        <paper-toolbar id="mainToolbar" class="tall">
+          <!-- Application name -->
+          <div class="middle middle-container center horizontal layout">
+            <div class="app-name">AMACC Naga E-Learning Hub</div>
+          </div>
 
-      </paper-toolbar>
+          <!-- Application sub title -->
+          <div class="bottom bottom-container center horizontal layout">
+            <div class="bottom-title paper-font-subhead">AMA Computer College Naga</div>
+          </div>
+
+        </paper-toolbar>
+
+        <div class="content">
+          <login-page></login-page>
+        </div>
+      </paper-scroll-header-panel>
       
     </template>
 

@@ -1,0 +1,108 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="..\..\bower_components/paper-material/paper-material.html">
+<link rel="import" href="..\..\bower_components/paper-input/paper-input.html">
+<link rel="import" href="..\..\bower_components/paper-button/paper-button.html">
+<link rel="import" href="..\..\bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="..\..\bower_components/paper-menu-button/paper-menu-button.html">
+<link rel="import" href="..\..\bower_components/paper-menu/paper-menu.html">
+<link rel="import" href="..\..\bower_components/paper-item/paper-item.html">
+<link rel="import" href="..\..\bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="..\..\bower_components/iron-flex-layout/classes/iron-flex-layout.html">
+<link rel="import" href="..\..\bower_components/iron-flex-layout/classes/iron-flex-layout.html">
+
+<dom-module id="login-page">
+  <template>
+    <style>
+      :host {
+        display: block;
+        margin-top: 40px;
+      }
+
+      paper-material {
+        width: 680px;
+        margin: auto;
+        padding: 24px;
+        background: #FFF;
+        padding-top: 5px;
+      }
+
+      paper-button {
+        margin-top: 14px;
+        background: var(--accent-color);
+        color: var(--text-primary-color);
+      }
+
+      paper-icon-button {
+        position: absolute;
+        right: 0px;
+      }
+
+      .title {
+        font-weight: 600;
+        font-size: 1.3em;
+        padding-top: 10px;
+      }
+
+      .inputs {
+        margin: 18px 0px 18px 0px;
+      }
+
+      paper-item {
+        width: 100px;
+      }
+
+    </style>
+    
+    <paper-material elevation="1">
+      <div class="horizontal layout">
+        <span class="title">Login</span>
+        <span class="flex"></span>
+        <paper-menu-button>
+          <paper-icon-button icon="more-vert" class="dropdown-trigger"></paper-icon-button>
+          <paper-menu class="dropdown-content">
+            <paper-item id="aTeacher">I'm a Teacher!</paper-item>
+          </paper-menu>
+        </paper-menu-button>
+      </div>
+
+      <div class="inputs">
+        <paper-input label="USN" type="text"></paper-input>
+        <paper-input label="Password" type="password"></paper-input>
+      </div>
+
+      <div class="horizontal layout">
+        <span class="flex"></span>
+        <paper-button raised>Login</paper-button>
+      </div>
+    </paper-material>
+
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'login-page',
+
+      listeners: {
+        'aTeacher.tap': '_aTeacher'
+      },
+
+      _aTeacher: function() {
+        alert("You are a teacher!");
+      }
+
+    });
+  })();
+  </script>
+</dom-module>
