@@ -101,9 +101,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <span class="flex"></span>
 
             <!-- Toolbar icons -->
-            <paper-icon-button icon="more-vert"></paper-icon-button>
+            <paper-menu-button>
+              <paper-icon-button icon="more-vert" class="dropdown-trigger"></paper-icon-button>
+              <paper-menu class="dropdown-content">
+                <paper-item onclick="app.logout()">Logout</paper-item>
+              </paper-menu>
+            </paper-menu-button>
 
-            <!-- Application name -->
+              <!-- Application name -->
             <div class="middle middle-container center horizontal layout">
               <div class="app-name">AMACC Naga E-Learning Hub</div>
             </div>
