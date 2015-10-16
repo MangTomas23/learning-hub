@@ -43,17 +43,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         color: var(--text-primary-color);
       }
 
-      paper-icon-button {
-        position: absolute;
-        right: 0px;
-      }
-
-      .title {
-        font-weight: 600;
-        font-size: 1.3em;
-        padding-top: 10px;
-      }
-
       .inputs {
         margin: 18px 0px 18px 0px;
       }
@@ -65,17 +54,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </style>
     
     <paper-material elevation="1">
-      <div class="horizontal layout">
-        <span class="title">Login</span>
-        <span class="flex"></span>
-        <paper-menu-button>
-          <paper-icon-button icon="more-vert" class="dropdown-trigger"></paper-icon-button>
-          <paper-menu class="dropdown-content">
-            <paper-item id="aTeacher">I'm a Teacher!</paper-item>
-          </paper-menu>
-        </paper-menu-button>
-      </div>
-
+      <h3>Login</h3>
       <div class="inputs">
         <paper-input label="USN" type="text" value="{{ usn::input }}"></paper-input>
         <paper-input label="Password" type="password" value="{{ password::input }}"></paper-input>
