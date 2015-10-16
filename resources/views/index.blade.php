@@ -101,8 +101,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <span class="flex"></span>
 
             <!-- Toolbar icons -->
-            <paper-icon-button icon="refresh"></paper-icon-button>
-            <paper-icon-button icon="search"></paper-icon-button>
+            <paper-icon-button icon="more-vert"></paper-icon-button>
 
             <!-- Application name -->
             <div class="middle middle-container center horizontal layout">
