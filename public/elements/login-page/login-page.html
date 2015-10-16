@@ -46,13 +46,28 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         width: 100px;
       }
 
+
+
+      :host([login-failed]) p {
+        color: var(--default-primary-color);
+        display: block;
+      }
+
+      p {
+        display: none;
+      }
+
     </style>
     
     <paper-material elevation="1">
       <h3>Login</h3>
       <div class="inputs">
-        <paper-input label="USN" type="text" value="{{ usn::input }}"></paper-input>
+        <paper-input id="usn" label="USN" type="text" value="{{ usn::input }}"></paper-input>
         <paper-input label="Password" type="password" value="{{ password::input }}"></paper-input>
+        <p>
+          <iron-icon icon="info-outline"></iron-icon>
+          <span>Login Failed</span>
+        </p>
       </div>
 
       <div class="horizontal layout">
@@ -84,6 +99,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       properties: {
         usn: String,
         password: String,
+        loginFailed: {
+          type: Boolean,
+          value: false,
+          notify: true,
+          reflectToAttribute: true
+        },
         params: {
           computed: '_params(usn, password)'
         }
@@ -103,7 +124,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       handleError: function() {
-        alert("Login failed!");
+        this.loginFailed = true;
       },
 
       handleResponse: function() {
