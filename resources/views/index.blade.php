@@ -79,14 +79,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               <iron-icon icon="home"></iron-icon>
               <span>Home</span>
             </a>
-            
+
             <template is="dom-if" if="@{{ isAdmin() }}">
               <a data-route="users" href="/users" on-click="onDataRouteClick">
                 <iron-icon icon="info"></iron-icon>
                 <span>Students</span>
               </a>
 
-              <a data-route="contact" href="/contact" on-click="onDataRouteClick">
+              <a data-route="teacher" href="/teachers" on-click="onDataRouteClick">
                 <iron-icon icon="mail"></iron-icon>
                 <span>Teachers</span>
               </a>            
@@ -181,6 +181,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 <paper-material elevation="1">
                   <h2 class="page-title">Contact</h2>
                   <p>This is the contact section</p>
+                </paper-material>
+              </section>
+
+              <section data-route="teacher">
+                <paper-material elevation="1">
+                  <h2 class="page-title">Teacher</h2>
+                  <p>This is the teacher's section</p>
                 </paper-material>
               </section>
 
