@@ -79,16 +79,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               <iron-icon icon="home"></iron-icon>
               <span>Home</span>
             </a>
+            
+            <template is="dom-if" if="@{{ isAdmin() }}">
+              <a data-route="users" href="/users" on-click="onDataRouteClick">
+                <iron-icon icon="info"></iron-icon>
+                <span>Students</span>
+              </a>
 
-            <a data-route="users" href="/users" on-click="onDataRouteClick">
-              <iron-icon icon="info"></iron-icon>
-              <span>Users</span>
-            </a>
-
-            <a data-route="contact" href="/contact" on-click="onDataRouteClick">
-              <iron-icon icon="mail"></iron-icon>
-              <span>Contact</span>
-            </a>
+              <a data-route="contact" href="/contact" on-click="onDataRouteClick">
+                <iron-icon icon="mail"></iron-icon>
+                <span>Teachers</span>
+              </a>            
+            </template>
           </paper-menu>
         </paper-scroll-header-panel>
 
