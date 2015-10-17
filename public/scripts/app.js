@@ -80,7 +80,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   };
 
   app.logout = function() {
-    localStorage.removeItem('token');
+    localStorage.clear();
     window.location.assign('/');
   }
 
