@@ -185,10 +185,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               </section>
 
               <section data-route="teacher">
-                <paper-material elevation="1">
-                  <h2 class="page-title">Teacher</h2>
-                  <p>This is the teacher's section</p>
-                </paper-material>
+                <template is="dom-if" if="@{{ isAdmin() }}">
+                  
+                </template>
               </section>
 
             </iron-pages>
