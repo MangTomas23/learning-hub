@@ -128,9 +128,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       handleResponse: function() {
-        localStorage.token = this.response[0].token;
-        localStorage.account_type = this.response[1];
-
+        localStorage.token = this.response.token;
         window.location.assign("/");
       }
 

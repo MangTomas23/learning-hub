@@ -35,10 +35,12 @@ class AuthenticateController extends Controller
     public function authenticate(Request $request)
     {
         $credentials = $request->only('usn', 'password');
+        $type = User::where('usn',$credentials['usn'])->first()->type;
+        $customClaims = ['type' => $type];
 
         try {
             // verify the credentials and create a token for the user
-            if (! $token = JWTAuth::attempt($credentials)) {
+            if (! $token = JWTAuth::attempt($credentials, $customClaims)) {
                 return response()->json(['error' => 'invalid_credentials'], 401);
             }
         } catch (JWTException $e) {
@@ -46,13 +48,9 @@ class AuthenticateController extends Controller
             return response()->json(['error' => 'could_not_create_token'], 500);
         }
 
-        $response = array(2);
-        $response[0] = compact('token');
-        $response[1] = bcrypt(User::where('usn',$credentials['usn'])->first()->type);
-
 
         // if no errors are encountered we can return a JWT
-        return $response;
+        return response()->json(compact('token'));
     }
 
 
