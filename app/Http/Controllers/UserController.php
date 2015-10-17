@@ -6,9 +6,17 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\User;
+use JWTAuth;
+use Tymon\JWTAuth\Exceptions\JWTException;
 
 class UserController extends Controller
 {
+
+   public function __construct()
+   {
+       $this->middleware('jwt.auth');
+   }
+
     /**
      * Display a listing of the resource.
      *
