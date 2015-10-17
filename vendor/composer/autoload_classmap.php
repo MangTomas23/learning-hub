@@ -480,6 +480,7 @@ return array(
     'PHP_Token_XOR_EQUAL' => $vendorDir . '/phpunit/php-token-stream/src/Token.php',
     'PHP_Token_YIELD' => $vendorDir . '/phpunit/php-token-stream/src/Token.php',
     'PHP_Token_YIELD_FROM' => $vendorDir . '/phpunit/php-token-stream/src/Token.php',
+    'RemoveEmailFromUsers' => $baseDir . '/database/migrations/2015_10_17_123547_remove_email_from_users.php',
     'SebastianBergmann\\Comparator\\ArrayComparator' => $vendorDir . '/sebastian/comparator/src/ArrayComparator.php',
     'SebastianBergmann\\Comparator\\Comparator' => $vendorDir . '/sebastian/comparator/src/Comparator.php',
     'SebastianBergmann\\Comparator\\ComparisonFailure' => $vendorDir . '/sebastian/comparator/src/ComparisonFailure.php',
