@@ -82,10 +82,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   app.logout = function() {
     localStorage.clear();
     window.location.assign('/');
-  }
+  };
 
   app.getAccountType = function() {
     return jwt_decode(localStorage.token).type;
-  }
+  };
+
+  app.isAdmin = function() {
+    return this.getAccountType() == 'admin';
+  };
+
+  app.isTeacher = function() {
+    return this.getAccountType() == 'teacher';
+  };
+
+  app.isStudent = function() {
+    return this.getAccountType() == 'student';
+  };
 
 })(document);
