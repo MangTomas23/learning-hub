@@ -186,7 +186,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
               <section data-route="teacher">
                 <template is="dom-if" if="@{{ isAdmin() }}">
-                  
+                  <admin-teachers></admin-teachers>
                 </template>
               </section>
 
