@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\User;
 
 class UserController extends Controller
 {
@@ -36,7 +37,18 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = new User;
+        $user->usn = $request->usn;
+        $user->firstname = $request->firstname;
+        $user->middlename = $request->middlename;
+        $user->lastname = $request->lastname;
+        $user->type = $request->type;
+        $user->lastname = $request->lastname;
+        $user->password = bcrypt($request->password);
+
+        $r = array();
+
+        return $r['response'] = $user->save() ? 'success':'failed';
     }
 
     /**
