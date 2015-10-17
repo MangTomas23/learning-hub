@@ -231,6 +231,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   <!-- build:js scripts/app.js -->
   <script src="scripts/app.js"></script>
+  <script src="scripts/jwt-decode.min.js"></script>
   <!-- endbuild-->
 </body>
 
