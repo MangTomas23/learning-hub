@@ -46,8 +46,13 @@ class AuthenticateController extends Controller
             return response()->json(['error' => 'could_not_create_token'], 500);
         }
 
+        $response = array(2);
+        $response[0] = compact('token');
+        $response[1] = bcrypt(User::where('usn',$credentials['usn'])->first()->type);
+
+
         // if no errors are encountered we can return a JWT
-        return response()->json(compact('token'));
+        return $response;
     }
 
 
