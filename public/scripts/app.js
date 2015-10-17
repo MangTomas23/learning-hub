@@ -84,4 +84,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     window.location.assign('/');
   }
 
+  app.getAccountType = function() {
+    return localStorage.account_type;
+  }
+
 })(document);
