@@ -85,7 +85,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   }
 
   app.getAccountType = function() {
-    return localStorage.account_type;
+    return jwt_decode(localStorage.token).type;
   }
 
 })(document);
