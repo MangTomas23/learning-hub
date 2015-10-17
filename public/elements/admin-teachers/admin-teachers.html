@@ -48,7 +48,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <h1>Teachers</h1>
     </paper-material>
 
-    <paper-dialog transition="paper-dialog-transition-center">
+    <paper-dialog id="dlgAddTeacher" transition="paper-dialog-transition-center">
       <h2>Add Teacher</h2>
       <paper-dialog-scrollable>
         <paper-input label="First Name"></paper-input>
@@ -71,13 +71,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     Polymer({
       is: 'admin-teachers',
 
-      properties: {
-        foo: {
-          type: String,
-          value: 'admin-teachers',
-          notify: true
-        }
+      listeners: {
+        'addTeacher.tap': '_openDlgAddTeacher'
+      },
+
+      _openDlgAddTeacher: function() {
+        document.querySelector('#dlgAddTeacher').open();
       }
+
     });
   })();
   </script>
