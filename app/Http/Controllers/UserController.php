@@ -24,7 +24,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        return User::all();
     }
 
     /**
@@ -56,7 +56,6 @@ class UserController extends Controller
 
         $r = array();
         $r['response'] = $user->save() ? 'success':'failed';
-
         return $r;
     }
 
