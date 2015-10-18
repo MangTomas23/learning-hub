@@ -50,20 +50,32 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               exit-animation="fade-out-animation">
       <h2>Add Teacher</h2>
         <paper-dialog-scrollable>
-          <paper-input label="USN"></paper-input>
-          <paper-input label="First Name"></paper-input>
-          <paper-input label="Middle Name"></paper-input>
-          <paper-input label="Last Name"></paper-input>
-          <paper-input label="Temporary Password"></paper-input>
+          <paper-input type="text" value="{{ usn::input }}" label="USN"></paper-input>
+          <paper-input type="text" value="{{ firstname::input }}" label="First Name"></paper-input>
+          <paper-input type="text" value="{{ middlename::input }}" label="Middle Name"></paper-input>
+          <paper-input type="text" value="{{ lastname::input }}" label="Last Name"></paper-input>
+          <paper-input type="text" value="{{ password::input }}" label="Temporary Password"></paper-input>
         </paper-dialog-scrollable>
         <div class="buttons">
           <paper-button dialog-dismiss>Cancel</paper-button>
-          <paper-button dialog-confirm>Confirm</paper-button>
+          <paper-button id="confirmAddTeacher" dialog-confirm>Confirm</paper-button>
         </div>
     </paper-dialog>
 
 
     <paper-fab id="addTeacher" icon="add" title="Add Teacher"></paper-fab>
+
+    <iron-ajax
+    id="ajaxAddTeacher"
+    url="/api/user" 
+    method="post"
+    params="{{ params }}"
+    handle-as="json"
+    on-error="addTeacherError"
+    on-response="addTeacherResponse"
+    last-response="{{ tResponse }}"
+    debounce-duration="300"></iron-ajax>
+
   </template>
   <script>
   (function() {
@@ -72,13 +84,44 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     Polymer({
       is: 'admin-teachers',
 
+      properties: {
+        firstname: String,
+        middlename: String,
+        lastname: String,
+        usn: String,
+        password: String,
+        params: {
+          computed: '_params(usn, firstname, middlename, lastname, password)'
+        }
+
+      },
+
       listeners: {
-        'addTeacher.tap': '_openDlgAddTeacher'
+        'addTeacher.tap': '_openDlgAddTeacher',
+        'confirmAddTeacher.tap': '_addTeacher',
+        'btnTest.tap': 'testParams'
       },
 
       _openDlgAddTeacher: function() {
         document.querySelector('#dlgAddTeacher').open();
-      }
+      },
+
+      _addTeacher: function() {
+        document.querySelector('#ajaxAddTeacher').generateRequest();
+      },
+
+      addTeacherResponse: function() {
+        console.log(this.tResponse);
+      },
+
+      addTeacherError: function() {
+        alert('Error!');
+      },
+
+      _params: function(usn, firstname, middlename, lastname, password) {
+        var token = localStorage.token;
+        return {token: token, usn: usn, firstname: firstname, middlename: middlename, lastname: lastname, password: password, type: 'teacher'};
+      },
 
     });
   })();
