@@ -10,6 +10,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="..\..\bower_components/polymer/polymer.html">
 <link rel="import" href="..\..\bower_components/paper-material/paper-material.html">
+<link rel="import" href="..\..\bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="..\..\bower_components/iron-icons/editor-icons.html">
+<link rel="import" href="..\..\bower_components/iron-flex-layout/classes/iron-flex-layout.html">
 
 <dom-module id="teachers-list-item">
   <template>
@@ -19,12 +22,52 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       paper-material {
-        padding: 8px;
         background: #FFF;
+      }
+
+      .header {
+        background: #8BC34A;
+        padding: 0px 5px 5px 5px;
+        color: white;
+      }
+
+      .body {
+        padding: 5px;
+      }
+
+      .body .label {
+        text-align: right;
+        margin-right: 20px;
+        margin-left: 20px;
+      }
+
+      h3 span {
+        margin-top: 10px;
+        padding-left: 6px;
       }
     </style>
     <paper-material elevation="1">
-      <h3>{{ fullname }}</h3>
+      <div class="header">
+        <h3 class="horizontal layout">
+          <span class="flex">{{ fullname }}</span>
+          <paper-icon-button icon="editor:mode-edit"></paper-icon-button>
+          <paper-icon-button icon="delete"></paper-icon-button>
+        </h3>
+      </div>
+      <div class="body horizontal layout">
+        <div class="label">
+          <p>USN: </p>
+          <p>First Name: </p>
+          <p>Middle Name: </p>
+          <p>Last Name: </p>
+        </div>
+        <div class="flex">
+          <p>{{ usn }}</p>
+          <p>{{ firstname }}</p>
+          <p>{{ middlename }}</p>
+          <p>{{ lastname }}</p>
+        </div>
+      </div>
     </paper-material>
   </template>
   <script>
@@ -38,6 +81,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         firstname: String,
         middlename: String,
         lastname: String,
+        usn: {
+          type: String,
+          value: 'None'
+        },
         fullname: {
           computed: 'computeFullname(firstname, middlename, lastname)'
         }
