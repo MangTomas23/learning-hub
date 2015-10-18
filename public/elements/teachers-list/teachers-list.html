@@ -9,15 +9,53 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="..\..\bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="..\..\bower_components/iron-list/iron-list.html">
+<link rel="import" href="..\..\bower_components/paper-material/paper-material.html">
 
 <dom-module id="teachers-list">
   <template>
     <style>
       :host {
         display: block;
+        margin-top: 24px;
       }
+
+      iron-list {
+        padding-bottom: 20px;
+      }
+
+      .items {
+        margin: auto;
+        margin-bottom: 16px;
+        max-width: 480px;
+      }
+
+      paper-material {
+        background: #FFF;
+        padding: 16px;
+      }
+
     </style>
-    <div>Hello from <span>{{foo}}</span></div>
+
+    <iron-ajax 
+      auto
+      url="/api/user" 
+      params="{{ params }}" 
+      last-response="{{ teachers }}"
+      ></iron-ajax>
+
+    <iron-list items="[[ teachers ]]" as="teacher">
+      <template>
+        <div>
+          <div class="items">
+            <paper-material>
+              <h3>[[ computeFullname(teacher.firstname, teacher.middlename, teacher.lastname) ]]</h3>
+            </paper-material>
+          </div>
+        </div>
+      </template>
+    </iron-list>
   </template>
   <script>
   (function() {
@@ -26,13 +64,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     Polymer({
       is: 'teachers-list',
 
-      properties: {
-        foo: {
-          type: String,
-          value: 'teachers-list',
-          notify: true
-        }
+      ready: function() {
+        this.params = { token: localStorage.token, type: 'teacher'};
+      },
+
+      computeFullname(firstname, middlename, lastname) {
+        return firstname + ' ' + middlename + ' ' + lastname;
       }
+
     });
   })();
   </script>
