@@ -54,8 +54,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <div class="header">
         <h3 class="horizontal layout">
           <span class="flex">{{ fullname }}</span>
-          <paper-icon-button icon="editor:mode-edit"></paper-icon-button>
-          <paper-icon-button icon="delete"></paper-icon-button>
+          <paper-icon-button id="edit" icon="editor:mode-edit"></paper-icon-button>
+          <paper-icon-button id="delete" icon="delete"></paper-icon-button>
         </h3>
       </div>
       <div class="body horizontal layout">
@@ -94,9 +94,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
       },
 
+      listeners: {
+        'edit.tap': 'edit',
+        'delete.tap': 'delete' 
+      },
+
       computeFullname: function(firstname, middlename, lastname) {
         return firstname + ' ' + middlename + ' ' + lastname;
+      },
+
+      edit: function() {
+
+      },
+
+      delete: function() {
+        
       }
+
     });
   })();
   </script>
