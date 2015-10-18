@@ -98,6 +98,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         </div>
       </div>
     </paper-material>
+
   </template>
   <script>
   (function() {
@@ -160,6 +161,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       delete: function() {
+        document.querySelector('#deleteToast').show();
         this.isDeleted = true;
       }
 
