@@ -123,7 +123,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       listeners: {
         'edit.tap': 'edit',
-        'delete.tap': 'delete' 
+        'delete.tap': 'delete',
+        'save.tap': 'save' 
       },
 
       computeFullname: function(firstname, middlename, lastname) {
@@ -136,6 +137,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         var x;
         for(x=0; x<inputs.length; x++) {
           inputs[x].removeAttribute('readonly');
+        }
+      },
+
+      save: function() {
+        this.isEditing = false;
+        var inputs = this.querySelectorAll('paper-input');
+        var x;
+        for(x=0; x<inputs.length; x++) {
+          inputs[x].setAttribute('readonly', true);
         }
       },
 
