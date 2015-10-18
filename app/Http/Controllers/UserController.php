@@ -91,7 +91,17 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user = User::find($id);
+
+        $user->firstname = $request->firstname;
+        $user->middlename = $request->middlename;
+        $user->lastname = $request->lastname;
+        $user->usn = $request->usn;
+
+        $r = array();
+        $r['response'] = $user->save() ? 'success':'failed';
+
+        return $r;
     }
 
     /**
