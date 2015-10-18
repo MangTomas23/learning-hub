@@ -49,13 +49,34 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       paper-input {
         margin-top: -22px;
       }
+
+      .isEditing {
+        display: none;
+      }
+
+      .notEditing {
+        display: block;
+      }
+
+      :host([is-editing]) .isEditing {
+        display: block;
+      }
+
+      :host([is-editing]) .notEditing {
+        display: none;
+      }
     </style>
     <paper-material elevation="1">
       <div class="header">
         <h3 class="horizontal layout">
           <span class="flex">{{ fullname }}</span>
-          <paper-icon-button id="edit" icon="editor:mode-edit"></paper-icon-button>
-          <paper-icon-button id="delete" icon="delete"></paper-icon-button>
+          <div class="notEditing">
+            <paper-icon-button id="edit" icon="editor:mode-edit"></paper-icon-button>
+            <paper-icon-button id="delete" icon="delete"></paper-icon-button>
+          </div>
+          <div class="isEditing">
+            <paper-icon-button id="save" icon="save"></paper-icon-button>
+          </div>
         </h3>
       </div>
       <div class="body horizontal layout">
@@ -85,6 +106,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         firstname: String,
         middlename: String,
         lastname: String,
+        isEditing: {
+          type: Boolean,
+          value: false,
+          notify: true,
+          reflectToAttribute: true
+        },
         usn: {
           type: String,
           value: 'None'
@@ -104,6 +131,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       edit: function() {
+        this.isEditing = true;
         var inputs = this.querySelectorAll('paper-input');
         var x;
         for(x=0; x<inputs.length; x++) {
