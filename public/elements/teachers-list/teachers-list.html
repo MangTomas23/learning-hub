@@ -12,6 +12,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="..\..\bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="..\..\bower_components/iron-list/iron-list.html">
 <link rel="import" href="..\..\bower_components/paper-material/paper-material.html">
+<link rel="import" href="..\..\elements/teachers-list-item/teachers-list-item.html">
+
 
 <dom-module id="teachers-list">
   <template>
@@ -49,9 +51,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <template>
         <div>
           <div class="items">
-            <paper-material>
-              <h3>[[ computeFullname(teacher.firstname, teacher.middlename, teacher.lastname) ]]</h3>
-            </paper-material>
+            <teachers-list-item 
+              firstname="[[ teacher.firstname ]]"
+              middlename="[[ teacher.middlename ]]"
+              lastname ="[[ teacher.lastname ]]"
+            ></teachers-list-item>
           </div>
         </div>
       </template>
