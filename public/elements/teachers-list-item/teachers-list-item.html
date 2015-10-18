@@ -45,6 +45,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         margin-top: 10px;
         padding-left: 6px;
       }
+
+      paper-input {
+        margin-top: -22px;
+      }
     </style>
     <paper-material elevation="1">
       <div class="header">
@@ -62,10 +66,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <p>Last Name: </p>
         </div>
         <div class="flex">
-          <p>{{ usn }}</p>
-          <p>{{ firstname }}</p>
-          <p>{{ middlename }}</p>
-          <p>{{ lastname }}</p>
+          <paper-input readonly value="{{ usn::change }}"></paper-input>
+          <paper-input readonly value="{{ firstname::change }}"></paper-input>
+          <paper-input readonly value="{{ middlename::change }}"></paper-input>
+          <paper-input readonly value="{{ lastname::change }}"></paper-input>
         </div>
       </div>
     </paper-material>
