@@ -40,7 +40,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       paper-dialog {
         background: #FFF;
       }
-
+      
+      paper-toast {
+        z-index: 1;
+      }
     </style>
 
     <paper-dialog id="dlgAddTeacher" entry-animation="scale-up-animation"
@@ -73,8 +76,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     last-response="{{ tResponse }}"
     debounce-duration="300"></iron-ajax>
 
-    <paper-toast id="deleteToast" text="Removed successfully. " duration="6000"></paper-toast>
-    
+    <paper-toast id="deleteToast" text="Removed successfully. " duration="6000">
+      <span tabindex="0" style="color: #eeff41;margin: 10px">Undo</span>
+    </paper-toast>
+
 
   </template>
   <script>
