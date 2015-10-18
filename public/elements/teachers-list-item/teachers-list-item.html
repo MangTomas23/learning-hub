@@ -104,11 +104,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       edit: function() {
-
+        var inputs = this.querySelectorAll('paper-input');
+        var x;
+        for(x=0; x<inputs.length; x++) {
+          inputs[x].removeAttribute('readonly');
+        }
       },
 
       delete: function() {
-        
+
       }
 
     });
