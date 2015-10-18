@@ -99,6 +99,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </div>
     </paper-material>
 
+    <iron-ajax
+    id="ajaxUpdateTeacher"
+    url="{{ url }}" 
+    method="put"
+    params="{{ params }}"
+    handle-as="json"
+    on-response="handleUpdate"
+    last-response="{{ uResponse }}"
+    debounce-duration="300"></iron-ajax>
+
   </template>
   <script>
   (function() {
@@ -130,6 +140,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         },
         fullname: {
           computed: 'computeFullname(firstname, middlename, lastname)'
+        },
+        url: {
+          computed: 'computeUrl(id)'
+        },
+        params: {
+          computed: 'computeParams(usn, firstname, middlename, lastname)'
         }
       },
 
@@ -141,6 +157,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       computeFullname: function(firstname, middlename, lastname) {
         return firstname + ' ' + middlename + ' ' + lastname;
+      },
+
+      computeUrl: function(id) {
+        return ['/api/user', id].join('/');
+      },
+
+      computeParams: function(usn, firstname, middlename, lastname) {
+        return {
+          token: localStorage.token,
+          usn: usn,
+          firstname: firstname,
+          middlename: middlename,
+          lastname: lastname
+        };
       },
 
       edit: function() {
@@ -159,11 +189,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         for(x=0; x<inputs.length; x++) {
           inputs[x].setAttribute('readonly', true);
         }
+
+        this.querySelector('#ajaxUpdateTeacher').generateRequest();
       },
 
       delete: function() {
         document.querySelector('#deleteToast').show();
         this.isDeleted = true;
+      },
+
+      handleUpdate: function() {
+        console.log(this.uResponse.response);
       }
 
     });
