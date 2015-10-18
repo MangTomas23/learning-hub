@@ -36,7 +36,8 @@ class AuthenticateController extends Controller
     {
         $credentials = $request->only('usn', 'password');
         $type = User::where('usn',$credentials['usn'])->first()->type;
-        $customClaims = ['type' => $type];
+        $exp = strtotime('+7 day')
+        $customClaims = ['type' => $type, 'exp' => $exp];
 
         try {
             // verify the credentials and create a token for the user
