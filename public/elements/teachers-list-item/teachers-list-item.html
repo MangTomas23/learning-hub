@@ -65,6 +65,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       :host([is-editing]) .notEditing {
         display: none;
       }
+
+      :host([is-deleted]) {
+        display: none;
+      }
     </style>
     <paper-material elevation="1">
       <div class="header">
@@ -112,6 +116,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           notify: true,
           reflectToAttribute: true
         },
+        isDeleted: {
+          type: Boolean,
+          value: false,
+          notify: true,
+          reflectToAttribute: true
+        },
         usn: {
           type: String,
           value: 'None'
@@ -150,7 +160,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       delete: function() {
-
+        this.isDeleted = true;
       }
 
     });
