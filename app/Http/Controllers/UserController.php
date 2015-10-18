@@ -55,8 +55,9 @@ class UserController extends Controller
         $user->password = bcrypt($request->password);
 
         $r = array();
+        $r['response'] = $user->save() ? 'success':'failed';
 
-        return $r['response'] = $user->save() ? 'success':'failed';
+        return $r;
     }
 
     /**
