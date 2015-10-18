@@ -17,6 +17,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="..\..\bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
 <link rel="import" href="..\..\bower_components/neon-animation/animations/scale-up-animation.html">
 <link rel="import" href="..\..\bower_components/neon-animation/animations/fade-out-animation.html">
+<link rel="import" href="..\..\elements/teachers-list/teachers-list.html">
 
 <dom-module id="admin-teachers">
   <template>
@@ -61,8 +62,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <paper-button id="confirmAddTeacher" dialog-confirm>Confirm</paper-button>
         </div>
     </paper-dialog>
-
-
+    
+    <teachers-list></teachers-list>
     <paper-fab id="addTeacher" icon="add" title="Add Teacher"></paper-fab>
 
     <iron-ajax
