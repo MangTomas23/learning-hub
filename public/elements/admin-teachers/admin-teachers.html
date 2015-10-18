@@ -98,8 +98,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       listeners: {
         'addTeacher.tap': '_openDlgAddTeacher',
-        'confirmAddTeacher.tap': '_addTeacher',
-        'btnTest.tap': 'testParams'
+        'confirmAddTeacher.tap': '_addTeacher'
       },
 
       _openDlgAddTeacher: function() {
@@ -111,7 +110,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       addTeacherResponse: function() {
-        console.log(this.tResponse);
+        if(this.tResponse.response == 'success') {
+          alert('Success!');
+        }else {
+          alert('failed!');
+        }
       },
 
       addTeacherError: function() {
@@ -121,7 +124,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       _params: function(usn, firstname, middlename, lastname, password) {
         var token = localStorage.token;
         return {token: token, usn: usn, firstname: firstname, middlename: middlename, lastname: lastname, password: password, type: 'teacher'};
-      },
+      }
 
     });
   })();
