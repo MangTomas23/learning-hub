@@ -199,7 +199,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       handleUpdate: function() {
-        console.log(this.uResponse.response);
+        if(this.uResponse.response == 'success') {
+          document.querySelector('#updateSuccessful').show();
+        }else {
+          document.querySelector('#updateFailed').show();
+        }
       }
 
     });
