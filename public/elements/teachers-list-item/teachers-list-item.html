@@ -18,7 +18,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         display: block;
       }
     </style>
-    <div>Hello from <span>{{foo}}</span></div>
+    <paper-material elevation="1">
+      <h3>{{ fullname }}</h3>
+    </paper-material>
   </template>
   <script>
   (function() {
@@ -28,11 +30,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       is: 'teachers-list-item',
 
       properties: {
-        foo: {
-          type: String,
-          value: 'teachers-list-item',
-          notify: true
+        firstname: String,
+        middlename: String,
+        lastname: String,
+        fullname: {
+          computed: 'computeFullname(firstname, middlename, lastname)'
         }
+      },
+
+      computeFullname: function(firstname, middlename, lastname) {
+        return firstname + ' ' + middlename + ' ' + lastname;
       }
     });
   })();
