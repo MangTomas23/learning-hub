@@ -89,6 +89,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               <a data-route="teacher" href="/teachers" on-click="onDataRouteClick">
                 <iron-icon icon="mail"></iron-icon>
                 <span>Teachers</span>
+              </a>
+
+              <a data-route="settings" href="/settings" on-click="onDataRouteClick">
+                <iron-icon icon="settings"></iron-icon>
+                <span>Settings</span>
               </a>            
             </template>
           </paper-menu>
@@ -189,6 +194,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                   <admin-teachers></admin-teachers>
                 </template>
               </section>
+
+              <section data-route="settings">
+                <template is="dom-if" if="@{{ isAdmin() }}">
+                  <admin-teachers></admin-teachers>
+                </template>
+              </section>
+              
 
             </iron-pages>
           </div>
