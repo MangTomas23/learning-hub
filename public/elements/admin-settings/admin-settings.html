@@ -18,8 +18,29 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       :host {
         display: block;
       }
+
+      paper-material {
+        background: #FFF;
+        padding: 24px 24px 62px 24px;
+      }
+
+      paper-button {
+        color: var(--default-primary-color);
+        position: absolute;
+        bottom: 5px;
+        right: 8px;
+      }
     </style>
-    <div>Hello from <span>{{foo}}</span></div>
+    
+    <paper-material>
+      <h1>Password Settings</h1>
+
+      <paper-input type="password" label="Current Password"></paper-input>
+      <paper-input type="password" label="New Password"></paper-input>
+      <paper-input type="password" label="Confirm Password"></paper-input>
+      <paper-button>Confirm</paper-button>
+    </paper-material>
+
   </template>
   <script>
   (function() {
