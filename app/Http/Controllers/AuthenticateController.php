@@ -37,7 +37,7 @@ class AuthenticateController extends Controller
         $credentials = $request->only('usn', 'password');
         $user = User::where('usn',$request->usn)->first();
         $type = $user->type;
-        $id = $user->id;
+        $id = (string) $user->id;
         $exp = (string) strtotime('+7 day');
         $customClaims = ['id' => $id, 'type' => $type, 'exp' => $exp ];
 
