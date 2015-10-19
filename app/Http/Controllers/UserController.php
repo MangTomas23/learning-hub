@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\User;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
+use Hash;
 
 class UserController extends Controller
 {
@@ -113,5 +114,17 @@ class UserController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function changePassword(Request $request) {
+        $user = User::find($request->id);
+
+        if (!Hash::check($request->password, $user->password)) {
+            return ['response' => 'invalid password'];
+        }
+
+        $user->password = Hash::make($request->new_password);
+
+        return [ 'response' => $user->save() ? 'success':'failed' ];
     }
 }
