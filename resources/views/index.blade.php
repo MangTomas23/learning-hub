@@ -96,6 +96,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 <span>Settings</span>
               </a>            
             </template>
+
+            <template is="dom-if" if="@{{ isTeacher() }}">
+              <a data-route="subject" href="/subjects" on-click="onDataRouteClick">
+                <iron-icon icon="settings"></iron-icon>
+                <span>My Subjects</span>
+              </a>
+
+              <a data-route="settings" href="/settings" on-click="onDataRouteClick">
+                <iron-icon icon="mail"></iron-icon>
+                <span>My Students</span>
+              </a>
+
+              <a data-route="settings" href="/settings" on-click="onDataRouteClick">
+                <iron-icon icon="settings"></iron-icon>
+                <span>Settings</span>
+              </a>
+            </template>
           </paper-menu>
         </paper-scroll-header-panel>
 
