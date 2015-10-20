@@ -12,7 +12,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="..\..\bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="..\..\bower_components/iron-list/iron-list.html">
 <link rel="import" href="..\..\bower_components/paper-material/paper-material.html">
-<link rel="import" href="..\..\elements/teachers-list-item/teachers-list-item.html">
+<link rel="import" href="..\..\elements/user-list-item/user-list-item.html">
 
 
 <dom-module id="teachers-list">
@@ -52,13 +52,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <template>
         <div>
           <div class="items">
-            <teachers-list-item 
+            <user-list-item 
               id="[[ teacher.id ]]"
               usn="[[ teacher.usn ]]"
               firstname="[[ teacher.firstname ]]"
               middlename="[[ teacher.middlename ]]"
               lastname ="[[ teacher.lastname ]]"
-            ></teachers-list-item>
+            ></user-list-item>
           </div>
         </div>
       </template>
