@@ -17,15 +17,32 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       :host {
         display: block;
       }
+
+      #fabAdd {
+        position: fixed;
+        right: 36px;
+        bottom: 64px;
+      }
+
     </style>
     <user-list type="student"></user-list>
+
+    <paper-fab id="fabAdd" icon="add" title="Add Student"></paper-fab>
   </template>
   <script>
   (function() {
     'use strict';
 
     Polymer({
-      is: 'admin-students-page'
+      is: 'admin-students-page',
+
+      listeners: {
+        'fabAdd.tap': 'addStudent'
+      },
+
+      addStudent: function() {
+        
+      }
     });
   })();
   </script>
