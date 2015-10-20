@@ -1,0 +1,113 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="..\..\bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="..\..\bower_components/paper-dialog-behavior/paper-dialog-behavior.html">
+<link rel="import" href="..\..\bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
+<link rel="import" href="..\..\bower_components/paper-toast/paper-toast.html">
+<link rel="import" href="..\..\bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="..\..\bower_components/neon-animation/animations/scale-up-animation.html">
+<link rel="import" href="..\..\bower_components/neon-animation/animations/fade-out-animation.html">
+<link rel="import" href="..\..\bower_components/neon-animation/animations/fade-out-animation.html">
+
+<dom-module id="add-user">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      paper-dialog {
+        background: #FFF;
+      }
+
+      paper-toast {
+        z-index: 1;
+      }
+
+      paper-dialog {
+        z-index: 1;
+      }
+    </style>
+    <paper-dialog id="dialog" entry-animation="scale-up-animation"
+              exit-animation="fade-out-animation">
+      <h2>Add</h2>
+        <paper-dialog-scrollable>
+          <paper-input type="text" value="{{ usn::input }}" label="USN"></paper-input>
+          <paper-input type="text" value="{{ firstname::input }}" label="First Name"></paper-input>
+          <paper-input type="text" value="{{ middlename::input }}" label="Middle Name"></paper-input>
+          <paper-input type="text" value="{{ lastname::input }}" label="Last Name"></paper-input>
+          <paper-input type="text" value="{{ password::input }}" label="Temporary Password"></paper-input>
+        </paper-dialog-scrollable>
+        <div class="buttons">
+          <paper-button dialog-dismiss>Cancel</paper-button>
+          <paper-button id="confirm" dialog-confirm>Confirm</paper-button>
+        </div>
+    </paper-dialog>
+
+    <paper-toast id="successful" text="Added successfully. "></paper-toast>
+    <paper-toast id="error" text="An error occured. "></paper-toast>
+
+    <iron-ajax
+      id="ajax"
+      url="/api/user" 
+      method="post"
+      params="{{ params }}"
+      handle-as="json"
+      on-response="handleResponse"
+      last-response="{{ data }}"
+      debounce-duration="300"></iron-ajax>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'add-user',
+
+      properties: {
+        type: String
+      },
+
+      listeners: {
+        'confirm.tap': 'confirm'
+      },
+
+      showDialog: function() {
+        this.querySelector('#dialog').open();
+      },
+
+      confirm: function() {
+        this.params = {
+          usn: this.usn,
+          firstname: this.firstname,
+          middlename: this.middlename,
+          lastname: this.lastname,
+          password: this.password,
+          type: this.type,
+          token: localStorage.token
+        };
+
+        this.querySelector('#ajax').generateRequest();
+      },
+
+      handleResponse: function() {
+        if(this.data.response == 'success') {
+          this.querySelector('#successful').show();
+          document.querySelector('#studentsList').refresh();
+        }else {
+          this.querySelector('#error').show();
+        }
+      }
+    });
+  })();
+  </script>
+</dom-module>

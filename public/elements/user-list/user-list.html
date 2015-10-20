@@ -24,6 +24,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       paper-toast {
         z-index: 1;
       }
+
+      iron-list {
+        padding-bottom: 20px;
+      }
+
+      .items {
+        margin: auto;
+        margin-bottom: 16px;
+        max-width: 480px;
+        padding: 5px;
+      }
+
     </style>
 
     <iron-ajax
@@ -39,13 +51,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <iron-list items="[[ response ]]" as="user">
       <template>
         <div>
-        <user-list-item
-          id="[[ user.id ]]"
-          firstname="[[ user.firstname ]]"
-          middlename="[[ user.middlename ]]"
-          lastname="[[ user.lastname ]]"
-          usn="[[ user.usn ]]"
-          ></user-list-item>
+          <div class="items">
+            <user-list-item
+              id="[[ user.id ]]"
+              firstname="[[ user.firstname ]]"
+              middlename="[[ user.middlename ]]"
+              lastname="[[ user.lastname ]]"
+              usn="[[ user.usn ]]"
+              ></user-list-item>
+          </div>
         </div>
       </template>
     </iron-list>
@@ -73,6 +87,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       handleError: function() {
         this.querySelector('#error').show();
+      },
+
+      refresh: function() {
+        this.querySelector('#loadUsers').generateRequest();
       }
 
     });

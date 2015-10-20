@@ -10,6 +10,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="..\..\bower_components/polymer/polymer.html">
 <link rel="import" href="..\..\elements/user-list/user-list.html">
+<link rel="import" href="..\..\elements/add-user/add-user.html">
 
 <dom-module id="admin-students-page">
   <template>
@@ -25,7 +26,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
     </style>
-    <user-list type="student"></user-list>
+    <user-list id="studentsList" type="student"></user-list>
+    <add-user type="student"></add-user>
 
     <paper-fab id="fabAdd" icon="add" title="Add Student"></paper-fab>
   </template>
@@ -41,7 +43,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       addStudent: function() {
-        
+        this.querySelector('add-user').showDialog();
       }
     });
   })();
