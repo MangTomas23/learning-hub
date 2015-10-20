@@ -9,6 +9,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="..\..\bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="..\..\bower_components/iron-list/iron-list.html">
+<link rel="import" href="..\..\elements/user-list-item/user-list-item.html">
 
 <dom-module id="user-list">
   <template>
@@ -17,7 +20,34 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         display: block;
       }
     </style>
-    <div>Hello from <span>{{foo}}</span></div>
+
+    <iron-ajax
+      auto
+      id="loadUsers"
+      url="/api/user" 
+      params="{{ params }}"
+      handle-as="json"
+      last-response="{{ response }}"
+      on-error="handleError"
+      debounce-duration="300"></iron-ajax>
+
+    <template is="dom-bind">
+      <iron-list items="[[ response ]]" as="user">
+        <template>
+          <div>
+          <user-list-item
+            id="[[ user.id ]]"
+            firstname="[[ user.firstname ]]"
+            middlename="[[ user.middlename ]]"
+            lastname="[[ user.lastname ]]"
+            usn="[[ user.usn ]]"
+            ></user-list-item>
+          </div>
+        </template>
+      </iron-list>
+    </template>
+
+
   </template>
   <script>
   (function() {
@@ -27,11 +57,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       is: 'user-list',
 
       properties: {
-        foo: {
-          type: String,
-          value: 'user-list',
-          notify: true
-        }
+        type: String
+      },
+
+      ready: function() {
+        this.params = {
+          token: localStorage.token,
+          type: this.type
+        };
+      },
+
+
+      handleError: function() {
+        alert("Fucking error!");
       }
     });
   })();
