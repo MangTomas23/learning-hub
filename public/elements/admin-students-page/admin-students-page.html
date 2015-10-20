@@ -9,6 +9,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="..\..\elements/user-list/user-list.html">
 
 <dom-module id="admin-students-page">
   <template>
@@ -17,22 +18,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         display: block;
       }
     </style>
-    <div>Hello from <span>{{foo}}</span></div>
+    <user-list type="student"></user-list>
   </template>
   <script>
   (function() {
     'use strict';
 
     Polymer({
-      is: 'admin-students-page',
-
-      properties: {
-        foo: {
-          type: String,
-          value: 'admin-students-page',
-          notify: true
-        }
-      }
+      is: 'admin-students-page'
     });
   })();
   </script>

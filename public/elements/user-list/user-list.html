@@ -9,6 +9,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="..\..\bower_components/paper-toast/paper-toast.html">
 <link rel="import" href="..\..\bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="..\..\bower_components/iron-list/iron-list.html">
 <link rel="import" href="..\..\elements/user-list-item/user-list-item.html">
@@ -27,27 +28,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       url="/api/user" 
       params="{{ params }}"
       handle-as="json"
-      last-response="{{ response }}"
       on-error="handleError"
+      last-response="{{ response }}"
       debounce-duration="300"></iron-ajax>
 
-    <template is="dom-bind">
-      <iron-list items="[[ response ]]" as="user">
-        <template>
-          <div>
-          <user-list-item
-            id="[[ user.id ]]"
-            firstname="[[ user.firstname ]]"
-            middlename="[[ user.middlename ]]"
-            lastname="[[ user.lastname ]]"
-            usn="[[ user.usn ]]"
-            ></user-list-item>
-          </div>
-        </template>
-      </iron-list>
-    </template>
+    <iron-list items="[[ response ]]" as="user">
+      <template>
+        <div>
+        <user-list-item
+          id="[[ user.id ]]"
+          firstname="[[ user.firstname ]]"
+          middlename="[[ user.middlename ]]"
+          lastname="[[ user.lastname ]]"
+          usn="[[ user.usn ]]"
+          ></user-list-item>
+        </div>
+      </template>
+    </iron-list>
 
-
+    <paper-toast id="error" text="An error occured. "></paper-toast>      
   </template>
   <script>
   (function() {
@@ -69,8 +68,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 
       handleError: function() {
-        alert("Fucking error!");
+        this.querySelector('#error').show();
       }
+
     });
   })();
   </script>
