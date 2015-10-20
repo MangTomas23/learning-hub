@@ -124,6 +124,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       addTeacherResponse: function() {
         if(this.tResponse.response == 'success') {
           alert('Success!');
+          document.querySelector('#loadTeachers').generateRequest();
         }else {
           alert('failed!');
         }
