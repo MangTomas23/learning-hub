@@ -103,6 +103,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     params="{{ params }}"
     handle-as="json"
     on-response="handleUpdate"
+    on-error="handleError"
     last-response="{{ uResponse }}"
     debounce-duration="300"></iron-ajax>  
   </template>
@@ -198,9 +199,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       handleUpdate: function() {
         if(this.uResponse.response == 'success') {
           document.querySelector('#updateSuccessful').show();
-        }else {
-          document.querySelector('#updateFailed').show();
         }
+      },
+
+      handleError: function() {
+        document.querySelector('#error').show();
       }
 
     });
