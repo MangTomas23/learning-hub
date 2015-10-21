@@ -9,6 +9,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="..\..\elements/teachers-subject-list/teachers-subject-list.html">
 
 <dom-module id="teacher-subjects-page">
   <template>
@@ -17,7 +18,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         display: block;
       }
     </style>
-    <div>Hello from <span>{{foo}}</span></div>
+
+    <teachers-subject-list></teachers-subject-list>
+
+
+    
   </template>
   <script>
   (function() {
@@ -26,13 +31,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     Polymer({
       is: 'teacher-subjects-page',
 
-      properties: {
-        foo: {
-          type: String,
-          value: 'teacher-subjects-page',
-          notify: true
-        }
-      }
+      
     });
   })();
   </script>
