@@ -21,4 +21,5 @@ Route::group(['prefix' => 'api'], function()
     Route::post('authenticate', 'AuthenticateController@authenticate');
     Route::put('user/password', 'UserController@changePassword');
     Route::resource('user', 'UserController');
+    Route::resource('subject', 'SubjectController');
 });
