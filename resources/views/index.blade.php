@@ -178,6 +178,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 </paper-material>
               </section>
 
+              <section data-route="subject">
+                <template is="dom-if" if="@{{ isTeacher() }}">
+                  <teacher-subjects-page></teacher-subjects-page>
+                </template>
+              </section>
+
               <section data-route="student">
                 <template is="dom-if" if="@{{ isAdmin() }}">
                   <admin-students-page></admin-students-page>
