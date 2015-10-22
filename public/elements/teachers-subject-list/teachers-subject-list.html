@@ -50,7 +50,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <div>
           <div class="items">
             <paper-material>
-              <a href="#">[[ subject.subject_code ]]</a href="#">
+              <a href="{{ getUrl(subject.id) }}">[[ subject.subject_code ]]</a href="#">
               <div class="horizontal layout">
                 <p>[[ subject.description ]]</p>
                 <span class="flex"></span>
@@ -87,6 +87,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       handleResponse: function() {
         console.log(this.data);
+      },
+
+      getUrl: function(id) {
+        return '/subjects/' + id;
       }
     });
   })();
