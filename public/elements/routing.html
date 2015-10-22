@@ -48,6 +48,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       app.route = 'subject';
     });
 
+    page('/subjects/:id', scrollToTop, function(data) {
+      app.route = 'subject-section';
+      app.params = data.params;
+    });
+
     page('/students', scrollToTop, function() {
       app.route = 'student';
     });
