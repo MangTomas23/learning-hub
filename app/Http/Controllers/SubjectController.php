@@ -53,7 +53,7 @@ class SubjectController extends Controller
      */
     public function show($id)
     {
-        //
+        return Subject::find($id);
     }
 
     /**
