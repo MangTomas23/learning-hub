@@ -186,12 +186,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
               <section data-route="subject-section">
                 <template is="dom-if" if="@{{ isTeacher() }}">
-                  <paper-material elevation="1">
-                    <h2 class="page-title">
-                    User:<span>@{{params.id}}</span>
-                    </h2>
-                    <div>This is <span>@{{params.id}}</span>'s section</div>
-                  </paper-material>
+                  <teacher-subjects-page-view subject-id="@{{ params.id }}">
+                  </teacher-subjects-page-view>
                 </template>
               </section>
 
