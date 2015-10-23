@@ -9,6 +9,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="..\..\bower_components/paper-tabs/paper-tabs.html">
 
 <dom-module id="teacher-subjects-page-view">
   <template>
@@ -16,8 +17,84 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       :host {
         display: block;
       }
+
+      paper-material {
+        background: #FFFFFF;
+        padding: 12px;
+        margin: 8px;
+        margin-bottom: 24px;
+      }
+
+      h1 {
+        color: var(--default-primary-color);
+        text-transform: uppercase;
+        margin-bottom: 3px;
+      }
+
+      p {
+        text-transform: capitalize;
+        margin: 0px;
+      }
+
+      paper-menu-button {
+        position: absolute;
+        right: 5px;
+      }
+
+      paper-fab {
+        position: fixed;
+        right: 25px;
+        bottom: 15px;
+        z-index: 1;
+      }
+
+      paper-tabs {
+        margin-top: 54px;
+        --paper-tabs-selection-bar-color: var(--default-primary-color);
+      }
+
+      section {
+        min-height: 480px;
+        padding: 5px;
+      }
     </style>
-    <div>Hello from <span>{{subjectId}}</span></div>
+
+    <paper-material>
+      <paper-fab icon="add"></paper-fab>
+      <paper-menu-button>
+        <paper-icon-button icon="more-vert" class="dropdown-trigger"></paper-icon-button>
+        <paper-menu class="dropdown-content">
+          <paper-item>Edit</paper-item>
+          <paper-item>Remove</paper-item>
+        </paper-menu>
+      </paper-menu-button>
+      <h1>{{ data.subject_code }}</h1>
+      <p>{{ data.description }}</p>
+
+      <paper-tabs noink selected="{{selected}}">
+        <paper-tab>Quizzes</paper-tab>
+        <paper-tab>Students</paper-tab>
+      </paper-tabs>
+
+      <iron-pages selected="{{selected}}">
+        <section>Quizzes</section>
+        <section>Students</section>
+      </iron-pages>
+
+    </paper-material>
+
+    <paper-material>
+      <h3>Learning Materials</h3>
+    </paper-material>
+
+
+
+    <iron-ajax
+      auto
+      url="{{ url }}"
+      handle-as="json"
+      last-response="{{ data }}"
+      debounce-duration="300"></iron-ajax>
   </template>
   <script>
   (function() {
@@ -27,7 +104,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       is: 'teacher-subjects-page-view',
 
       properties: {
-        subjectId: Number
+        subjectId: Number,
+        url: {
+          computed: 'computeUrl(subjectId)'
+        }
+      },
+
+      ready: function() {
+        this.selected = 0;
+      },
+
+      computeUrl: function(subjectId) {
+        return '/api/subject/' + subjectId;
       }
     });
   })();
