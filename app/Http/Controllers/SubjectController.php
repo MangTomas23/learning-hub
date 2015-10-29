@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Subject;
+use App\User;
 
 class SubjectController extends Controller
 {
@@ -92,5 +93,16 @@ class SubjectController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function getStudents(Request $request) {
+        $students = Subject::find($request->subject_id)->students;
+        $data = array();
+        foreach ($students as $student) {
+            array_push($data, User::find($student->user_id));
+        }
+
+        return $data;
+
     }
 }
