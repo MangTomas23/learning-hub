@@ -9,6 +9,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="..\..\elements/student-list-item/student-list-item.html">
 
 <dom-module id="students-list">
   <template>
@@ -16,8 +17,40 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       :host {
         display: block;
       }
+
+      .items {
+        padding: 5px;
+      }
+
+      iron-list {
+        padding-bottom: 16px;
+      }
     </style>
-    <div>Hello from <span>{{foo}}</span></div>
+
+    <iron-ajax
+      auto
+      url="/api/teacher/students" 
+      params="{{ params }}"
+      handle-as="json"
+      on-error="handleError"
+      last-response="{{ response }}"
+      debounce-duration="300"></iron-ajax>
+
+    <iron-list items="[[ response ]]" as="user">
+      <template>
+        <div>
+          <div class="items">
+            <student-list-item
+              usn="[[ user.usn ]]"
+              first-name="[[ user.firstname ]]"
+              middle-name="[[ user.middlename ]]"
+              last-name="[[ user.lastname ]]"
+
+              ></students-list-item>
+          </div>
+        </div>
+      </template>
+    </iron-list>
   </template>
   <script>
   (function() {
@@ -27,12 +60,24 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       is: 'students-list',
 
       properties: {
-        foo: {
+        type: {
           type: String,
-          value: 'students-list',
-          notify: true
-        }
+          value: 'student'
+        }  
+      },
+
+      ready: function() {
+        this.params = {
+          token: localStorage.token,
+          type: this.type
+        };
+      },
+
+
+      handleError: function() {
+        console.log('Error!');
       }
+
     });
   })();
   </script>

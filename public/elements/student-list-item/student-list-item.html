@@ -1,0 +1,91 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+
+<dom-module id="student-list-item">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+
+      .fullname {
+        font-weight: 600;
+        font-size: 1.1em;
+        padding-left: 3px;
+        display: block;
+      }
+
+      .usn {
+        color: var(--secondary-text-color);
+      }
+
+      paper-dialog {
+        z-index: 2222;
+      }
+
+      paper-material {
+        padding: 3px;
+      }
+    </style>
+    
+    <paper-material>
+      <div class="horizontal layout">
+        <div>
+          <span class="fullname">{{ fullName }}</span>
+          <span class="usn">{{ usn }}</span>
+        </div>
+        <span class="flex"></span>
+        <paper-icon-button id="deleteButton" icon="delete"></paper-icon-button>
+      </div>
+    </paper-material>
+
+
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'student-list-item',
+
+      properties: {
+        usn: String, 
+        firstName: String,
+        middleName: String,
+        lastname: String,
+
+        fullName: {
+          type: String,
+          computed: 'computeFullname(firstName, middleName, lastName)'
+        }
+
+      },
+
+      listeners: {
+        'deleteButton.tap': '_delete'
+      },
+
+
+      computeFullname: function(firstName, middleName, lastName) {
+        return firstName + ' ' + middleName + ' ' + lastName;
+      },
+
+      _delete: function() {
+        alert();
+      }
+
+
+    });
+  })();
+  </script>
+</dom-module>

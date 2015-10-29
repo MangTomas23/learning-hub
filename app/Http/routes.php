@@ -22,4 +22,5 @@ Route::group(['prefix' => 'api'], function()
     Route::put('user/password', 'UserController@changePassword');
     Route::resource('user', 'UserController');
     Route::resource('subject', 'SubjectController');
+    Route::get('teacher/students', 'TeacherController@getStudents');
 });

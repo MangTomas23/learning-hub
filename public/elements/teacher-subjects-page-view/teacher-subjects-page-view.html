@@ -10,6 +10,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="..\..\bower_components/polymer/polymer.html">
 <link rel="import" href="..\..\bower_components/paper-tabs/paper-tabs.html">
+<link rel="import" href="..\..\elements/students-list/students-list.html">
 
 <dom-module id="teacher-subjects-page-view">
   <template>
@@ -57,10 +58,24 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         min-height: 480px;
         padding: 5px;
       }
+
+      .fab-menu {
+        position: fixed;
+        bottom: 60px;
+        right: 9px;
+      }
+
+      .fab-menu paper-fab {
+        position: absolute;
+      }
+
+      section {
+        padding: 12px;
+      }
     </style>
 
     <paper-material>
-      <paper-fab icon="add"></paper-fab>
+      
       <paper-menu-button>
         <paper-icon-button icon="more-vert" class="dropdown-trigger"></paper-icon-button>
         <paper-menu class="dropdown-content">
@@ -78,7 +93,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       <iron-pages selected="{{selected}}">
         <section>Quizzes</section>
-        <section>Students</section>
+        <section>
+          <students-list></students-list>
+        </section>
       </iron-pages>
 
     </paper-material>
@@ -87,6 +104,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <h3>Learning Materials</h3>
     </paper-material>
 
+    <paper-fab icon="add"></paper-fab>
+
+    <div class="fab-menu">
+      <paper-fab mini icon="star"></paper-fab>
+    </div>
 
 
     <iron-ajax
@@ -111,7 +133,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       ready: function() {
-        this.selected = 0;
+        this.selected = 1;
       },
 
       computeUrl: function(subjectId) {
