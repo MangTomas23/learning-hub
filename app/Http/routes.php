@@ -17,10 +17,13 @@ Route::get('/', function () {
 
 Route::group(['prefix' => 'api'], function()
 {
-    Route::resource('authenticate', 'AuthenticateController', ['only' => ['index']]);
+    Route::get('subject/students', 'SubjectController@getStudents');
+    Route::get('teacher/students', 'TeacherController@getStudents');
     Route::post('authenticate', 'AuthenticateController@authenticate');
     Route::put('user/password', 'UserController@changePassword');
+
+    
+    Route::resource('authenticate', 'AuthenticateController', ['only' => ['index']]);
     Route::resource('user', 'UserController');
     Route::resource('subject', 'SubjectController');
-    Route::get('teacher/students', 'TeacherController@getStudents');
 });
