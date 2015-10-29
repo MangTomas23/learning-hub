@@ -11,6 +11,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="..\..\bower_components/polymer/polymer.html">
 <link rel="import" href="..\..\bower_components/paper-tabs/paper-tabs.html">
 <link rel="import" href="..\..\elements/students-list/students-list.html">
+<link rel="import" href="..\..\elements/add-subject-student/add-subject-student.html">
 
 <dom-module id="teacher-subjects-page-view">
   <template>
@@ -107,10 +108,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <paper-fab icon="add"></paper-fab>
 
     <div class="fab-menu">
-      <paper-fab mini icon="star"></paper-fab>
+      <paper-fab id="btnAddStudent" mini icon="star"></paper-fab>
     </div>
 
-
+    <add-subject-student></add-subject-student>
     <iron-ajax
       auto
       url="{{ url }}"
@@ -132,12 +133,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
       },
 
+      listeners: {
+        'btnAddStudent.tap': '_dlgAddStudent'
+      },
+
       ready: function() {
         this.selected = 1;
       },
 
       computeUrl: function(subjectId) {
         return '/api/subject/' + subjectId;
+      },
+
+      _dlgAddStudent: function() {
+        this.querySelector('add-subject-student').openDialog();
       }
     });
   })();

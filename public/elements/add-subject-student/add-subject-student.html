@@ -1,0 +1,95 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="..\..\bower_components/paper-checkbox/paper-checkbox.html">
+
+<dom-module id="add-subject-student">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      paper-dialog {
+        background-color: #FFF;
+        position: fixed;
+        top: 0px;
+      }
+
+      iron-list {
+        padding: 16px;
+      }
+
+      paper-dialog-scrollable {
+        padding: 0px;
+        width: 280px;
+        margin: 0px;
+      }
+
+
+    </style>
+    <paper-dialog>
+      <h2>Add Students</h2>
+        <paper-dialog-scrollable>
+          <paper-input label="search!" type="search"
+              placeholder="search for cats" autosave="test" results="5">
+          </paper-input>
+          <iron-list items="[[data]]" as="item">
+            <template>
+              <div>
+                <paper-checkbox>
+                  <span>[[ item.firstname ]]</span> 
+                  <span>[[ item.middlename ]]</span> 
+                  <span>[[ item.lastname ]]</span> 
+                </paper-checkbox>
+              </div>
+            </template>
+          </iron-list>
+        </paper-dialog-scrollable>
+      <div class="buttons">
+        <paper-button dialog-dismiss>Cancel</paper-button>
+        <paper-button dialog-confirm>Accept</paper-button>
+      </div>
+    </paper-dialog>
+
+    <iron-ajax
+      url="/api/user" 
+      params="{{ params() }}"
+      handle-as="json"
+      last-response="{{ data }}"
+      debounce-duration="300"></iron-ajax>
+
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'add-subject-student',
+
+      properties: {
+
+      },
+
+      params: function() {
+        return { token: localStorage.token, type: 'student' };
+      },
+
+      openDialog: function() {
+        console.log(this.params());
+        this.querySelector('iron-ajax').generateRequest();
+        this.querySelector('paper-dialog').open();
+
+      }
+    });
+  })();
+  </script>
+</dom-module>
