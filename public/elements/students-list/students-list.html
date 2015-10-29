@@ -29,7 +29,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <iron-ajax
       auto
-      url="/api/teacher/students" 
+      url="/api/subject/students" 
       params="{{ params }}"
       handle-as="json"
       on-error="handleError"
@@ -44,9 +44,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               usn="[[ user.usn ]]"
               first-name="[[ user.firstname ]]"
               middle-name="[[ user.middlename ]]"
-              last-name="[[ user.lastname ]]"
-
-              ></students-list-item>
+              last-name="[[ user.lastname ]]"></students-list-item>
           </div>
         </div>
       </template>
@@ -60,22 +58,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       is: 'students-list',
 
       properties: {
-        type: {
-          type: String,
-          value: 'student'
-        }  
+        subjectId: {
+          type: Number,
+          value: 0
+        },
+        params: {
+          computed: '_params(subjectId)'
+        }
       },
 
-      ready: function() {
-        this.params = {
-          token: localStorage.token,
-          type: this.type
-        };
+      _params: function(subjectId) {
+        return { token: localStorage.token, subject_id: subjectId };
       },
-
 
       handleError: function() {
-        console.log('Error!');
+        console.log('An error occured.');
       }
 
     });

@@ -103,6 +103,5 @@ class SubjectController extends Controller
         }
 
         return $data;
-
     }
 }
