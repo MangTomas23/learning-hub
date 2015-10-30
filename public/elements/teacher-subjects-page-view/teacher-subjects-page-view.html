@@ -111,10 +111,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <paper-fab id="btnAddStudent" mini icon="star"></paper-fab>
     </div>
 
-    <add-subject-student></add-subject-student>
+    <add-subject-student subject-id="[[ subjectId ]]"></add-subject-student>
     <iron-ajax
       auto
       url="{{ url }}"
+      params="{{ getParams() }}"
       handle-as="json"
       last-response="{{ data }}"
       debounce-duration="300"></iron-ajax>
@@ -135,6 +136,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       listeners: {
         'btnAddStudent.tap': '_dlgAddStudent'
+      },
+
+      getParams: function() {
+        return {token: localStorage.token};
       },
 
       ready: function() {

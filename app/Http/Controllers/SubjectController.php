@@ -6,10 +6,16 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Subject;
+use App\SubjectStudent;
 use App\User;
 
 class SubjectController extends Controller
 {
+
+    public function __construct()
+   {
+       $this->middleware('jwt.auth');
+   }
     /**
      * Display a listing of the resource.
      *
@@ -103,5 +109,11 @@ class SubjectController extends Controller
         }
 
         return $data;
+    }
+
+    public function addStudents(Request $request) {
+        foreach(json_decode($request->users, true) as $i => $v) {
+            $subjectStudent = SubjectStudent::firstOrCreate(['subject_id' => $request->subject_id, 'user_id' => $v]);
+        }
     }
 }

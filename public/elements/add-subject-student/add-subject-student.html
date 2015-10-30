@@ -10,6 +10,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="..\..\bower_components/polymer/polymer.html">
 <link rel="import" href="..\..\bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="..\..\elements/x-checkbox/x-checkbox.html">
 
 <dom-module id="add-subject-student">
   <template>
@@ -45,18 +46,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <iron-list items="[[data]]" as="item">
             <template>
               <div>
-                <paper-checkbox>
-                  <span>[[ item.firstname ]]</span> 
-                  <span>[[ item.middlename ]]</span> 
-                  <span>[[ item.lastname ]]</span> 
-                </paper-checkbox>
+                <x-checkbox
+                  user-id="[[item.id]]"
+                  firstname="[[item.firstname]]"
+                  middlename="[[item.middlename]]"
+                  lastname="[[item.lastname]]"
+                  ></x-checkbox>
               </div>
             </template>
           </iron-list>
         </paper-dialog-scrollable>
       <div class="buttons">
         <paper-button dialog-dismiss>Cancel</paper-button>
-        <paper-button dialog-confirm>Accept</paper-button>
+        <paper-button id="btnConfirm" dialog-confirm>Accept</paper-button>
       </div>
     </paper-dialog>
 
@@ -67,6 +69,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       last-response="{{ data }}"
       debounce-duration="300"></iron-ajax>
 
+    
+    <iron-ajax
+      id="addAjax"
+      url="/api/subject/students" 
+      method="post"
+      params="{{ addParams }}"
+      handle-as="json"
+      last-response="{{ addData }}"
+      debounce-duration="300"></iron-ajax>
+
+
   </template>
   <script>
   (function() {
@@ -76,7 +89,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       is: 'add-subject-student',
 
       properties: {
+        subjectId: {
+          type: Number,
+          value: 0
+        }
 
+
+        // addParams: {
+        //   computed: '_addParams(subjectId)'
+        // }
+      },
+
+      listeners: {
+        'btnConfirm.tap': '_confirm'
       },
 
       params: function() {
@@ -84,10 +109,49 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       openDialog: function() {
-        console.log(this.params());
-        this.querySelector('iron-ajax').generateRequest();
         this.querySelector('paper-dialog').open();
+        this.querySelector('iron-ajax').generateRequest();
+      },
 
+      _addParams: function(subjectId) {
+        var checkboxes = this.querySelectorAll('x-checkbox');
+        var users = [];
+
+
+        for(var x=0; x<checkboxes.length; x++) {
+          if(checkboxes[x].hasAttribute('checked')) {
+            users.push(checkboxes[x].getAttribute('user-id'));
+          }
+        }
+
+        return { 
+          token: localStorage.token, 
+          subject_id: subjectId, 
+          users: JSON.stringify(users)
+        };
+
+      },
+
+
+      _confirm: function() {
+        var checkboxes = this.querySelectorAll('x-checkbox');
+        var users = [];
+
+
+        for(var x=0; x<checkboxes.length; x++) {
+          if(checkboxes[x].hasAttribute('checked')) {
+            users.push(checkboxes[x].getAttribute('user-id'));
+          }
+        }
+
+        this.addParams = { 
+          token: localStorage.token, 
+          subject_id: this.subjectId, 
+          users: JSON.stringify(users)
+        };
+
+        this.querySelector('#addAjax').generateRequest();
+        document.querySelector('students-list iron-ajax').generateRequest();
       }
     });
   })();

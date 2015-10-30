@@ -18,6 +18,7 @@ Route::get('/', function () {
 Route::group(['prefix' => 'api'], function()
 {
     Route::get('subject/students', 'SubjectController@getStudents');
+    Route::post('subject/students', 'SubjectController@addStudents');
     Route::get('teacher/students', 'TeacherController@getStudents');
     Route::post('authenticate', 'AuthenticateController@authenticate');
     Route::put('user/password', 'UserController@changePassword');
