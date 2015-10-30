@@ -152,6 +152,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 <template is="dom-if" if="@{{ isAdmin() }}">
                   <admin-home-page></admin-home-page>
                 </template>
+
+                <template is="dom-if" if="@{{ isTeacher() }}">
+                  <teachers-home-page></teachers-home-page>
+                </template>
               </section>
 
               <section data-route="users">
