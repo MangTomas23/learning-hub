@@ -103,7 +103,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 <span>My Subjects</span>
               </a>
 
-              <a data-route="settings" href="/settings" on-click="onDataRouteClick">
+              <a data-route="student" href="/students" on-click="onDataRouteClick">
                 <iron-icon icon="mail"></iron-icon>
                 <span>My Students</span>
               </a>
@@ -194,6 +194,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               <section data-route="student">
                 <template is="dom-if" if="@{{ isAdmin() }}">
                   <admin-students-page></admin-students-page>
+                </template>
+
+                <template is="dom-if" if="@{{ isTeacher() }}">
+                  <paper-material>My Students</paper-material>
                 </template>
               </section>
 
