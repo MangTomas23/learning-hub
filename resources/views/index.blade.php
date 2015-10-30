@@ -215,6 +215,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 <template is="dom-if" if="@{{ isAdmin() }}">
                   <admin-settings></admin-settings>
                 </template>
+
+                <template is="dom-if" if="@{{ isTeacher() }}">
+                  <change-password></change-password>
+                </template>
               </section>
               
 
