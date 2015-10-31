@@ -95,7 +95,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <iron-pages selected="{{selected}}">
         <section>Quizzes</section>
         <section>
-          <students-list subject-id="[[ subjectId ]]"></students-list>
+          <students-list subject-id="{{ subjectId }}"></students-list>
         </section>
       </iron-pages>
 
@@ -143,7 +143,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       ready: function() {
-        this.selected = 1;
+        this.selected = 0;
       },
 
       computeUrl: function(subjectId) {

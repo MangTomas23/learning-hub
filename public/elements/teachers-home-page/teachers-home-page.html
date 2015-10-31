@@ -16,8 +16,27 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       :host {
         display: block;
       }
+
+      paper-material {
+        background: #FFF;
+        padding: 12px;
+      }
+
     </style>
-    <div>Hello from <span>{{foo}}</span></div>
+    <paper-material>
+      <h1>{{ fullname }}</h1>
+
+    </paper-material>
+
+    <iron-ajax
+      url="{{ getURL() }}" 
+      params="{{ getParams() }}"
+      handle-as="json"
+      on-error="handleError"
+      on-response="handleResponse"
+      last-response="{{ response }}"
+      debounce-duration="300"></iron-ajax>
+
   </template>
   <script>
   (function() {
@@ -32,6 +51,35 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           value: 'teachers-home-page',
           notify: true
         }
+      },
+
+      ready: function() {
+        if(localStorage.personalInfo != null) {
+          var p = JSON.parse(localStorage.personalInfo);
+          this.fullname = [p.firstname,p.middlename,p.lastname].join(' ');
+        }else {
+          this.querySelector('iron-ajax').generateRequest();
+        }
+      },
+
+      getURL: function() {
+        var id = jwt_decode(localStorage.token).id;
+        return ['/api/user', id].join('/');
+      },
+
+
+      getParams: function() {
+        return { token: localStorage.token };
+      },
+
+      handleError: function() {
+        console.log('Error');
+      },
+
+      handleResponse: function() {
+        console.log(this.response);
+        localStorage.setItem('personalInfo', JSON.stringify(this.response));
+        console.log(localStorage.personalInfo);
       }
     });
   })();

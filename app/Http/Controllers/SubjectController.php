@@ -102,6 +102,10 @@ class SubjectController extends Controller
     }
 
     public function getStudents(Request $request) {
+        if($request->subject_id==0) {
+            return;
+        }
+
         $students = Subject::find($request->subject_id)->students;
         $data = array();
         foreach ($students as $student) {
