@@ -201,7 +201,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 </template>
 
                 <template is="dom-if" if="@{{ isTeacher() }}">
-                  <paper-material>My Students</paper-material>
+                  <teacher-students-page></teacher-students-page>
                 </template>
               </section>
 
