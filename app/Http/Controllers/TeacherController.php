@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\User;
+use App\SubjectStudent;
 
 class TeacherController extends Controller
 {
@@ -86,6 +87,16 @@ class TeacherController extends Controller
     }
 
     public function getStudents(Request $request) {
-        return User::all();
+        $subjects = User::find($request->user_id)->subjects;
+        $subjectIds = array();
+        foreach ($subjects as $subject) {
+            array_push($subjectIds, $subject->id);
+        }
+
+        $students = SubjectStudent::select('user_id')->whereIn('subject_id', $subjectIds)->groupBy('user_id')->get();
+
+
+
+        return User::whereIn('id', $students)->get();
     }
 }
