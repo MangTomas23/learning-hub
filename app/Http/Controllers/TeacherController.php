@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\User;
+use App\Subject;
 use App\SubjectStudent;
 
 class TeacherController extends Controller
@@ -98,5 +99,14 @@ class TeacherController extends Controller
 
 
         return User::whereIn('id', $students)->get();
+    }
+
+    public function getSubjects($id) {
+        $subjects = Subject::where('user_id', $id)->get();
+        foreach($subjects as $subject) {
+            $subject['students_count'] = SubjectStudent::where('subject_id',$subject->id)->count();
+        }
+
+        return $subjects;
     }
 }
