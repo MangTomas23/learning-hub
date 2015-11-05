@@ -54,7 +54,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               <div class="horizontal layout">
                 <p>[[ subject.description ]]</p>
                 <span class="flex"></span>
-                <p>10 students</p>
+                <p>
+                  <span>[[ subject.students_count ]]</span>
+                   Students
+                </p>
               </div>
             </paper-material>
           </div>
@@ -64,7 +67,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <iron-ajax
       auto
-      url="/api/subject"
+      url="/api/teacher/subjects"
       params='{{ params }}'
       handle-as="json"
       last-response="{{ data }}"
@@ -79,7 +82,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       ready: function() {
         this.params = {
-          user_id: jwt_decode(localStorage.token).id,
+          id: jwt_decode(localStorage.token).id,
           token: localStorage.token
         };
       },

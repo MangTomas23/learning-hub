@@ -101,7 +101,8 @@ class TeacherController extends Controller
         return User::whereIn('id', $students)->get();
     }
 
-    public function getSubjects($id) {
+    public function getSubjects(Request $request) {
+        $id = $request->id;
         $subjects = Subject::where('user_id', $id)->get();
         foreach($subjects as $subject) {
             $subject['students_count'] = SubjectStudent::where('subject_id',$subject->id)->count();
