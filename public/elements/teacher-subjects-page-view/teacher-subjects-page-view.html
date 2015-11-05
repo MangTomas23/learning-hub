@@ -64,10 +64,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         position: fixed;
         bottom: 60px;
         right: 9px;
+        height: 100px;
       }
 
       .fab-menu paper-fab {
         position: absolute;
+        display: block;
+      }
+
+      .fab-menu paper-fab:nth-child(1) {
+        top: 0px;
+      }
+
+      .fab-menu paper-fab:nth-child(2) {
+        top: 45px;
       }
 
       section {
@@ -113,6 +123,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <div class="fab-menu">
       <paper-fab id="btnAddStudent" mini icon="star"></paper-fab>
+      <paper-fab id="btnAddQuiz" mini icon="add"></paper-fab>
     </div>
 
     <add-subject-student subject-id="[[ subjectId ]]"></add-subject-student>
@@ -162,7 +173,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       listeners: {
-        'btnAddStudent.tap': '_dlgAddStudent'
+        'btnAddStudent.tap': '_dlgAddStudent',
+        'btnAddQuiz.tap': '_dlgAddQuiz'
       },
 
       getParams: function() {
@@ -203,6 +215,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           this.$.getAjax.generateRequest();
           document.querySelector('teachers-subject-list iron-ajax').generateRequest();
         }
+      },
+
+
+      _dlgAddQuiz: function() {
+        
       }
     });
   })();
