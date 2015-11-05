@@ -73,6 +73,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       section {
         padding: 12px;
       }
+
+      paper-dialog {
+        background: #FFF;
+      }
     </style>
 
     <paper-material>
@@ -80,7 +84,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <paper-menu-button>
         <paper-icon-button icon="more-vert" class="dropdown-trigger"></paper-icon-button>
         <paper-menu class="dropdown-content">
-          <paper-item>Edit</paper-item>
+          <paper-item on-tap="showEdit">Edit</paper-item>
           <paper-item>Remove</paper-item>
         </paper-menu>
       </paper-menu-button>
@@ -113,12 +117,35 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <add-subject-student subject-id="[[ subjectId ]]"></add-subject-student>
     <iron-ajax
+      id="getAjax"
       auto
       url="{{ url }}"
       params="{{ getParams() }}"
       handle-as="json"
       last-response="{{ data }}"
       debounce-duration="300"></iron-ajax>
+
+    <paper-dialog id="dlgEdit">
+      <h2>Edit</h2>
+      <div>
+        <paper-input label="Subject Code" value="[[ data.subject_code ]]"></paper-input>
+        <paper-input label="Description" value="[[ data.description ]]"></paper-input>
+      </div>
+      <div class="buttons">
+        <paper-button dialog-dismiss>Cancel</paper-button>
+        <paper-button dialog-confirm on-tap="updateSubject">Confirm</paper-button>
+      </div>
+    </paper-dialog>
+    
+    <iron-ajax
+      id="updateAjax"
+      url="{{ url }}"
+      method="put"
+      handle-as="json"
+      last-response="{{ updateData }}"
+      on-response="handleUpdateResponse"
+      debounce-duration="300"></iron-ajax>
+
   </template>
   <script>
   (function() {
@@ -152,6 +179,30 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       _dlgAddStudent: function() {
         this.querySelector('add-subject-student').openDialog();
+      },
+
+      showEdit: function() {
+        this.$.dlgEdit.open();
+        var inputs = this.querySelectorAll('#dlgEdit paper-input'); 
+      },
+
+      updateSubject: function() {
+        var params = {
+          token: localStorage.token,
+          subject_code: this.querySelectorAll('#dlgEdit paper-input')[0].value,
+          description: this.querySelectorAll('#dlgEdit paper-input')[1].value
+        };
+
+        this.$.updateAjax.params = params;
+
+        this.$.updateAjax.generateRequest();
+      },
+
+      handleUpdateResponse: function() {
+        if(this.updateData.response == 'success') {
+          this.$.getAjax.generateRequest();
+          document.querySelector('teachers-subject-list iron-ajax').generateRequest();
+        }
       }
     });
   })();
