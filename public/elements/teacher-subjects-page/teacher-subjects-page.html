@@ -9,6 +9,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="..\..\bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="..\..\elements/teachers-subject-list/teachers-subject-list.html">
 
 <dom-module id="teacher-subjects-page">
@@ -16,13 +17,65 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <style>
       :host {
         display: block;
+
       }
+
+      paper-fab {
+        position: fixed;
+        right: 25px;
+        bottom: 15px;
+        z-index: 1;
+      }
+
+      paper-toast 
+      {
+        z-index: 1;
+      }
+
+      paper-dialog {
+        background: #FFF;
+      }
+
+      paper-toast a {
+        text-decoration: underline;
+        cursor: pointer;
+        color: #CCC;
+      }
+
     </style>
+
+    <paper-dialog>
+      <h2>Add Subject</h2>
+      <div>
+        <paper-input label="Subject Code" value="{{ subject_code }}"></paper-input>
+        <paper-input label="Description" value="{{ description }}"></paper-input>
+      </div>
+      <div class="buttons">
+        <paper-button dialog-dismiss>Cancel</paper-button>
+        <paper-button dialog-confirm on-tap="sendAJAX">Confirm</paper-button>
+      </div>
+    </paper-dialog>
 
     <teachers-subject-list></teachers-subject-list>
 
+    <paper-fab icon="add" on-tap="showDialog"></paper-fab>
 
-    
+    <paper-toast id="err" text="An error occured. " duration="6000">
+      <a on-tap="retry">Retry</a>
+    </paper-toast>
+
+    <paper-toast id="err2" text="Error. Incomplete input."></paper-toast>
+    <iron-ajax
+        id="ajaxAdd"
+        method="post"
+        url="/api/subject"
+        params="{{ params }}"
+        handle-as="json"
+        on-response="handleResponse"
+        on-error="handleError"
+        last-response="{{ data }}"
+        debounce-duration="300"></iron-ajax>
+
   </template>
   <script>
   (function() {
@@ -31,7 +84,40 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     Polymer({
       is: 'teacher-subjects-page',
 
-      
+      showDialog: function() {
+        this.querySelector('paper-dialog').open();
+      }, 
+
+      sendAJAX: function() {
+        if(this.subject_code == '' || this.description == '') {
+          this.$.err2.show();
+          return;
+        }
+
+        this.params = {
+          subject_code: this.subject_code,
+          description: this.description,
+          token: localStorage.token,
+          user_id: jwt_decode(localStorage.token).id
+        };
+        this.querySelector('#ajaxAdd').generateRequest();
+      },
+
+      handleResponse: function() {
+        if(this.data.response == 'success') {
+          this.querySelector('teachers-subject-list iron-ajax').generateRequest();
+        }
+      }, 
+
+      handleError: function() {
+        this.querySelector('paper-toast').show();
+      },
+
+      retry: function() {
+        this.$.err.hide();
+        this.$.ajaxAdd.generateRequest();
+
+      }
     });
   })();
   </script>
