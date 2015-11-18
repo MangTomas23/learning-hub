@@ -113,6 +113,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 <span>Settings</span>
               </a>
             </template>
+
+            <template is="dom-if" if="@{{ isStudent() }}">
+              <a data-route="subject" href="/subjects" on-click="onDataRouteClick">
+                <iron-icon icon="assessment"></iron-icon>
+                <span>My Subjects</span>
+              </a>
+
+              <a data-route="quiz" href="/quiz" on-click="onDataRouteClick">
+                <iron-icon icon="assignment"></iron-icon>
+                <span>My Quizzes</span>
+              </a>
+
+              <a data-route="settings" href="/settings" on-click="onDataRouteClick">
+                <iron-icon icon="settings"></iron-icon>
+                <span>Settings</span>
+              </a>    
+            </template>
           </paper-menu>
         </paper-scroll-header-panel>
 
@@ -186,6 +203,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 <template is="dom-if" if="@{{ isTeacher() }}">
                   <teacher-subjects-page></teacher-subjects-page>
                 </template>
+
+                <template is="dom-if" if="@{{ isStudent() }}">
+                  <h3>Subjects Page</h3>
+                  <p>No Subjects enrolled.</p>
+                </template>
               </section>
 
               <section data-route="subject-section">
@@ -219,9 +241,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 <template is="dom-if" if="@{{ isTeacher() }}">
                   <change-password></change-password>
                 </template>
+
+                <template is="dom-if" if="@{{ isStudent() }}">
+                  <change-password></change-password>
+                </template>
+              </section>
+
+              <section data-route="quiz">
+                <template is="dom-if" if="@{{ isStudent() }}">
+                  <h3>Quiz page</h3>
+                  <p>Quizzes not available.</p>
+                </template>
               </section>
               
-              <quiz-page data-route="quiz"></quiz-page>
+              <!-- <quiz-page data-route="quiz"></quiz-page> -->
 
             </iron-pages>
           </div>
