@@ -9,6 +9,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="..\..\bower_components/paper-input/paper-textarea.html">
 
 <dom-module id="quiz-page">
   <template>
@@ -17,11 +18,45 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         background: #FFF;
       }
 
-      paper-materia
+      paper-material {
+        padding: 12px;
+        padding-top: 50px;
+        background: #FFF;
+        min-height: 480px;
+      }
+
+      paper-icon-button[icon="arrow-back"] {
+        position: absolute;
+        left: 0;
+        top: 0;
+      }
+
+      .btn-save {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        color: var(--default-primary-color);
+      }
+
+
 
     </style>
     <paper-material flex>
-    <div>Hello from <span>{{foo}}</span></div>
+
+      <paper-icon-button icon="arrow-back"></paper-icon-button>
+      <paper-input label="Title"></paper-input>
+      <paper-textarea label="Notes"></paper-textarea>
+      <paper-input type="number" label="Duration"></paper-input>
+
+       <paper-input-decorator id="date_input" label="Date labelVisible" floatingLabel labelVisible="true">
+        <input is="core-input" type="date">
+      </paper-input-decorator>
+
+      <paper-button class="btn-save">Save</paper-button>
+
+      <create-true-or-false></create-true-or-false>
+
+      <create-multiple-choice></create-multiple-choice>
 
     </paper-material>
   </template>
