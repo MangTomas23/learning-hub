@@ -28,4 +28,5 @@ Route::group(['prefix' => 'api'], function()
     Route::resource('authenticate', 'AuthenticateController', ['only' => ['index']]);
     Route::resource('user', 'UserController');
     Route::resource('subject', 'SubjectController');
+    Route::resource('quiz', 'QuizController');
 });

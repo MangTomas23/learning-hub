@@ -101,13 +101,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <paper-material flex>
 
       <paper-icon-button icon="arrow-back"></paper-icon-button>
-      <paper-input label="Title"></paper-input>
-      <paper-textarea label="Notes"></paper-textarea>
+      <paper-input label="Title" value="{{ title }}"></paper-input>
+      <paper-textarea label="Notes" value="{{ notes }}"></paper-textarea>
       <div class="horizontal layout flex wrap">
-        <paper-input class="flex" type="number" label="Duration in Minutes"></paper-input>
+        <paper-input class="flex" type="number" label="Duration in Minutes" 
+        value="{{ duration }}"></paper-input>
         <div class="due-date flex">
           <label>Due Date</label>
-          <input type="date">
+          <input type="date" value="{{ due_date }}">
         </div>
       </div>
     </paper-material>
@@ -116,7 +117,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 
       <!-- <create-multiple-choice></create-multiple-choice> -->
-      <paper-button class="btn-save">Save</paper-button>
+      <paper-button class="btn-save" on-tap="saveQuiz">Save</paper-button>
 
     </paper-material>
 
@@ -159,6 +160,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     </paper-dialog>
 
+    <iron-ajax
+        id="ajaxSaveQuiz"
+        url="/api/quiz"
+        method="post"
+        handle-as="json"
+        on-response="handleSaveQuizResponse"
+        last-response="{{ saveResponse }}"
+        debounce-duration="300"></iron-ajax>
 
   </template>
   <script>
@@ -169,11 +178,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       is: 'quiz-page',
 
       properties: {
-        foo: {
-          type: String,
-          value: 'quiz-page',
-          notify: true
-        }
+        title: String, 
+        notes: String, 
+        duration: Number, 
+        due_date: String
       }, 
 
       showAddMenu: function() {
@@ -213,6 +221,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         contents += '<p>Answer: ' + answer + '</p>';
         testPaper.innerHTML = testPaper.innerHTML + contents;
 
+      },
+
+      handleSaveQuizResponse: function() {
+        console.log(this.saveResponse);
+      },
+
+      saveQuiz: function() {
+        this.$.ajaxSaveQuiz.params = {
+          title: this.title,
+          notes: this.notes,
+          duration: this.duration,
+          due_date: this.due_date,
+          user_id: jwt_decode(localStorage.token).id,
+          status: 'open'
+        };
+
+        this.$.ajaxSaveQuiz.generateRequest();        
       }
 
 
