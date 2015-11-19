@@ -33,6 +33,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       paper-dialog {
         background: #FFF;
+        position: fixed;
+        top: 30px;
+        z-index: 1;
       }
 
       .btn-save {
@@ -89,7 +92,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         border-top: 1px solid rgb(114,114,114);
       }
 
-
+      #dlgTrueOrFalse .content{
+        width: 480px;
+        min-height: 300px;
+      }
 
     </style>
     <paper-material flex>
@@ -106,12 +112,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </div>
     </paper-material>
 
-    <paper-material>
+    <paper-material id="testPaper">
+
+
+      <!-- <create-multiple-choice></create-multiple-choice> -->
       <paper-button class="btn-save">Save</paper-button>
-
-      <create-true-or-false></create-true-or-false>
-
-      <create-multiple-choice></create-multiple-choice>
 
     </paper-material>
 
@@ -120,15 +125,41 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <paper-dialog id="addMenu">
       <h2>Type</h2>
       <div class="vertical layout">
-        <paper-button>True or False</paper-button>        
-        <paper-button>Multiple Choice</paper-button>        
-        <paper-button></paper-button>        
-        <paper-button>True or False</paper-button>        
+        <paper-button on-tap="showTrueOrFalse">True or False</paper-button>        
+        <paper-button on-tap="showMultipleChoice">Multiple Choice</paper-button>        
+        <paper-button>Fill in the blank</paper-button>        
+        <paper-button>Essay</paper-button>        
       </div>
       <div class="buttons">
         <paper-button dialog-dismiss>jkjk</paper-button>
       </div>
     </paper-dialog>
+    
+    <paper-dialog id="dlgTrueOrFalse">
+      <h2>True or False</h2>
+      <div class="content">
+        <create-true-or-false></create-true-or-false>
+      </div>
+      <div class="buttons">
+        <paper-button dialog-dismiss>Cancel</paper-button>
+        <paper-button dialog-confirm on-tap="confirmTF">Confirm</paper-button>
+      </div>
+
+    </paper-dialog>
+
+    <paper-dialog id="dlgMultipleChoice">
+      <h2>True or False</h2>
+      <div class="content">
+        <create-multiple-choice></create-multiple-choice>
+      </div>
+      <div class="buttons">
+        <paper-button dialog-dismiss>Cancel</paper-button>
+        <paper-button dialog-confirm on-tap="confirmMC">Confirm</paper-button>
+      </div>
+
+    </paper-dialog>
+
+
   </template>
   <script>
   (function() {
@@ -147,6 +178,41 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       showAddMenu: function() {
         this.$.addMenu.open();
+      },
+
+      showTrueOrFalse: function() {
+        this.$.dlgTrueOrFalse.open();
+      },
+
+      showMultipleChoice: function() {
+        this.$.dlgMultipleChoice.open();
+      },
+
+
+      confirmTF: function() {
+        var testPaper = this.$.testPaper;
+        var contents = "";
+        var question = this.querySelector('create-true-or-false').getAttribute("question");
+        var answer = this.querySelector('create-true-or-false').getAttribute("answer");
+
+
+        contents += '<p>Question: ' + question + '</p>';
+        contents += '<p>Answer: ' + answer + '</p>';
+        testPaper.innerHTML = testPaper.innerHTML + contents;
+
+      },
+
+      confirmMC: function() {
+        var testPaper = this.$.testPaper;
+        var contents = "";
+        var question = this.querySelector('create-multiple-choice').getAttribute("question");
+        var answer = this.querySelector('create-multiple-choice').getAttribute("answer");
+
+
+        contents += '<p>Question: ' + question + '</p>';
+        contents += '<p>Answer: ' + answer + '</p>';
+        testPaper.innerHTML = testPaper.innerHTML + contents;
+
       }
 
 

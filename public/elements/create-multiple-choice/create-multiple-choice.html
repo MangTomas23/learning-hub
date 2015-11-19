@@ -9,6 +9,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="..\..\bower_components/paper-input/paper-textarea.html">
 
 <dom-module id="create-multiple-choice">
   <template>
@@ -23,8 +24,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       
     </style>
 
-    <paper-input label="Question"></paper-input>
-    <paper-input class="short" label="Correct Answer"></paper-input>
+    <paper-textarea label="Question" value="{{ question }}"></paper-textarea>
+    <paper-input class="short" label="Correct Answer" value="{{ answer }}"></paper-input>
     <paper-input class="short" label="Choice"></paper-input>
     <paper-input class="short" label="Choice"></paper-input>
     <paper-input class="short" label="Choice"></paper-input>
@@ -37,10 +38,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       is: 'create-multiple-choice',
 
       properties: {
-        foo: {
+        question: {
           type: String,
-          value: 'create-multiple-choice',
-          notify: true
+          reflectToAttribute: true
+        },
+
+        answer: {
+          type: String,
+          reflectToAttribute: true
         }
       }
     });

@@ -9,6 +9,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="..\..\bower_components/paper-input/paper-textarea.html">
 <link rel="import" href="..\..\bower_components/paper-radio-group/paper-radio-group.html">
 <link rel="import" href="..\..\bower_components/paper-radio-button/paper-radio-button.html">
 
@@ -24,6 +25,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       p {
         color: var(--default-primary-color);
         margin: 0px;
+        margin-top: 10px;
         font-size: 12px;
       }
 
@@ -32,9 +34,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
     </style>
 
-    <paper-input label="Question"></paper-input>
+    <paper-textarea id="question" label="Question" value="{{ question }}"></paper-textarea>
     <p>Correct Answer</p>
-    <paper-radio-group selected="true">
+    <paper-radio-group selected="{{ answer }}">
       <paper-radio-button name="true">True</paper-radio-button>
       <paper-radio-button name="false">False</paper-radio-button>
     </paper-radio-group>
@@ -47,11 +49,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       is: 'create-true-or-false',
 
       properties: {
-        foo: {
+        question: {
           type: String,
-          value: 'create-true-or-false',
-          notify: true
-        }
+          reflectToAttribute: true
+        },
+
+        answer: {
+          type: Boolean,
+          reflectToAttribute: true
+        },
       }
     });
   })();
