@@ -254,7 +254,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 </template>
               </section>
               
-              <!-- <quiz-page data-route="quiz"></quiz-page> -->
+              <quiz-page data-route="quiz-page"></quiz-page>
 
             </iron-pages>
           </div>
