@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Quiz;
 use App\Question;
 use App\Answer;
+use App\Choice;
 
 class QuizController extends Controller
 {
@@ -61,6 +62,15 @@ class QuizController extends Controller
             $answer->text = $q->answer;
             $answer->question_id = $question->id;
             $answer->save();
+
+            if($q->type == 'multiple_choice') {
+                foreach ($q->choices as $i => $c) {
+                    $choice = new Choice;
+                    $choice->text = $c;
+                    $choice->question_id = $question->id;
+                    $choice->save();
+                }
+            }
         }
 
         return $questions;

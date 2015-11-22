@@ -114,10 +114,24 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         margin: 0px;
       }
 
-      .item .answer {
-        font-size: 0.8em;
+      .item p {
+        font-size: 0.9em;
         margin: 0px;
       }
+
+      .item p:first-child {
+        font-size: 1em;
+        margin-bottom: 2px;
+      }
+
+      .item ul {
+        margin: 0px;
+        list-style-type: square;
+        margin-left: -20px;
+        font-size: 0.9em;
+      }
+
+
       
 
 
@@ -145,6 +159,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <div class="item">
               <p class="question">Question: <span>{{quiz.question}}</span></p>
               <p class="answer">Answer: <span>{{quiz.answer}}</span></p>
+
+              <template is="dom-if" if="{{ isMultipleChoice(quiz.type) }}">
+                <p class="choice">Choices: </p>
+
+                <ul>
+                  <template is="dom-repeat" items="{{quiz.choices}}">
+                    <li>{{ item }}</li>
+                  </template>
+                </ul>
+              </template>
             </div>
           </template>
         </iron-list>
@@ -249,11 +273,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         var contents = "";
         var question = this.querySelector('create-multiple-choice').getAttribute("question");
         var answer = this.querySelector('create-multiple-choice').getAttribute("answer");
+        var choices = [];
+        for(var i = 1;i<=3;i++) {
+          choices.push(this.querySelector('create-multiple-choice').getAttribute("ch" + i));
+        }
 
-
-        contents += '<p>Question: ' + question + '</p>';
-        contents += '<p>Answer: ' + answer + '</p>';
-        testPaper.innerHTML = testPaper.innerHTML + contents;
+        this.push('quizData', {
+          question: question, 
+          answer: answer,
+          type: 'multiple_choice',
+          choices: choices
+        });
 
       },
 
@@ -281,6 +311,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       ready: function() {
         this.quizData = [];
+      },
+
+      isMultipleChoice: function(type) {
+        return type == 'multiple_choice';
       }
 
 

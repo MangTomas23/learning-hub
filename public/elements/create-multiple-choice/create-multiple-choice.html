@@ -26,9 +26,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <paper-textarea label="Question" value="{{ question }}"></paper-textarea>
     <paper-input class="short" label="Correct Answer" value="{{ answer }}"></paper-input>
-    <paper-input class="short" label="Choice"></paper-input>
-    <paper-input class="short" label="Choice"></paper-input>
-    <paper-input class="short" label="Choice"></paper-input>
+    <paper-input class="short choice" label="Choice" value="{{ ch1 }}"></paper-input>
+    <paper-input class="short choice" label="Choice" value="{{ ch2 }}"></paper-input>
+    <paper-input class="short choice" label="Choice" value="{{ ch3 }}"></paper-input>
   </template>
   <script>
   (function() {
@@ -46,8 +46,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         answer: {
           type: String,
           reflectToAttribute: true
+        },
+
+        ch1: {
+          type: String,
+          reflectToAttribute: true
+        },
+
+        ch2: {
+          type: String,
+          reflectToAttribute: true
+        },
+
+        ch3: {
+          type: String,
+          reflectToAttribute: true
         }
+
       }
+
     });
   })();
   </script>

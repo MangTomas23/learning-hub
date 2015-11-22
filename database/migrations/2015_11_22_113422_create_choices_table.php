@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAnswersTable extends Migration
+class CreateChoicesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,11 +12,11 @@ class CreateAnswersTable extends Migration
      */
     public function up()
     {
-        Schema::create('answers', function (Blueprint $table) {
+        Schema::create('choices', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
             $table->integer('question_id')->unsigned()->nullable();
-            $table->foreign('question_id')->on('questions')->references('id')->onDelete('set null');
+            $table->foreign('question_id')->references('id')->on('questions')->onDelete('set null');
             $table->string('text');
         });
     }
@@ -28,6 +28,6 @@ class CreateAnswersTable extends Migration
      */
     public function down()
     {
-        Schema::drop('answers');
+        Schema::drop('choices');
     }
 }
