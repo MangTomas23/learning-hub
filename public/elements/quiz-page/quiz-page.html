@@ -97,6 +97,30 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         min-height: 300px;
       }
 
+      .testpaper-container {
+        padding-top: 12px;
+        min-height: 340px;
+      }
+
+      .item {
+        padding: 8px 0px;
+      }
+
+      .item + .item {
+        border-top: 1px solid var(--divider-color);
+      }
+
+      .item .question {
+        margin: 0px;
+      }
+
+      .item .answer {
+        font-size: 0.8em;
+        margin: 0px;
+      }
+      
+
+
     </style>
     <paper-material flex>
 
@@ -108,14 +132,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         value="{{ duration }}"></paper-input>
         <div class="due-date flex">
           <label>Due Date</label>
-          <input type="date" value="{{ due_date }}">
+          <input type="datetime-local" value="{{ due_date }}">
         </div>
       </div>
     </paper-material>
 
-    <paper-material>
+    <paper-material class="testpaper-container">
+      <p id="instruction">Please click the + button to add questions.</p>
       <div id="testPaper">
-        
+        <iron-list items="{{ quizData }}" as="quiz">
+          <template>
+            <div class="item">
+              <p class="question">Question: <span>{{quiz.question}}</span></p>
+              <p class="answer">Answer: <span>{{quiz.answer}}</span></p>
+            </div>
+          </template>
+        </iron-list>
       </div>
 
       <!-- <create-multiple-choice></create-multiple-choice> -->
@@ -134,7 +166,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <paper-button>Essay</paper-button>        
       </div>
       <div class="buttons">
-        <paper-button dialog-dismiss>jkjk</paper-button>
+        <!-- <paper-button dialog-dismiss>jkjk</paper-button> -->
       </div>
     </paper-dialog>
     
@@ -205,12 +237,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         var question = this.querySelector('create-true-or-false').getAttribute("question");
         var answer = this.querySelector('create-true-or-false').getAttribute("answer");
 
-        contents += '<div class="questions" ' + 'question="' + question + '" answer="' + answer + '">';
-        contents += '<p>Question: ' + question + '</p>';
-        contents += '<p>Answer: ' + answer + '</p>';
-        contents += '</div>';
-        testPaper.innerHTML = testPaper.innerHTML + contents;
-
+        this.push('quizData', {
+          question: question, 
+          answer: answer,
+          type: 'true_or_false'
+        });
       },
 
       confirmMC: function() {
@@ -232,30 +263,24 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       saveQuiz: function() {
-        var el = document.querySelectorAll('.questions');
-        var questions = [];
-        for(var i=0; i<el.length;i++) {
-          var a = {
-            question: el[i].getAttribute('question'),
-            answer: el[i].getAttribute('answer')
-          }
-
-          questions.push(a);
-        }
-
         this.$.ajaxSaveQuiz.params = {
           subject_id: app.subject_id,
           title: this.title,
-          notes: this.notes,
+          notes: this.notes == undefined ? '':this.notes,
           duration: this.duration,
           due_date: this.due_date,
           user_id: jwt_decode(localStorage.token).id,
           status: 'open',
           token: localStorage.token,
-          questions: JSON.stringify(questions)
+          questions: JSON.stringify(this.quizData)
         };
 
         this.$.ajaxSaveQuiz.generateRequest();        
+      },
+
+
+      ready: function() {
+        this.quizData = [];
       }
 
 

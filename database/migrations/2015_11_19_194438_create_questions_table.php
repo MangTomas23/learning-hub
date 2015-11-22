@@ -18,6 +18,7 @@ class CreateQuestionsTable extends Migration
             $table->string('text');
             $table->integer('quiz_id')->unsigned()->nullable();
             $table->foreign('quiz_id')->on('quizzes')->references('id');
+            $table->string('type');
         });
     }
 
