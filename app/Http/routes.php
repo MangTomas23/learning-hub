@@ -21,8 +21,11 @@ Route::group(['prefix' => 'api'], function()
     Route::post('subject/students', 'SubjectController@addStudents');
     Route::get('teacher/students', 'TeacherController@getStudents');
     Route::get('teacher/subjects', 'TeacherController@getSubjects');
+    Route::get('teacher/subject/quizzes', 'TeacherController@getSubjectQuizzes');
     Route::post('authenticate', 'AuthenticateController@authenticate');
     Route::put('user/password', 'UserController@changePassword');
+    Route::get('student/subjects', 'StudentController@getSubjects');
+    Route::get('student/quizzes', 'StudentController@getQuizzes');
 
     
     Route::resource('authenticate', 'AuthenticateController', ['only' => ['index']]);

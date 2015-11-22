@@ -19,24 +19,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       .items {
-        padding: 5px;
+        padding: 8px 0px;
       }
 
-      iron-list {
-        padding-bottom: 16px;
+      .items + .items {
+        border-top: 1px solid var(--divider-color);
       }
+
     </style>
 
     <iron-list items="[[ response ]]" as="user">
       <template>
-        <div>
-          <div class="items">
-            <student-list-item
-              usn="[[ user.usn ]]"
-              first-name="[[ user.firstname ]]"
-              middle-name="[[ user.middlename ]]"
-              last-name="[[ user.lastname ]]"></students-list-item>
-          </div>
+        <div class="items">
+          <student-list-item
+            usn="[[ user.usn ]]"
+            first-name="[[ user.firstname ]]"
+            middle-name="[[ user.middlename ]]"
+            last-name="[[ user.lastname ]]"></students-list-item>
         </div>
       </template>
     </iron-list>

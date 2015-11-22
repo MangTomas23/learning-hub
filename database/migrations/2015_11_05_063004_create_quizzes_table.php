@@ -17,6 +17,8 @@ class CreateQuizzesTable extends Migration
             $table->timestamps();
             $table->integer('user_id')->unsigned()->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
+            $table->integer('subject_id')->unsigned()->nullable();
+            $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('set null');
             $table->string('title');
             $table->string('notes');
             $table->integer('duration');

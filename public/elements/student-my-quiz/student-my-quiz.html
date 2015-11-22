@@ -10,7 +10,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="..\..\bower_components/polymer/polymer.html">
 
-<dom-module id="teacher-students-page">
+<dom-module id="student-my-quiz">
   <template>
     <style>
       :host {
@@ -22,53 +22,62 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         background: #FFF;
       }
 
-      iron-list {
-        padding-bottom: 16px;
-      }
-
-      .items {
+      .list {
         padding: 8px 0px;
       }
 
-      .items + .items {
+      .list + .list {
         border-top: 1px solid var(--divider-color);
       }
 
-      .items a {
-        font-size: 1.1em;
+      .list a {
         color: var(--default-primary-color);
+        font-size: 1.1em;
         text-decoration: none;
         display: block;
+        margin-bottom: 3px;
       }
 
-      .items p {
-        margin: 0px;
+      .list div {
         font-size: 0.8em;
       }
+
+      .list p {
+        margin: 0px;
+      }
+
     </style>
-
     <paper-material>
-      <h3>My Students</h3>
+      <h3>My Quizzes</h3>
 
-      <iron-list items="[[data]]" as="item">
-        <template>
-          <div class="items">
-            <a href="">{{ fullname(item.firstname, item.middlename, item.lastname) }}</a>
-            <p>[[ item.usn ]]</p>
+      <template is="dom-if" if="{{ isEmpty }}">
+        <p>No quiz available.</p>
+      </template>
+
+
+    <iron-list items="[[data]]" as="quiz">
+      <template>
+        <div class="list">
+          <a href="">[[ quiz.title ]]</a>
+          <div class="horizontal layout justified">
+            <p>Duration: <span>[[ quiz.duration ]]</span> mins.</p>
+            <p>Due Date: <span>[[ quiz.due_date ]]</span></p>
+            <p>Status: <span>[[ quiz.status ]]</span></p>
           </div>
-        </template>
-      </iron-list>
+        </div>
+      </template>
+    </iron-list>
+
     </paper-material>
 
-
     <iron-ajax
-      auto
-      url="/api/teacher/students"
-      params="{{ getParams() }}"
-      handle-as="json"
-      last-response="{{data}}"
-      debounce-duration="300"></iron-ajax>
-
+        auto
+        url="/api/student/quizzes"
+        params="{{ getParams() }}"
+        handle-as="json"
+        on-response="handleResponse"
+        last-response="{{ data }}"
+        debounce-duration="300"></iron-ajax>
 
   </template>
   <script>
@@ -76,10 +85,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     'use strict';
 
     Polymer({
-      is: 'teacher-students-page',
+      is: 'student-my-quiz',
 
       properties: {
-        
+        isEmpty: Boolean        
       },
 
       getParams: function() {
@@ -88,8 +97,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         };
       },
 
-      fullname: function(a, b, c) {
-        return [a,b,c].join(' ');
+      handleResponse: function() {
+        if(this.data.length == 0) {
+          this.isEmpty = true;
+        }
       }
     });
   })();

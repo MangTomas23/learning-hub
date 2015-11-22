@@ -20,6 +20,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       }
 
+      paper-material {
+        padding: 12px;
+        background: #FFF;
+      }
+
       paper-fab {
         position: fixed;
         right: 25px;
@@ -32,9 +37,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         z-index: 1;
       }
 
-      paper-dialog {
-        background: #FFF;
-      }
 
       paper-toast a {
         text-decoration: underline;
@@ -42,7 +44,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         color: #CCC;
       }
 
+      paper-dialog {
+        background: #FFF;
+        position: fixed;
+        width: 400px;
+      }
+
+
     </style>
+    <paper-material>
+      <h3>My Subjects</h3>
+      <teachers-subject-list></teachers-subject-list>
+    </paper-material>
+
 
     <paper-dialog>
       <h2>Add Subject</h2>
@@ -56,7 +70,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </div>
     </paper-dialog>
 
-    <teachers-subject-list></teachers-subject-list>
 
     <paper-fab icon="add" on-tap="showDialog"></paper-fab>
 

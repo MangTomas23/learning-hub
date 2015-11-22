@@ -10,46 +10,29 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="..\..\bower_components/polymer/polymer.html">
 
-<dom-module id="teachers-home-page">
+<dom-module id="create-question">
   <template>
     <style>
       :host {
         display: block;
       }
-
-      paper-material {
-        background: #FFF;
-        padding: 12px;
-      }
-
     </style>
-    <paper-material>
-      <h3>{{ fullname }}</h3>
-
-    </paper-material>
-
-    <iron-ajax
-      url="{{ getURL() }}" 
-      params="{{ getParams() }}"
-      handle-as="json"
-      on-error="handleError"
-      on-response="handleResponse"
-      last-response="{{ response }}"
-      debounce-duration="300"></iron-ajax>
-
+    <div>Hello from <span>{{foo}}</span></div>
   </template>
   <script>
   (function() {
     'use strict';
 
     Polymer({
-      is: 'teachers-home-page',
+      is: 'create-question',
 
-      ready: function() {
-        var i = jwt_decode(localStorage.token);
-        this.fullname = [i.firstname, i.middlename, i.lastname].join(' ');
+      properties: {
+        foo: {
+          type: String,
+          value: 'create-question',
+          notify: true
+        }
       }
-
     });
   })();
   </script>

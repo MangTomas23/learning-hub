@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\User;
 use App\Subject;
 use App\SubjectStudent;
+use App\Quiz;
 
 class TeacherController extends Controller
 {
@@ -109,5 +110,10 @@ class TeacherController extends Controller
         }
 
         return $subjects;
+    }
+
+    public function getSubjectQuizzes(Request $request) {
+        return Quiz::all();
+        return Quiz::where('subject_id', $subject_id)->get();
     }
 }

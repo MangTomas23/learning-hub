@@ -113,8 +113,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </div>
     </paper-material>
 
-    <paper-material id="testPaper">
-
+    <paper-material>
+      <div id="testPaper">
+        
+      </div>
 
       <!-- <create-multiple-choice></create-multiple-choice> -->
       <paper-button class="btn-save" on-tap="saveQuiz">Save</paper-button>
@@ -203,9 +205,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         var question = this.querySelector('create-true-or-false').getAttribute("question");
         var answer = this.querySelector('create-true-or-false').getAttribute("answer");
 
-
+        contents += '<div class="questions" ' + 'question="' + question + '" answer="' + answer + '">';
         contents += '<p>Question: ' + question + '</p>';
         contents += '<p>Answer: ' + answer + '</p>';
+        contents += '</div>';
         testPaper.innerHTML = testPaper.innerHTML + contents;
 
       },
@@ -225,16 +228,31 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       handleSaveQuizResponse: function() {
         console.log(this.saveResponse);
+        document.querySelector('teachers-quiz-list').refreshList();
       },
 
       saveQuiz: function() {
+        var el = document.querySelectorAll('.questions');
+        var questions = [];
+        for(var i=0; i<el.length;i++) {
+          var a = {
+            question: el[i].getAttribute('question'),
+            answer: el[i].getAttribute('answer')
+          }
+
+          questions.push(a);
+        }
+
         this.$.ajaxSaveQuiz.params = {
+          subject_id: app.subject_id,
           title: this.title,
           notes: this.notes,
           duration: this.duration,
           due_date: this.due_date,
           user_id: jwt_decode(localStorage.token).id,
-          status: 'open'
+          status: 'open',
+          token: localStorage.token,
+          questions: JSON.stringify(questions)
         };
 
         this.$.ajaxSaveQuiz.generateRequest();        

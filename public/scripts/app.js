@@ -100,4 +100,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     return this.getAccountType() == 'student';
   };
 
+  app.subject_id = 0;
+
 })(document);

@@ -19,7 +19,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       .items {
-        padding: 5px;
+        padding: 8px 0px;
+      }
+
+      .items + .items {
+        border-top: 1px solid var(--divider-color);
       }
 
       iron-list {
@@ -47,20 +51,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <iron-list items="[[data]]" as="subject">
       <template>
-        <div>
           <div class="items">
-            <paper-material>
-              <a href="{{ getUrl(subject.id) }}">[[ subject.subject_code ]]</a href="#">
-              <div class="horizontal layout">
-                <p>[[ subject.description ]]</p>
-                <span class="flex"></span>
-                <p>
-                  <span>[[ subject.students_count ]]</span>
-                   Students
-                </p>
-              </div>
-            </paper-material>
-          </div>
+            <a href="{{ getUrl(subject.id) }}">[[ subject.subject_code ]]</a href="#">
+            <div class="horizontal layout justified">
+              <p>{{ getDescription(subject.description) }}</p>
+              <p>
+                <span>[[ subject.students_count ]]</span>
+                 Students
+              </p>
+            </div>
         </div>
       </template>
     </iron-list>
@@ -89,7 +88,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       getUrl: function(id) {
         return '/subjects/' + id;
+      },
+
+      getDescription: function(description){
+        return description != '' ? description:'No description';
       }
+
+
     });
   })();
   </script>

@@ -19,9 +19,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 
       .fullname {
-        font-weight: 600;
         font-size: 1.1em;
-        padding-left: 3px;
         display: block;
       }
 
@@ -36,18 +34,28 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       paper-material {
         padding: 3px;
       }
+
+      .item a {
+        text-decoration: none;
+        color: var(--default-primary-color);
+        display: block;
+        font-size: 1.1em;
+      }
+
+      .item p {
+        font-size: 0.8em;
+        margin: 0px;
+      }
     </style>
     
-    <paper-material>
-      <div class="horizontal layout">
-        <div>
-          <span class="fullname">{{ fullName }}</span>
-          <span class="usn">{{ usn }}</span>
-        </div>
-        <span class="flex"></span>
-        <paper-icon-button id="deleteButton" icon="delete"></paper-icon-button>
+    <div class="horizontal layout">
+      <div class="item">
+        <a href="">{{ fullName }}</a>
+        <p class="usn">{{ usn }}</p>
       </div>
-    </paper-material>
+      <span class="flex"></span>
+      <paper-icon-button id="deleteButton" icon="delete"></paper-icon-button>
+    </div>
 
 
   </template>

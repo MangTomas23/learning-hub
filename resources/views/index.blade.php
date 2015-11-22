@@ -9,7 +9,7 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
 
-<html lang="">
+<html lang="en">
 
 <head>
   <meta charset="utf-8">
@@ -173,6 +173,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 <template is="dom-if" if="@{{ isTeacher() }}">
                   <teachers-home-page></teachers-home-page>
                 </template>
+
+                <template is="dom-if" if="@{{ isStudent() }}">
+                  <students-home-page></students-home-page>
+                </template>
+
               </section>
 
               <section data-route="users">
@@ -205,8 +210,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 </template>
 
                 <template is="dom-if" if="@{{ isStudent() }}">
-                  <h3>Subjects Page</h3>
-                  <p>No Subjects enrolled.</p>
+                  <students-subject-page></students-subject-page>
                 </template>
               </section>
 
@@ -249,8 +253,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
               <section data-route="quiz">
                 <template is="dom-if" if="@{{ isStudent() }}">
-                  <h3>Quiz page</h3>
-                  <p>Quizzes not available.</p>
+                  <student-my-quiz></student-my-quiz>
                 </template>
               </section>
               

@@ -39,7 +39,12 @@ class AuthenticateController extends Controller
         $type = $user->type;
         $id = (string) $user->id;
         $exp = (string) strtotime('+7 day');
-        $customClaims = ['id' => $id, 'type' => $type, 'exp' => $exp ];
+        $firstname = $user->firstname;
+        $middlename = $user->middlename;
+        $lastname = $user->lastname;
+        $customClaims = ['id' => $id, 'type' => $type, 'exp' => $exp, 
+                        'firstname' => $firstname, 'middlename' => $middlename, 
+                        'lastname' => $lastname ];
 
         try {
             // verify the credentials and create a token for the user

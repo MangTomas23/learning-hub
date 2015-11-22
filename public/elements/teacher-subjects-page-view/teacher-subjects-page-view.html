@@ -107,7 +107,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </paper-tabs>
 
       <iron-pages selected="{{selected}}">
-        <section>Quizzes</section>
+        <section>
+          <teachers-quiz-list subject-id="{{ subjectId }}"></teachers-quiz-list>
+        </section>
         <section>
           <students-list subject-id="{{ subjectId }}"></students-list>
         </section>
@@ -168,7 +170,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       is: 'teacher-subjects-page-view',
 
       properties: {
-        subjectId: Number,
+        subjectId: {
+          type: Number,
+          reflectToAttribute: true
+        },
         url: {
           computed: 'computeUrl(subjectId)'
         }
@@ -222,6 +227,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       _dlgAddQuiz: function() {
         app.route = "quiz-page";
+        app.subject_id = this.subjectId;
       }
     });
   })();

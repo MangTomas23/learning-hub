@@ -5,11 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\SubjectStudent;
+use App\Subject;
 use App\Quiz;
-use App\Question;
-use App\Answer;
+use App\User;
 
-class QuizController extends Controller
+class StudentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -39,33 +40,7 @@ class QuizController extends Controller
      */
     public function store(Request $request)
     {
-        $quiz = new Quiz;
-        $quiz->user_id = $request->user_id;
-        $quiz->subject_id = $request->subject_id;
-        $quiz->title = $request->title;
-        $quiz->notes = $request->notes;
-        $quiz->duration = $request->duration;
-        $quiz->status = $request->status;
-        $quiz->due_date = $request->due_date;
-        $quiz->save();
-
-        $questions = $request->questions;
-
-        foreach (json_decode($questions) as $i=>$q) {
-            $question = new Question;
-            $question->text = $q->question;
-            $question->quiz_id = $quiz->id;
-            $question->save();
-
-            $answer = new Answer;
-            $answer->text = $q->answer;
-            $answer->question_id = $question->id;
-            $answer->save();
-        }
-
-        return $questions;
-
-        // return ['response' => $quiz->save() ? 'success':'failed'];
+        //
     }
 
     /**
@@ -111,5 +86,33 @@ class QuizController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function getSubjects(Request $request) {
+        $subjects = SubjectStudent::where('user_id',$request->user_id)->get();
+        foreach ($subjects as $i => $subject) {
+            $s = Subject::find($subject->subject_id);
+            $subject['code'] = $s->subject_code;
+            $subject['description'] = $s->description;
+
+            $t = User::find($s->user_id);
+            $firstname = $t->firstname;
+            $middlename = $t->middlename;
+            $lastname = $t->lastname;
+
+            $fullname = $firstname . ' ' . $middlename . ' ' . $lastname;
+
+            $subject['teacher'] = $fullname;
+        }
+
+        return $subjects;
+    }
+
+    public function getQuizzes(Request $request) {
+        $subjects = SubjectStudent::select('subject_id')
+            ->where('user_id',$request->user_id)->get();
+        $quiz = Quiz::whereIn('subject_id', $subjects)->get();
+
+        return $quiz;
     }
 }

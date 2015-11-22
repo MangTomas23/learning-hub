@@ -10,7 +10,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="..\..\bower_components/polymer/polymer.html">
 
-<dom-module id="teacher-students-page">
+<dom-module id="students-subject-page">
   <template>
     <style>
       :host {
@@ -18,78 +18,82 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       paper-material {
-        padding: 12px;
         background: #FFF;
+        padding: 12px;
+        min-height: 400px;
       }
 
-      iron-list {
-        padding-bottom: 16px;
-      }
-
-      .items {
+      .list {
         padding: 8px 0px;
       }
 
-      .items + .items {
+      .list + .list {
         border-top: 1px solid var(--divider-color);
       }
 
-      .items a {
-        font-size: 1.1em;
+      .list a {
         color: var(--default-primary-color);
         text-decoration: none;
         display: block;
+        font-size: 1.1em;
       }
 
-      .items p {
-        margin: 0px;
+      .list p {
         font-size: 0.8em;
+        margin: 0px;
       }
     </style>
-
     <paper-material>
-      <h3>My Students</h3>
+      <h3>My Subjects</h3>
 
-      <iron-list items="[[data]]" as="item">
+      <iron-list items="[[data]]" as="subject">
         <template>
-          <div class="items">
-            <a href="">{{ fullname(item.firstname, item.middlename, item.lastname) }}</a>
-            <p>[[ item.usn ]]</p>
+          <div class="list">
+            <a href="">[[ subject.code ]]</a>
+            <div class="horizontal layout justified">
+              <p>[[ subject.description ]]</p>
+              <p>Teacher: <span>[[ subject.teacher ]]</span></p>
+            </div>
           </div>
         </template>
       </iron-list>
+
+      <iron-ajax
+        auto
+        url="/api/student/subjects"
+        params="{{ getParams() }}"
+        handle-as="json"
+        on-response="handleResponse"
+        last-response="{{ data }}"
+        debounce-duration="300"></iron-ajax>
+
+      <template is="dom-if" if="{{ isEmpty }}">
+        <p>No enrolled subjects.</p>
+      </template>
+
     </paper-material>
-
-
-    <iron-ajax
-      auto
-      url="/api/teacher/students"
-      params="{{ getParams() }}"
-      handle-as="json"
-      last-response="{{data}}"
-      debounce-duration="300"></iron-ajax>
-
-
   </template>
   <script>
   (function() {
     'use strict';
 
     Polymer({
-      is: 'teacher-students-page',
+      is: 'students-subject-page',
 
       properties: {
-        
+        isEmpty: Boolean
       },
 
-      getParams: function() {
+      getParams: function(){ 
         return {
           user_id: jwt_decode(localStorage.token).id
         };
       },
 
-      fullname: function(a, b, c) {
-        return [a,b,c].join(' ');
+      handleResponse: function() {
+        if(this.data.length == 0) {
+          this.isEmpty = true;
+        }
       }
     });
   })();
