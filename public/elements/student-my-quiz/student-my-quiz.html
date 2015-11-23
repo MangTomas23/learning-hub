@@ -58,7 +58,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <iron-list items="[[data]]" as="quiz">
       <template>
         <div class="list">
-          <a href="">[[ quiz.title ]]</a>
+          <div class="horizontal layout justified">
+            <a href="{{ getUrl(quiz.id) }}">[[ quiz.title ]]</a>
+            <p>{{ quiz.subject.subject_code }}</p>
+          </div>
           <div class="horizontal layout justified">
             <p>Duration: <span>[[ quiz.duration ]]</span> mins.</p>
             <p>Due Date: <span>[[ quiz.due_date ]]</span></p>
@@ -101,6 +104,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         if(this.data.length == 0) {
           this.isEmpty = true;
         }
+      },
+
+      getUrl: function(id) {
+        return ['/quiz/', id].join('');
       }
     });
   })();

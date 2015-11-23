@@ -111,8 +111,11 @@ class StudentController extends Controller
     public function getQuizzes(Request $request) {
         $subjects = SubjectStudent::select('subject_id')
             ->where('user_id',$request->user_id)->get();
-        $quiz = Quiz::whereIn('subject_id', $subjects)->get();
+        $quizzes = Quiz::whereIn('subject_id', $subjects)->get();
+        foreach ($quizzes as $i => $quiz) {
+            $quiz['subject'] = Subject::find($quiz->subject_id);
+        }
 
-        return $quiz;
+        return $quizzes;
     }
 }

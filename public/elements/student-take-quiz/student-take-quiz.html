@@ -1,0 +1,123 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+
+<dom-module id="student-take-quiz">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      paper-material {
+        background: #FFF;
+        padding: 12px;
+      }
+
+      paper-dialog {
+        background: #FFF;
+      }
+
+      h3 {
+        margin-bottom: 14px;
+      }
+
+      .notes {
+        margin: 0px;
+      }
+
+      .details p{
+        margin: 0px;
+        font-size: 0.8em;
+      }
+
+      .start {
+        color: var(--default-primary-color);
+      }
+
+      .start-container {
+        margin-top: 28px;
+        text-align: center;
+      }
+    </style>
+
+    <paper-material>
+      <h3>{{ data.title }}</h3>
+      <p class="notes">{{ data.notes }}</p>
+      <div class="details horizontal layout justified">
+        <p>Duration: <span>{{ data.duration }}</span> mins.</p>
+        <p>Due Date: <span>{{ data.due_date }}</span></p>
+        <p>Status: <span>{{ data.status }}</span></p>
+      </div>
+      <div class="start-container">
+        <paper-button class="start" on-tap="showStartDlg" raised>Start</paper-button>
+      </div>
+    </paper-material>
+    <paper-dialog id="dlgStart" modal>
+      <div>
+        Please click the confirm button to start now.
+      </div>
+      <div class="buttons">
+        <paper-button dialog-dismiss>Cancel</paper-button>
+        <paper-button dialog-confirm>Confirm</paper-button>
+      </div>
+    </paper-dialog>
+    <iron-ajax
+      auto
+      url="{{ url }}"
+      handle-as="json"
+      on-response="handleResponse"
+      last-response="{{ data }}"
+      debounce-duration="300"></iron-ajax>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'student-take-quiz',
+
+      properties: {
+        quizId: {
+          type: Number,
+          reflectToAttribute: true,
+          notify: true
+        },
+
+        url: {
+          computed: 'computeUrl(quizId)'
+        }
+      },
+
+
+      getUrl: function() {
+      },
+
+      handleResponse: function() {
+        console.log(this.data);
+      },
+
+      ready: function() {
+        console.log(this.getUrl());
+
+      },
+
+      computeUrl: function(quizId) {
+        return ['/api/quiz/', quizId].join('');
+      },
+
+      showStartDlg: function() {
+        this.$.dlgStart.open();
+      }
+    });
+  })();
+  </script>
+</dom-module>

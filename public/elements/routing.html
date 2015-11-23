@@ -65,6 +65,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       app.route = 'quiz';
     });
 
+    page('/quiz/:id', scrollToTop, function(data) {
+      app.route = 'take-quiz';
+      app.params = data.params;
+    });
+
     page('/create/quiz', scrollToTop, function() {
       app.route = 'quiz-page'
     });
