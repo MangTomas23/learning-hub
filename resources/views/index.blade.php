@@ -262,6 +262,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 <student-take-quiz quiz-id="@{{ params.id }}"></student-take-quiz>
                 </template>
               </section>
+
+              <section data-route="start-quiz">
+                <template is="dom-if" if="@{{ isStudent() }}">
+                  <h3>Quiz Starting</h3>
+                </template>
+              </section>
               
               <quiz-page data-route="quiz-page"></quiz-page>
 

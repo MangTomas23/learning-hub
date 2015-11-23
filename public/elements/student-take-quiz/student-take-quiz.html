@@ -67,7 +67,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </div>
       <div class="buttons">
         <paper-button dialog-dismiss>Cancel</paper-button>
-        <paper-button dialog-confirm>Confirm</paper-button>
+        <paper-button dialog-confirm on-tap="startQuiz">Confirm</paper-button>
       </div>
     </paper-dialog>
     <iron-ajax
@@ -116,6 +116,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       showStartDlg: function() {
         this.$.dlgStart.open();
+      },
+
+      startQuiz: function() {
+        app.route = 'start-quiz';
       }
     });
   })();
