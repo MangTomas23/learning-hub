@@ -9,18 +9,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="..\..\elements/teachers-quiz-list-item/teachers-quiz-list-item.html">
 
 <dom-module id="teachers-quiz-list">
   <template>
     <style>
       :host {
-        display: block;
-      }
-
-      a {
-        color: var(--default-primary-color);
-        text-decoration: none;
-        font-size: 1.1em;
         display: block;
       }
 
@@ -36,23 +30,24 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         border-top: 1px solid var(--divider-color);
       }
 
-      .list span {
-        font-size: 0.8em;
-      }
     </style>
     <iron-ajax
-        id="ajaxGetQuizzes"
-        url="/api/teacher/subject/quizzes"
-        handle-as="json"
-        last-response="{{data}}"
-        on-response="handleResponse"
-        debounce-duration="300"></iron-ajax>
+      auto
+      id="ajaxGetQuizzes"
+      url="/api/teacher/subject/quizzes"
+      params="{{ params }}"
+      handle-as="json"
+      last-response="{{data}}"
+      on-response="handleResponse"
+      debounce-duration="300"></iron-ajax>
 
-      <iron-list items="[[data]]" as="quiz">
+      <iron-list items="{{ data }}" as="quiz">
         <template>
           <div class="list">
-            <a href="#">[[ quiz.title ]]</a>
-            <span>Duration: <span>{{ quiz.duration }}</span> mins</span>
+            <teachers-quiz-list-item
+              quiz-id="[[ quiz.id ]]"
+              title="[[ quiz.title ]]"
+              duration="[[ quiz.duration ]]"></teachers-quiz-list-item>
           </div>
         </template>
       </iron-list>
@@ -68,6 +63,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         subjectId: {
           type: Number,
           notify: true
+        },
+
+        params: {
+          computed: 'computeParams(subjectId)'
         }
       },
 
@@ -77,16 +76,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 
       refreshList: function() {
-        var ajax = this.$.ajaxGetQuizzes;
-        ajax.params = {
-          subject_id: this.subjectId
-        };
-        ajax.generateRequest();
+        this.$.ajaxGetQuizzes.generateRequest();
       },
 
-      ready: function() {
-        this.refreshList();
+      computeParams: function(subjectId) {
+        return {
+          subject_id: subjectId
+        };
       }
+
     });
   })();
   </script>

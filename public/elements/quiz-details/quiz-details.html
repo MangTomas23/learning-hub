@@ -1,0 +1,75 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+
+<dom-module id="quiz-details">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      paper-material {
+        padding: 12px;
+        background: #FFF;
+      }
+
+      p {
+        margin: 0px;
+      }
+    </style>
+    <paper-material>
+      <h3 class="title">[[ quiz.title ]]</h3>
+      <p class="notes">
+        Description
+        <span>[[ quiz.notes ]]</span>
+      </p>
+      
+      <div class="horizontal layout justified">
+        <p>Duration: <span>[[ quiz.duration ]]</span> mins.</p>
+        <p>Status: <span>[[ quiz.status ]]</span> </p>
+        <p>Due Date: <span>[[ quiz.due_date ]]</span> </p>
+      </div>
+      <p>No of Items: <span>[[ quiz.no_of_items ]]</span></p>
+
+    </paper-material>
+
+    <iron-ajax
+      auto
+      url="{{url}}"
+      handle-as="json"
+      last-response="{{ quiz }}"
+      debounce-duration="300"></iron-ajax>
+
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'quiz-details',
+
+      properties: {
+        quizId: Number,
+        url: {
+          computed: '_url(quizId)'
+        }
+      },
+
+      _url: function(quizId) {
+        return ['/api/quiz', quizId].join('/');
+      }
+
+
+    });
+  })();
+  </script>
+</dom-module>

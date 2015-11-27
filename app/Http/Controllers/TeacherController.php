@@ -113,7 +113,6 @@ class TeacherController extends Controller
     }
 
     public function getSubjectQuizzes(Request $request) {
-        return Quiz::all();
-        return Quiz::where('subject_id', $subject_id)->get();
+        return Quiz::where('subject_id', $request->subject_id)->get();
     }
 }

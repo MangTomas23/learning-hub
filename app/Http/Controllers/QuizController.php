@@ -86,7 +86,11 @@ class QuizController extends Controller
      */
     public function show($id)
     {
-        return Quiz::find($id);  
+        $quiz =  Quiz::find($id);  
+
+        $quiz['no_of_items'] = Question::where('quiz_id', $quiz->id)->count();
+
+        return $quiz;
     }
 
     /**

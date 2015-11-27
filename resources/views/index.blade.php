@@ -142,12 +142,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <span class="flex"></span>
 
             <!-- Toolbar icons -->
-            <paper-menu-button>
-              <paper-icon-button icon="more-vert" class="dropdown-trigger"></paper-icon-button>
-              <paper-menu class="dropdown-content">
-                <paper-item onclick="app.logout()">Logout</paper-item>
-              </paper-menu>
-            </paper-menu-button>
 
               <!-- Application name -->
             <div class="middle middle-container center horizontal layout">
@@ -263,9 +257,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 </template>
               </section>
 
+              <section data-route="quiz-details">
+                <quiz-details quiz-id="@{{ params.id }}"></quiz-details>
+              </section>
+
               <section data-route="start-quiz">
                 <template is="dom-if" if="@{{ isStudent() }}">
                   <h3>Quiz Starting</h3>
+                </template>
+              </section>
+
+              <section data-route="edit-quiz">
+                <template is="dom-if" if="@{{ isTeacher() }}">
+                  <h3>Edit quiz</h3>
+                  <edit-quiz quiz-id="@{{ quizId }}"></edit-quiz>
                 </template>
               </section>
               
@@ -273,6 +278,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
             </iron-pages>
           </div>
+            <paper-icon-button id="logout" title="Logout" icon="exit-to-app" on-tap="logout"></paper-icon-button>
+          
         </paper-scroll-header-panel>
       </paper-drawer-panel>
     </template>

@@ -10,6 +10,8 @@
 | and give it the controller to call when that URI is requested.
 |
 */
+use Illuminate\Http\Request;
+
 
 Route::get('/', function () {
     return view('index');
@@ -32,4 +34,9 @@ Route::group(['prefix' => 'api'], function()
     Route::resource('user', 'UserController');
     Route::resource('subject', 'SubjectController');
     Route::resource('quiz', 'QuizController');
+
+});
+Route::get('/record/user', function(Request $request) {
+    
+    return ['response' => 'success'];
 });

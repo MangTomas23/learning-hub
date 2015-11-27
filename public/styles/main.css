@@ -12,3 +12,11 @@ body {
   font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   color: #333;
 }
+
+#logout {
+	z-index: 20000;
+	position: fixed;
+	right: 4px;
+	top: 4px;
+	color: #FFF;
+}
