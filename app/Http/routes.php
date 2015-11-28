@@ -28,6 +28,7 @@ Route::group(['prefix' => 'api'], function()
     Route::put('user/password', 'UserController@changePassword');
     Route::get('student/subjects', 'StudentController@getSubjects');
     Route::get('student/quizzes', 'StudentController@getQuizzes');
+    Route::get('student/quiz/{id}', 'StudentController@getQuiz');
 
     
     Route::resource('authenticate', 'AuthenticateController', ['only' => ['index']]);

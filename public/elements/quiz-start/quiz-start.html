@@ -1,0 +1,96 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+
+<dom-module id="quiz-start">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      paper-material {
+        background: #FFF;
+        padding: 12px;
+      }
+
+      .items + .items {
+        border-top: 1px solid var(--divider-color);
+      }
+
+      .question {
+        margin-bottom: 0px;
+      }
+    </style>
+    <paper-material>
+      <paper-button on-tap="refresh"></paper-button>
+      <iron-ajax
+        id="ajaxLoadQuestions"
+        handle-as="json"
+        last-response="{{ data }}"
+        on-response="handleResponse"
+        debounce-duration="300"></iron-ajax>
+      
+        <iron-list items="[[data]]" as="question">
+          <template>
+            <div class="items">
+              <p class="question">
+                <span>{{ getNumber(index) }}</span>
+                <span>{{ question.text }}</span>
+              </p>
+
+              <template is="dom-if" if="{{ multipleChoice(question.type) }}">
+                <paper-radio-group>
+                  <paper-radio-button name="true">true</paper-radio-button>
+                  <paper-radio-button name="false">false</paper-radio-button>
+                </paper-radio-group>
+              </template>
+            </div>
+          </template>
+        </iron-list>
+    </paper-material>
+
+
+
+
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'quiz-start',
+      
+      handleResponse: function() {
+        console.log(this.data);
+      },
+
+      refresh: function() {
+        var ajax = this.$.ajaxLoadQuestions;
+        ajax.url = ['/api/student/quiz', app.quizId].join('/');
+        ajax.params = {
+          token: localStorage.token
+        };
+        ajax.generateRequest();        
+      },
+
+      getNumber: function(index) {
+        return (index + 1) + '. ';
+      },
+
+      multipleChoice: function(type) {
+        return type == 'true_or_false';
+      }
+      
+    });
+  })();
+  </script>
+</dom-module>

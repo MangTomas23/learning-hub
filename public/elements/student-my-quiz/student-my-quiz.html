@@ -48,7 +48,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     </style>
     <paper-material>
-      <h3>My Quizzes</h3>
+      <div class="horizontal layout justified center">
+        <h3>My Quizzes</h3>
+        <paper-icon-button icon="refresh" on-tap="refresh"></paper-icon-button>
+      </div>
 
       <template is="dom-if" if="{{ isEmpty }}">
         <p>No quiz available.</p>
@@ -74,13 +77,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </paper-material>
 
     <iron-ajax
-        auto
-        url="/api/student/quizzes"
-        params="{{ getParams() }}"
-        handle-as="json"
-        on-response="handleResponse"
-        last-response="{{ data }}"
-        debounce-duration="300"></iron-ajax>
+      id="ajaxLoadQuizzes"
+      auto
+      url="/api/student/quizzes"
+      params="{{ getParams() }}"
+      handle-as="json"
+      on-response="handleResponse"
+      last-response="{{ data }}"
+      debounce-duration="300"></iron-ajax>
 
   </template>
   <script>
@@ -108,6 +112,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       getUrl: function(id) {
         return ['/quiz/', id].join('');
+      },
+
+      refresh: function() {
+        this.$.ajaxLoadQuizzes.generateRequest();
       }
     });
   })();

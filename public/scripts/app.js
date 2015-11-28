@@ -103,4 +103,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   app.subject_id = 0;
   app.quizId = 0;
 
+  app.startQuiz = function() {
+    document.querySelector('quiz-start').refresh();
+  }
+
 })(document);

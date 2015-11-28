@@ -93,24 +93,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         },
 
         url: {
-          computed: 'computeUrl(quizId)'
+          computed: '_url(quizId)'
         }
       },
 
-
-      getUrl: function() {
-      },
-
       handleResponse: function() {
-        console.log(this.data);
+        // console.log(this.data);
       },
 
-      ready: function() {
-        console.log(this.getUrl());
-
-      },
-
-      computeUrl: function(quizId) {
+      _url: function(quizId) {
         return ['/api/quiz/', quizId].join('');
       },
 
@@ -120,6 +111,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       startQuiz: function() {
         app.route = 'start-quiz';
+        app.quizId = this.quizId;
+        app.startQuiz();
       }
     });
   })();

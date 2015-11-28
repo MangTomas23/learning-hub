@@ -9,6 +9,9 @@ use App\SubjectStudent;
 use App\Subject;
 use App\Quiz;
 use App\User;
+use App\Question;
+use App\Choice;
+use App\Answer;
 
 class StudentController extends Controller
 {
@@ -117,5 +120,21 @@ class StudentController extends Controller
         }
 
         return $quizzes;
+    }
+
+    public function getQuiz($id) {
+        $questions = Question::where('quiz_id', $id)->get();
+
+        foreach ($questions as $question) {
+            if($question->type == 'multiple_choice') {
+                $choices = json_decode(Choice::where('question_id', 
+                                $question->id)->get());
+
+                $answer = json_decode(Answer::where('question_id', $question->id)->get());
+                $question['choices'] = array_merge($choices, $answer);
+            }
+        }
+
+        return $questions;
     }
 }

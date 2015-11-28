@@ -41,11 +41,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       getFullname: function() {
         var i = jwt_decode(localStorage.token);
         return [i.firstname, i.middlename, i.lastname].join(" ");
-      }, 
-
-      ready: function() {
-        var i = jwt_decode(localStorage.token);
-        console.log(i);
       }
     });
   })();

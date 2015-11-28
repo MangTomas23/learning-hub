@@ -263,7 +263,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
               <section data-route="start-quiz">
                 <template is="dom-if" if="@{{ isStudent() }}">
-                  <h3>Quiz Starting</h3>
+                  <quiz-start></quiz-start>
                 </template>
               </section>
 
