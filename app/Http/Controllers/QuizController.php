@@ -40,6 +40,8 @@ class QuizController extends Controller
      */
     public function store(Request $request)
     {
+
+        // return strtotime($request->due_date);
         $quiz = new Quiz;
         $quiz->user_id = $request->user_id;
         $quiz->subject_id = $request->subject_id;

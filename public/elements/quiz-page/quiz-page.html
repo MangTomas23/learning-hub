@@ -146,7 +146,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         value="{{ duration }}"></paper-input>
         <div class="due-date flex">
           <label>Due Date</label>
-          <input type="datetime-local" value="{{ due_date }}">
+          <input id="dueDate" type="datetime-local" value="{{ due_date }}">
         </div>
       </div>
     </paper-material>
@@ -293,12 +293,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       saveQuiz: function() {
+        var datetime = this.querySelector('#dueDate').value;
+        console.log(datetime);
+        return;
         this.$.ajaxSaveQuiz.params = {
           subject_id: app.subject_id,
           title: this.title,
           notes: this.notes == undefined ? '':this.notes,
           duration: this.duration,
-          due_date: this.due_date,
+          due_date: datetime,
           user_id: jwt_decode(localStorage.token).id,
           status: 'open',
           token: localStorage.token,
