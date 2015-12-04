@@ -49,6 +49,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
     </style>
 
+
+    <template is="dom-if" if="{{ isEmptySubject }}">
+      <p>You have no subjects yet. Please press the + button to 
+      add new subjects.</p>
+    </template>
+
     <iron-list items="[[data]]" as="subject">
       <template>
           <div class="items">
@@ -70,6 +76,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       params='{{ params }}'
       handle-as="json"
       last-response="{{ data }}"
+      on-response="handleResponse"
       debounce-duration="300"></iron-ajax>
   </template>
   <script>
@@ -78,6 +85,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     Polymer({
       is: 'teachers-subject-list',
+
+      properties: {
+        isEmptySubject: {
+          type: Boolean,
+          notify: true
+        }
+      },
 
       ready: function() {
         this.params = {
@@ -92,6 +106,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       getDescription: function(description){
         return description != '' ? description:'No description';
+      },
+
+      handleResponse: function() {
+        if(this.data.length == 0) {
+          this.isEmptySubject = true;
+        }else {
+          this.isEmptySubject = false;
+        }
       }
 
 

@@ -17,18 +17,45 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       :host {
         display: block;
       }
-      
-      .short {
-        max-width: 320px;
+
+      paper-radio-group {
+        width: 100%;
       }
-      
+
+      paper-radio-button {
+        padding-left: 0px;
+      }
+
+      .horizontal {
+        padding: 0px;
+      }
+
+      .choice {
+        padding: 0px;
+        margin-top: -10px;
+      }
+
+      .labels {
+        padding-bottom: 0px;
+      }
+
     </style>
 
     <paper-textarea label="Question" value="{{ question }}"></paper-textarea>
-    <paper-input class="short" label="Correct Answer" value="{{ answer }}"></paper-input>
-    <paper-input class="short choice" label="Choice" value="{{ ch1 }}"></paper-input>
-    <paper-input class="short choice" label="Choice" value="{{ ch2 }}"></paper-input>
-    <paper-input class="short choice" label="Choice" value="{{ ch3 }}"></paper-input>
+    
+    <p class="labels">Choices: </p>
+    <paper-input class="choice" label="A" value="{{ ch0 }}"></paper-input>
+    <paper-input class="choice" label="B" value="{{ ch1 }}"></paper-input>
+    <paper-input class="choice" label="C" value="{{ ch2 }}"></paper-input>
+    <paper-input class="choice" label="D" value="{{ ch3 }}"></paper-input>
+    <p class="labels">Correct Answer: </p>
+    <paper-radio-group selected="{{ answer }}" class="horizontal layout justified">
+        <paper-radio-button name="A">A</paper-radio-button>
+        <paper-radio-button name="B">B</paper-radio-button>
+        <paper-radio-button name="C">C</paper-radio-button>
+        <paper-radio-button name="D">D</paper-radio-button>
+    </paper-radio-group>
+
   </template>
   <script>
   (function() {
@@ -44,6 +71,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         },
 
         answer: {
+          type: Number,
+          reflectToAttribute: true
+        },
+
+        ch0: {
           type: String,
           reflectToAttribute: true
         },
@@ -63,6 +95,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           reflectToAttribute: true
         }
 
+      },
+
+      ready: function() {
+        this.answer = 0;
       }
 
     });

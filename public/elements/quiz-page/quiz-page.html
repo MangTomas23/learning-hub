@@ -131,22 +131,27 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         font-size: 0.9em;
       }
 
-
+      
+      #dlgMultipleChoice {
+        width: 420px;
+        overflow-y: auto|scroll;
+        overflow-x: hidden;
+      }
       
 
 
     </style>
     <paper-material flex>
 
-      <paper-icon-button icon="arrow-back"></paper-icon-button>
-      <paper-input label="Title" value="{{ title }}"></paper-input>
-      <paper-textarea label="Notes" value="{{ notes }}"></paper-textarea>
+      <paper-icon-button icon="arrow-back" on-tap="goBack"></paper-icon-button>
+      <paper-input class="input" label="Title" value="{{ title }}"></paper-input>
+      <paper-textarea class="input" label="Notes" value="{{ notes }}"></paper-textarea>
       <div class="horizontal layout flex wrap">
-        <paper-input class="flex" type="number" label="Duration in Minutes" 
+        <paper-input class="input" class="flex" type="number" label="Duration in Minutes" 
         value="{{ duration }}"></paper-input>
         <div class="due-date flex">
           <label>Due Date</label>
-          <input id="dueDate" type="datetime-local" value="{{ due_date }}">
+          <input class="input" id="dueDate" type="datetime-local" value="{{ due_date }}">
         </div>
       </div>
     </paper-material>
@@ -157,17 +162,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <iron-list items="{{ quizData }}" as="quiz">
           <template>
             <div class="item">
-              <p class="question">Question: <span>{{quiz.question}}</span></p>
+              <p class="question">Question #<span>{{ getNumber(index) }}</span>: 
+                <span>{{quiz.question}}</span></p>
               <p class="answer">Answer: <span>{{quiz.answer}}</span></p>
 
               <template is="dom-if" if="{{ isMultipleChoice(quiz.type) }}">
                 <p class="choice">Choices: </p>
 
-                <ul>
+                <ol type="A">
                   <template is="dom-repeat" items="{{quiz.choices}}">
                     <li>{{ item }}</li>
                   </template>
-                </ul>
+                </ol>
               </template>
             </div>
           </template>
@@ -274,7 +280,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         var question = this.querySelector('create-multiple-choice').getAttribute("question");
         var answer = this.querySelector('create-multiple-choice').getAttribute("answer");
         var choices = [];
-        for(var i = 1;i<=3;i++) {
+        for(var i=0;i<4;i++) {
           choices.push(this.querySelector('create-multiple-choice').getAttribute("ch" + i));
         }
 
@@ -289,13 +295,24 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       handleSaveQuizResponse: function() {
         console.log(this.saveResponse);
+        this.goBack();
+
+        this.quizData.length = 0;
+
+        var inputs = this.querySelectorAll('.input');
+
+        for(var x=0;x<inputs.length;x++) {
+          inputs[x].value = '';
+        }
+
         document.querySelector('teachers-quiz-list').refreshList();
+        document.querySelector('teacher-subjects-page-view #toastSuccess')
+          .show();
+
       },
 
       saveQuiz: function() {
         var datetime = this.querySelector('#dueDate').value;
-        console.log(datetime);
-        return;
         this.$.ajaxSaveQuiz.params = {
           subject_id: app.subject_id,
           title: this.title,
@@ -318,6 +335,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       isMultipleChoice: function(type) {
         return type == 'multiple_choice';
+      },
+
+      getNumber: function(index) {
+        return index + 1;
+      },
+
+      goBack: function() {
+        app.route = 'subject-section';
       }
 
 

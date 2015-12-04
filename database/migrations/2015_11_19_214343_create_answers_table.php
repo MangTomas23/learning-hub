@@ -17,7 +17,7 @@ class CreateAnswersTable extends Migration
             $table->timestamps();
             $table->integer('question_id')->unsigned()->nullable();
             $table->foreign('question_id')->on('questions')->references('id')->onDelete('set null');
-            $table->string('text');
+            $table->string('text')->nullable();
         });
     }
 

@@ -24,15 +24,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         display: block;
       }
 
-      span {
+      .details {
         font-size: 0.8em;
+        margin-top: -10px;
       }
     </style>
     <div class="horizontal layout justified center">
       <a href="{{ getURL(quizId) }}">{{ title }}</a>
       <paper-icon-button icon="editor:mode-edit" on-tap="editQuiz"></paper-icon-button>
     </div>
-    <span>Duration: <span>{{ duration }}</span> mins</span>
+    <p class="details">Duration: <span>{{ duration }}</span> mins</p>
    </template>
   <script>
   (function() {

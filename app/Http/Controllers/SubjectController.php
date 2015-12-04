@@ -98,15 +98,16 @@ class SubjectController extends Controller
      */
     public function destroy($id)
     {
-        //
+       return ['response' => Subject::destroy($id) ? 'success':'failed']; 
     }
 
     public function getStudents(Request $request) {
-        if($request->subject_id==0) {
-            return;
+        if(!$students = Subject::find($request->subject_id)){
+            return [];
         }
 
-        $students = Subject::find($request->subject_id)->students;
+        $students = $students->students;
+        
         $data = array();
         foreach ($students as $student) {
             array_push($data, User::find($student->user_id));

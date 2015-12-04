@@ -24,10 +24,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       .items + .items {
         border-top: 1px solid var(--divider-color);
+        padding: 3px 0px;
       }
 
       .question {
         margin-bottom: 0px;
+      }
+
+      .choices {
+        display: block;
       }
     </style>
     <paper-material>
@@ -47,10 +52,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 <span>{{ question.text }}</span>
               </p>
 
-              <template is="dom-if" if="{{ multipleChoice(question.type) }}">
+              <template is="dom-if" if="{{ isTrueOrFalse(question.type) }}">
                 <paper-radio-group>
                   <paper-radio-button name="true">true</paper-radio-button>
                   <paper-radio-button name="false">false</paper-radio-button>
+                </paper-radio-group>
+              </template>
+              <template is="dom-if" if="{{ isMultipleChoice(question.type) }}">
+                <paper-radio-group>
+                  <template is="dom-repeat" items="{{ question.choices }}">
+                    <paper-radio-button class="choices" name="{{ item.id }}">{{ item.text }}</paper-radio-button>
+                  </template>
                 </paper-radio-group>
               </template>
             </div>
@@ -86,8 +98,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         return (index + 1) + '. ';
       },
 
-      multipleChoice: function(type) {
+      isTrueOrFalse: function(type) {
         return type == 'true_or_false';
+      },
+
+      isMultipleChoice: function(type) {
+        return type == 'multiple_choice';
       }
       
     });

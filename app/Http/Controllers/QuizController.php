@@ -61,10 +61,6 @@ class QuizController extends Controller
             $question->type = $q->type;
             $question->save();
 
-            $answer = new Answer;
-            $answer->text = $q->answer;
-            $answer->question_id = $question->id;
-            $answer->save();
 
             if($q->type == 'multiple_choice') {
                 foreach ($q->choices as $i => $c) {
@@ -73,7 +69,13 @@ class QuizController extends Controller
                     $choice->question_id = $question->id;
                     $choice->save();
                 }
+                
             }
+            
+            $answer = new Answer;
+            $answer->text = $q->answer;
+            $answer->question_id = $question->id;
+            $answer->save();
         }
 
         return $questions;
@@ -89,8 +91,10 @@ class QuizController extends Controller
      */
     public function show($id)
     {
-        $quiz =  Quiz::find($id);  
-
+        if(!$quiz =  Quiz::find($id)) {
+            return [];
+        }  
+        
         $quiz['no_of_items'] = Question::where('quiz_id', $quiz->id)->count();
 
         return $quiz;

@@ -87,6 +87,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       paper-dialog {
         background: #FFF;
       }
+
+      paper-toast {
+        z-index: 1;
+      }
     </style>
 
     <paper-material>
@@ -95,7 +99,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <paper-icon-button icon="more-vert" class="dropdown-trigger"></paper-icon-button>
         <paper-menu class="dropdown-content">
           <paper-item on-tap="showEdit">Edit</paper-item>
-          <paper-item>Remove</paper-item>
+          <paper-item on-tap="showDelete">Remove</paper-item>
         </paper-menu>
       </paper-menu-button>
       <h1>{{ data.subject_code }}</h1>
@@ -151,6 +155,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <paper-button dialog-confirm on-tap="updateSubject">Confirm</paper-button>
       </div>
     </paper-dialog>
+
+    <paper-dialog id="dlgDelete">
+      <h2></h2>
+      <p>Are you sure you want to delete this subject?</p>
+      <div class="buttons">
+        <paper-button dialog-dismiss>Cancel</paper-button>
+      <paper-button dialog-confirm on-tap="deleteSubject">Confirm</paper-button>
+      </div>
+    </paper-dialog>
     
     <iron-ajax
       id="updateAjax"
@@ -160,6 +173,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       last-response="{{ updateData }}"
       on-response="handleUpdateResponse"
       debounce-duration="300"></iron-ajax>
+
+    <iron-ajax
+      id="deleteAjax"
+      url="{{ url }}"
+      method="delete"
+      handle-as="json"
+      last-response="{{ deleteData }}"
+      on-response="handleDeleteResponse"
+      debounce-duration="300"></iron-ajax>
+
+    <paper-toast id="toastSuccess" text="Quiz created succesfully.">
+      </paper-toast>
 
   </template>
   <script>
@@ -206,6 +231,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         var inputs = this.querySelectorAll('#dlgEdit paper-input'); 
       },
 
+      showDelete: function() {
+        this.$.dlgDelete.open();
+      },
+
       updateSubject: function() {
         var params = {
           token: localStorage.token,
@@ -225,10 +254,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
       },
 
+      handleDeleteResponse: function() {
+        if(this.deleteData.response == 'success') {
+          app.route = 'subject';
+          document.querySelector('teachers-subject-list iron-ajax').generateRequest();
+        }
+      },
+
 
       _dlgAddQuiz: function() {
         app.route = "quiz-page";
         app.subject_id = this.subjectId;
+      },
+
+      deleteSubject: function() {
+        this.$.deleteAjax.params = {
+          token: localStorage.token
+        };
+
+        this.$.deleteAjax.generateRequest();
       }
     });
   })();
