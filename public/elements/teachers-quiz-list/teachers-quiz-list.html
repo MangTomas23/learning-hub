@@ -30,6 +30,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         border-top: 1px solid var(--divider-color);
       }
 
+      paper-dialog {
+        background: #FFF;
+      }
+
     </style>
     <iron-ajax
       auto
@@ -51,6 +55,24 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </div>
         </template>
       </iron-list>
+
+      <paper-dialog id="dlgDelete">
+        <h2></h2>
+        <p>Are you sure you want to delete this subject?</p>
+        <div class="buttons">
+          <paper-button dialog-dismiss>Cancel</paper-button>
+          <paper-button dialog-confirm on-tap="confirmDelete">Confirm</paper-button>
+        </div>
+      </paper-dialog>
+
+      <iron-ajax
+      id="ajaxDelete"
+      method="delete"
+      handle-as="json"
+      last-response="{{ deleteData}}"
+      on-response="handleDeleteResponse"
+      debounce-duration="300"></iron-ajax>
+
   </template>
   <script>
   (function() {
@@ -67,7 +89,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         params: {
           computed: 'computeParams(subjectId)'
-        }
+        },
+
+        quizId: Number
       },
 
       handleResponse: function() {
@@ -83,6 +107,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         return {
           subject_id: subjectId
         };
+      },
+
+      confirmDelete: function() {
+        var ajax = this.$.ajaxDelete;
+        ajax.url = '/api/quiz/' + this.quizId;
+        ajax.params = {
+          token: localStorage.token
+        }
+        ajax.generateRequest();
+      },
+
+      handleDeleteResponse: function() {
+        console.log(this.deleteData);
+      },
+
+      setQuizId: function(id) {
+        this.quizId = id;
       }
 
     });

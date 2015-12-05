@@ -14,7 +14,6 @@ class RemoveEmailFromUsers extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->dropUnique('users_email_unique');
-            $table->dropColumn('email');
         });
     }
 
@@ -26,7 +25,6 @@ class RemoveEmailFromUsers extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('email')->unique();
         });
     }
 }

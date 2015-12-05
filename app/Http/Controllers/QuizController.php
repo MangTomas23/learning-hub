@@ -131,6 +131,6 @@ class QuizController extends Controller
      */
     public function destroy($id)
     {
-        //
+        return ['response' => Quiz::destroy($id) ? 'success':'failed'];
     }
 }

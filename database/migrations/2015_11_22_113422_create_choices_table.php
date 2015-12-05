@@ -16,7 +16,7 @@ class CreateChoicesTable extends Migration
             $table->increments('id');
             $table->timestamps();
             $table->integer('question_id')->unsigned()->nullable();
-            $table->foreign('question_id')->references('id')->on('questions')->onDelete('set null');
+            $table->foreign('question_id')->references('id')->on('questions')->onDelete('cascade');
             $table->string('text');
             $table->integer('choice_id')->unsigned()->nullable();
             $table->foreign('choice_id')->references('id')->on('choices')->onDelete('cascade');

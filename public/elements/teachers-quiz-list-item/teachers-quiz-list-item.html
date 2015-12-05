@@ -31,7 +31,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </style>
     <div class="horizontal layout justified center">
       <a href="{{ getURL(quizId) }}">{{ title }}</a>
-      <paper-icon-button icon="editor:mode-edit" on-tap="editQuiz"></paper-icon-button>
+      <div>
+        <paper-icon-button icon="editor:mode-edit" on-tap="editQuiz"></paper-icon-button>
+        <paper-icon-button icon="delete" on-tap="showDelete"></paper-icon-button>
+      </div>
     </div>
     <p class="details">Duration: <span>{{ duration }}</span> mins</p>
    </template>
@@ -55,6 +58,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       getURL: function(id) {
         return '/quiz/' + id;
+      },
+
+      showDelete: function() {
+        document.querySelector('teachers-quiz-list').setQuizId(this.quizId);
+        document.querySelector('teachers-quiz-list #dlgDelete').open();
       }
     });
   })();
