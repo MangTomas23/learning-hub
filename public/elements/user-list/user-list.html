@@ -204,12 +204,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         };
         ajax.generateRequest();
 
-        this.$.loadUsers.generateRequest();
       },
 
       handleUpdate: function() {
         if(this.updateData.response == 'success') {
           this.$.success.show();
+          if(this.type == 'student') {
+            document.querySelector('admin-students-page user-list #loadUsers')
+              .generateRequest();
+          }else{
+            document.querySelector('admin-teachers user-list #loadUsers')
+              .generateRequest();
+          }
         }
       },
 
@@ -225,13 +231,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           token: localStorage.token
         }
         ajax.generateRequest();
-        this.$.loadUsers.generateRequest();
 
       },
 
       handleDelete: function() {
         if(this.deleteData.response == 'success') {
           this.$.delSuccess.show();
+          if(this.type == 'student') {
+            document.querySelector('admin-students-page user-list #loadUsers')
+              .generateRequest();
+          }else{
+            document.querySelector('admin-teachers user-list #loadUsers')
+              .generateRequest();
+          }
         }
       }
 
