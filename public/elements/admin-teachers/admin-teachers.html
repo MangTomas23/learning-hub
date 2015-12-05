@@ -9,15 +9,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="..\..\bower_components/polymer/polymer.html">
-<link rel="import" href="..\..\bower_components/paper-material/paper-material.html">
-<link rel="import" href="..\..\bower_components/paper-fab/paper-fab.html">
-<link rel="import" href="..\..\bower_components/paper-input/paper-input.html">
-<link rel="import" href="..\..\bower_components/paper-dialog/paper-dialog.html">
-<link rel="import" href="..\..\bower_components/paper-dialog-behavior/paper-dialog-behavior.html">
-<link rel="import" href="..\..\bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
-<link rel="import" href="..\..\bower_components/neon-animation/animations/scale-up-animation.html">
-<link rel="import" href="..\..\bower_components/neon-animation/animations/fade-out-animation.html">
-<link rel="import" href="..\..\elements/teachers-list/teachers-list.html">
+<link rel="import" href="..\..\elements/user-list/user-list.html">
+<link rel="import" href="..\..\elements/add-user/add-user.html">
 
 <dom-module id="admin-teachers">
   <template>
@@ -26,68 +19,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         display: block;
       }
 
-      paper-material {
-        background: #FFF;
-        padding: 24px;
-      }
-
       #addTeacher {
         position: fixed;
         right: 36px;
         bottom: 64px;
       }
-
-      paper-dialog {
-        background: #FFF;
-      }
-      
       paper-toast {
         z-index: 1;
       }
     </style>
 
-    <paper-dialog id="dlgAddTeacher" entry-animation="scale-up-animation"
-              exit-animation="fade-out-animation">
-      <h2>Add Teacher</h2>
-        <paper-dialog-scrollable>
-          <paper-input type="text" value="{{ usn::input }}" label="USN"></paper-input>
-          <paper-input type="text" value="{{ firstname::input }}" label="First Name"></paper-input>
-          <paper-input type="text" value="{{ middlename::input }}" label="Middle Name"></paper-input>
-          <paper-input type="text" value="{{ lastname::input }}" label="Last Name"></paper-input>
-          <paper-input type="text" value="{{ password::input }}" label="Temporary Password"></paper-input>
-        </paper-dialog-scrollable>
-        <div class="buttons">
-          <paper-button dialog-dismiss>Cancel</paper-button>
-          <paper-button id="confirmAddTeacher" dialog-confirm>Confirm</paper-button>
-        </div>
-    </paper-dialog>
+    <user-list id="teachersList" type="teacher"></user-list>
+    <add-user type="teacher"></add-user>
+
+    <paper-fab id="addTeacher" icon="add" title="Add Teacher" 
+      on-tap="addTeacher"></paper-fab>
+
     
-    <teachers-list></teachers-list>
-    <paper-fab id="addTeacher" icon="add" title="Add Teacher"></paper-fab>
-
-    <iron-ajax
-    id="ajaxAddTeacher"
-    url="/api/user" 
-    method="post"
-    params="{{ params }}"
-    handle-as="json"
-    on-error="addTeacherError"
-    on-response="addTeacherResponse"
-    last-response="{{ tResponse }}"
-    debounce-duration="300"></iron-ajax>
-
-    <paper-toast id="deleteToast" text="Removed successfully. " duration="6000">
-      <span tabindex="0" style="color: #eeff41;margin: 10px">Undo</span>
-    </paper-toast>
-
-    <paper-toast id="updateSuccessful" text="Updated successfully. " duration="6000">
-    </paper-toast>
-
-    <paper-toast id="updateFailed" text="Update failed. " duration="6000">
-      <span tabindex="0" style="color: #eeff41;margin: 10px">Retry</span>
-    </paper-toast>
-
-
   </template>
   <script>
   (function() {
@@ -96,48 +44,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     Polymer({
       is: 'admin-teachers',
 
-      properties: {
-        firstname: String,
-        middlename: String,
-        lastname: String,
-        usn: String,
-        password: String,
-        params: {
-          computed: '_params(usn, firstname, middlename, lastname, password)'
-        }
-
-      },
-
-      listeners: {
-        'addTeacher.tap': '_openDlgAddTeacher',
-        'confirmAddTeacher.tap': '_addTeacher'
-      },
-
-      _openDlgAddTeacher: function() {
-        document.querySelector('#dlgAddTeacher').open();
-      },
-
-      _addTeacher: function() {
-        document.querySelector('#ajaxAddTeacher').generateRequest();
-      },
-
-      addTeacherResponse: function() {
-        if(this.tResponse.response == 'success') {
-          alert('Success!');
-          document.querySelector('#loadTeachers').generateRequest();
-        }else {
-          alert('failed!');
-        }
-      },
-
-      addTeacherError: function() {
-        alert('Error!');
-      },
-
-      _params: function(usn, firstname, middlename, lastname, password) {
-        var token = localStorage.token;
-        return {token: token, usn: usn, firstname: firstname, middlename: middlename, lastname: lastname, password: password, type: 'teacher'};
+      addTeacher: function() {
+        this.querySelector('add-user').showDialog();
       }
+
 
     });
   })();

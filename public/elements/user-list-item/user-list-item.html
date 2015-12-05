@@ -103,51 +103,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <p>{{ middlename }}</p>
     </div>
     
-<!--     
-  
-  card layouts
-
-    <paper-material elevation="1">
-      <div class="header">
-        <h3 class="horizontal layout">
-          <span class="flex">{{ fullname }}</span>
-          <div class="notEditing">
-            <paper-icon-button id="edit" icon="editor:mode-edit"></paper-icon-button>
-            <paper-icon-button id="delete" icon="delete"></paper-icon-button>
-          </div>
-          <div class="isEditing">
-            <paper-icon-button id="save" icon="save"></paper-icon-button>
-          </div>
-        </h3>
-      </div>
-      <div class="body horizontal layout">
-        <div class="label">
-          <p>USN: </p>
-          <p>First Name: </p>
-          <p>Middle Name: </p>
-          <p>Last Name: </p>
-        </div>
-        <div class="flex">
-          <paper-input readonly value="{{ usn::change }}"></paper-input>
-          <paper-input readonly value="{{ firstname::change }}"></paper-input>
-          <paper-input readonly value="{{ middlename::change }}"></paper-input>
-          <paper-input readonly value="{{ lastname::change }}"></paper-input>
-        </div>
-      </div>
-    </paper-material>
-
- -->    
-
- <iron-ajax
-    id="ajax"
-    url="{{ url }}" 
-    method="put"
-    params="{{ params }}"
-    handle-as="json"
-    on-response="handleUpdate"
-    on-error="handleError"
-    last-response="{{ uResponse }}"
-    debounce-duration="300"></iron-ajax>  
+    <iron-ajax
+      id="ajax"
+      url="{{ url }}" 
+      method="put"
+      params="{{ params }}"
+      handle-as="json"
+      on-response="handleUpdate"
+      on-error="handleError"
+      last-response="{{ uResponse }}"
+      debounce-duration="300"></iron-ajax>  
   </template>
   <script>
   (function() {
@@ -158,92 +123,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       properties: {
         id: Number,
+        type: String,
         no: Number,
         firstname: String,
         middlename: String,
         lastname: String,
-        isEditing: {
-          type: Boolean,
-          value: false,
-          notify: true,
-          reflectToAttribute: true
-        },
-        isDeleted: {
-          type: Boolean,
-          value: false,
-          notify: true,
-          reflectToAttribute: true
-        },
-        usn: {
-          type: String,
-          value: 'None'
-        },
-        fullname: {
-          computed: 'computeFullname(firstname, middlename, lastname)'
-        },
-        url: {
-          computed: 'computeUrl(id)'
-        },
-        params: {
-          computed: 'computeParams(usn, firstname, middlename, lastname)'
-        }
+        usn: String
       },
 
-      computeFullname: function(firstname, middlename, lastname) {
-        return firstname + ' ' + middlename + ' ' + lastname;
-      },
-
-      computeUrl: function(id) {
-        return ['/api/user', id].join('/');
-      },
-
-      computeParams: function(usn, firstname, middlename, lastname) {
-        return {
-          token: localStorage.token,
-          usn: usn,
-          firstname: firstname,
-          middlename: middlename,
-          lastname: lastname
-        };
-      },
-
-      // edit: function() {
-      //   this.isEditing = true;
-      //   var inputs = this.querySelectorAll('paper-input');
-      //   var x;
-      //   for(x=0; x<inputs.length; x++) {
-      //     inputs[x].removeAttribute('readonly');
-      //   }
-      //   inputs[0].$.input.focus();
-      // },
-
-      // save: function() {
-      //   this.isEditing = false;
-      //   var inputs = this.querySelectorAll('paper-input');
-      //   var x;
-      //   for(x=0; x<inputs.length; x++) {
-      //     inputs[x].setAttribute('readonly', true);
-      //   }
-
-      //   this.querySelector('#ajax').generateRequest();
-      // },
-
-      // delete: function() {
-      //   document.querySelector('#deleteToast').show();
-      //   this.isDeleted = true;
-      // },
-
-      handleUpdate: function() {
-        if(this.uResponse.response == 'success') {
-          document.querySelector('#updateSuccessful').show();
-        }
-      },
-
-      handleError: function() {
-        document.querySelector('#error').show();
-      },
-
-      showDialog: function() {
+     showDialog: function() {
         var data = {
           id: this.id,
           usn: this.usn,
@@ -251,8 +139,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           middlename: this.middlename,
           lastname: this.lastname,
         };
-        document.querySelector('user-list #dlgEdit').open();
-        document.querySelector('user-list').setItems(data);
+        var dlgEdits = document.querySelectorAll('user-list #dlgEdit');
+        var userLists = document.querySelectorAll('user-list');
+
+        if(this.type == 'student') {
+          dlgEdits[0].open();
+          userLists[0].setItems(data);
+        }else{
+          dlgEdits[1].open();
+          userLists[1].setItems(data);
+        }
+
       }
 
     });
