@@ -27,30 +27,32 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       paper-dialog {
         background: #FFF;
+        width: 480px;
+        z-index: 1;
+        position: fixed;
+        overflow-y: auto|scroll;
+        overflow-x: hidden;
       }
 
       paper-toast {
         z-index: 1;
       }
 
-      paper-dialog {
-        z-index: 1;
-      }
     </style>
     <paper-dialog id="dialog" entry-animation="scale-up-animation"
               exit-animation="fade-out-animation">
       <h2>Add</h2>
-        <paper-dialog-scrollable>
-          <paper-input type="text" value="{{ usn::input }}" label="USN"></paper-input>
-          <paper-input type="text" value="{{ firstname::input }}" label="First Name"></paper-input>
-          <paper-input type="text" value="{{ middlename::input }}" label="Middle Name"></paper-input>
-          <paper-input type="text" value="{{ lastname::input }}" label="Last Name"></paper-input>
-          <paper-input type="text" value="{{ password::input }}" label="Temporary Password"></paper-input>
-        </paper-dialog-scrollable>
-        <div class="buttons">
-          <paper-button dialog-dismiss>Cancel</paper-button>
-          <paper-button id="confirm" dialog-confirm>Confirm</paper-button>
-        </div>
+      <div class="body">
+        <paper-input type="text" value="{{ usn::input }}" label="USN"></paper-input>
+        <paper-input type="text" value="{{ firstname::input }}" label="First Name"></paper-input>
+        <paper-input type="text" value="{{ middlename::input }}" label="Middle Name"></paper-input>
+        <paper-input type="text" value="{{ lastname::input }}" label="Last Name"></paper-input>
+        <paper-input type="text" value="{{ password::input }}" label="Temporary Password"></paper-input>
+      </div>
+      <div class="buttons">
+        <paper-button dialog-dismiss>Cancel</paper-button>
+        <paper-button id="confirm" dialog-confirm>Confirm</paper-button>
+      </div>
     </paper-dialog>
 
     <paper-toast id="successful" text="Added successfully. "></paper-toast>

@@ -113,7 +113,7 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        return ['response' => User::destroy($id) ? 'success':'failed'];
     }
 
     public function changePassword(Request $request) {
