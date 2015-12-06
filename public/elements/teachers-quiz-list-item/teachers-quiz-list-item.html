@@ -54,6 +54,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       editQuiz: function() {
         app.route = 'edit-quiz';
         app.quizId = this.quizId;
+        document.querySelector('edit-quiz').refresh();        
       },
 
       getURL: function(id) {

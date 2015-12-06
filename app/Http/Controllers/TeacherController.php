@@ -9,6 +9,9 @@ use App\User;
 use App\Subject;
 use App\SubjectStudent;
 use App\Quiz;
+use App\Question;
+use App\Answer;
+use App\Choice;
 
 class TeacherController extends Controller
 {
@@ -114,5 +117,50 @@ class TeacherController extends Controller
 
     public function getSubjectQuizzes(Request $request) {
         return Quiz::where('subject_id', $request->subject_id)->get();
+    }
+
+    public function getQuiz($id)  {
+        $quiz = Quiz::find($id);
+        $quiz['due_date'] = date("Y-m-d\TH:i:s", strtotime($quiz->due_date));
+
+        $questions = $quiz->questions;
+        foreach ($questions as $question) {
+            $question->answers;
+            $question->choices;
+        }
+
+        $quiz['questions'] = $questions;
+        return $quiz;
+    }
+
+    public function updateQuestion(Request $request) {
+        $type = $request->type;
+        $question = Question::find($request->question_id);
+        $question->text = $request->question;
+        $question->save();
+
+        switch ($type) {
+            case 'true_or_false':
+                $answer = Answer::find($question->answers->first()->id);
+                $answer->text = $request->answer;
+                $answer->save();
+                break;
+            
+            case 'multiple_choice':
+                $answer = Answer::find($question->answers->first()->id);
+                $answer->text = $request->answer;
+                $answer->save();
+                $choices = $question->choices;
+
+                foreach ($choices as $i => $choice) {
+                    $choice->text = json_decode($request->choices)[$i];
+                    $choice->save();
+                }
+                break;
+        }
+    }
+
+    public function deleteQuestion(Request $request) {
+        Question::destroy($request->question_id);
     }
 }

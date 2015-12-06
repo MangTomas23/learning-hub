@@ -16,8 +16,233 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       :host {
         display: block;
       }
+
+      paper-material {
+        background: #FFF;
+        padding: 12px;
+      }
+
+      .due-date {
+        padding: 8px 0;
+      }
+
+      .due-date label {
+        -webkit-font-smoothing: antialiased;
+        color: rgb(114, 114, 114);
+        display: block;
+        font-family: Roboto, Noto, sans-serif;
+        font-size: 12px;
+        font-weight: normal;
+        height: 20px;
+        letter-spacing: 0.132px;
+        line-height: 20px;
+        overflow-x: hidden;
+        overflow-y: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 233.5px;
+
+      }
+
+      .due-date input {
+        border: none;
+        color: #212121;
+        font-family: 'Roboto', 'Noto', sans-serif;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
+        height: 24px;
+        border-bottom: 1px solid rgb(114,114,114);
+        width: 100%;
+      }
+
+      paper-dropdown-menu {
+        margin-left: -8px;
+      }
+
+      .item {
+        padding: 8px 0px;
+      }
+
+      .item + .item {
+        border-top: 1px solid var(--divider-color);
+      }
+
+      .item .question {
+        margin: 0px;
+      }
+
+      .item p {
+        font-size: 0.9em;
+        margin: 0px;
+      }
+
+      .item p:first-child {
+        font-size: 1em;
+        margin-bottom: 2px;
+      }
+
+      .item ul {
+        margin: 0px;
+        list-style-type: square;
+        margin-left: -20px;
+        font-size: 0.9em;
+      }
+
+      
+      #dlgMultipleChoice {
+        width: 420px;
+        overflow-y: auto|scroll;
+        overflow-x: hidden;
+      }
+
+      .options {
+        position: absolute;
+        right: 3px;
+        top: 1px;
+        font-size: 0.7em;
+      }
+
+      .options a {
+        color: var(--default-primary-color);
+        text-decoration: none;
+        cursor: pointer;
+      }
+
+      paper-dialog {
+        background: #FFF;
+        position: fixed;
+        overflow-x: hidden; 
+        overflow-y: auto|scroll; 
+      }
+
+      #dlgTrueOrFalse {
+        width: 320px;
+      }
     </style>
-    <div>Hello from <span>{{foo}}</span></div>
+    
+    <paper-material>
+      <paper-input class="input" label="Title" value="{{ title }}"></paper-input>
+      <paper-textarea class="input" label="Notes" value="{{ notes }}"></paper-textarea>
+      <div class="horizontal layout flex wrap">
+        <paper-input class="input" class="flex" type="number" label="Duration in Minutes" 
+        value="{{ duration }}"></paper-input>
+        <div class="due-date flex">
+          <label>Due Date</label>
+          <input class="input" id="dueDate" type="datetime-local" value="{{ due_date }}">
+        </div>
+      </div>
+      <paper-dropdown-menu label="Status" placeholder="Open" >
+        <paper-menu class="dropdown-content" selected="{{ status }}" attr-for-selected="data-value">
+          <paper-item data-value="open">Open</paper-item>
+          <paper-item data-value="close">Close</paper-item>
+        </paper-menu>
+      </paper-dropdown-menu>
+    </paper-material>
+
+    <paper-material class="testpaper-container">
+      <div id="testPaper">
+        <iron-list items="{{ quiz.questions }}" as="question">
+          <template>
+            <div class="item">
+              <div class="options">
+                <a on-tap="edit" data-index="{{ index }}">Edit</a>
+                <a on-tap="delete" data-index="{{ index }}">Delete</a>
+              </div>
+              <p class="question">Question #<span>{{ getNumber(index) }}</span>: 
+                <span>{{question.text}}</span></p>
+              <p class="answer">Answer: <span>{{ getAnswer(question.answers) }}</span></p>
+
+              <template is="dom-if" if="{{ isMultipleChoice(question.type) }}">
+                <p class="choice">Choices: </p>
+
+                <ol type="A">
+                  <template is="dom-repeat" items="{{question.choices}}">
+                    <li>{{ item.text }}</li>
+                  </template>
+                </ol>
+              </template>
+            </div>
+          </template>
+        </iron-list>
+      </div>
+    </paper-material>
+
+
+    <paper-dialog id="dlgTrueOrFalse" opened>
+      <h2>True or False</h2>
+      <div class="content">
+        <paper-textarea id="question" label="Question" value="{{ question }}"></paper-textarea>
+        <p>Correct Answer</p>
+        <paper-radio-group selected="{{ answer }}">
+          <paper-radio-button name="true">True</paper-radio-button>
+          <paper-radio-button name="false">False</paper-radio-button>
+        </paper-radio-group>
+      </div>
+      <div class="buttons">
+        <paper-button dialog-dismiss>Cancel</paper-button>
+        <paper-button dialog-confirm on-tap="confirmTF">Confirm</paper-button>
+      </div>
+    </paper-dialog>
+
+    <paper-dialog id="dlgMultipleChoice" entry-animation="scale-up-animation"
+                  exit-animation="fade-out-animation">
+      <h2>Multiple Choice</h2>
+      <div>
+        <paper-textarea label="Question" value="{{ question }}"></paper-textarea>
+        
+        <p class="labels">Choices: </p>
+        <paper-input class="choice" label="A" value="{{ ch0 }}"></paper-input>
+        <paper-input class="choice" label="B" value="{{ ch1 }}"></paper-input>
+        <paper-input class="choice" label="C" value="{{ ch2 }}"></paper-input>
+        <paper-input class="choice" label="D" value="{{ ch3 }}"></paper-input>
+        <p class="labels">Correct Answer: </p>
+        <paper-radio-group selected="{{ answer }}" class="horizontal layout justified">
+            <paper-radio-button name="A">A</paper-radio-button>
+            <paper-radio-button name="B">B</paper-radio-button>
+            <paper-radio-button name="C">C</paper-radio-button>
+            <paper-radio-button name="D">D</paper-radio-button>
+        </paper-radio-group>
+      </div>
+      <div class="buttons">
+        <paper-button dialog-dismiss>Cancel</paper-button>
+        <paper-button dialog-confirm on-tap="confirmMC">Confirm</paper-button>
+      </div>
+    </paper-dialog>
+
+    <paper-dialog id="dlgDeleteQuestion">
+      <h2></h2>
+      <p>Are you sure you want to delete this question?</p>
+      <div class="buttons">
+        <paper-button dialog-dismiss>Cancel</paper-button>
+        <paper-button dialog-confirm on-tap="confirmDelete">Confirm</paper-button>
+      </div>
+    </paper-dialog>
+
+    <iron-ajax
+      id="ajaxGetQuiz"
+      handle-as="json"
+      last-response="{{ quiz }}"
+      on-response="handleResponse"
+      debounce-duration="300"></iron-ajax>
+
+    <iron-ajax
+      id="ajaxUpdateQuestion"
+      url="/api/teacher/update/question"
+      method="put"
+      on-response="handleUpdateQuestion"
+      debounce-duration="300"></iron-ajax>
+    
+    <iron-ajax
+      id="ajaxDeleteQuestion"
+      url="/api/teacher/delete/question"
+      method="delete"
+      handle-as="json"
+      on-response="handleDeleteQuestion"
+      debounce-duration="300"></iron-ajax>
+    
   </template>
   <script>
   (function() {
@@ -27,12 +252,127 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       is: 'edit-quiz',
 
       properties: {
-        foo: {
-          type: String,
-          value: 'edit-quiz',
+        selectedIndex: Number,
+        quiz: {
+          type: Object,
           notify: true
         }
+      },
+
+      handleResponse: function() {
+        var quiz = this.quiz;
+        this.title = quiz.title;
+        this.notes = quiz.notes;
+        this.duration = quiz.duration;
+        this.due_date = quiz.due_date;
+        this.status = quiz.status;
+      },
+
+      refresh: function() {
+        var ajax = this.$.ajaxGetQuiz;
+        ajax.url = '/api/teacher/quiz/' + app.quizId;
+        ajax.generateRequest();
+      },
+
+
+      isMultipleChoice: function(type) {
+        return type == 'multiple_choice';
+      },
+
+      getNumber: function(index) {
+        return index + 1;
+      },
+
+      goBack: function() {
+        app.route = 'subject-section';
+      },
+
+      getAnswer: function(ans) {
+        return ans[0].text;
+      },
+
+      edit: function(e) {
+        var index = e.path[0].dataIndex;
+        var question = this.quiz.questions[index]; 
+        this.selectedIndex = index;
+
+        this.question = question.text;
+
+        switch(question.type) {
+          case 'true_or_false': 
+            this.answer = question.answers[0].text;
+            this.$.dlgTrueOrFalse.open();
+            break;
+          case 'multiple_choice':
+            var choices = question.choices;
+            this.ch0 = choices[0].text;
+            this.ch1 = choices[1].text;
+            this.ch2 = choices[2].text;
+            this.ch3 = choices[3].text;
+            this.answer = question.answers[0].text;
+            this.$.dlgMultipleChoice.open();
+            break;
+        }
+      },
+
+      delete: function(e) {
+        var index = e.path[0].dataIndex;
+        this.selectedIndex = index;
+
+        this.$.dlgDeleteQuestion.open();
+      },
+
+      confirmTF: function() {
+        var ajax = this.$.ajaxUpdateQuestion;
+        var question = this.quiz.questions[this.selectedIndex];
+
+        ajax.params = {
+          question: this.question,
+          answer: this.answer,
+          type: question.type,
+          question_id: question.id
+        };
+
+        ajax.generateRequest();
+      },
+
+      handleUpdateQuestion: function() {
+        this.refresh();
+      },
+
+      confirmDelete: function() {
+        var ajax = this.$.ajaxDeleteQuestion;
+        ajax.params = {
+          question_id: this.quiz.questions[this.selectedIndex].id
+        };
+
+        ajax.generateRequest();
+      },
+
+      handleDeleteQuestion: function() {
+        this.refresh();
+      },
+
+      confirmMC: function() {
+        var ajax = this.$.ajaxUpdateQuestion;
+        var question = this.quiz.questions[this.selectedIndex];
+        var choices = [];
+        choices[0] = this.ch0;
+        choices[1] = this.ch1;
+        choices[2] = this.ch2;
+        choices[3] = this.ch3;
+
+        ajax.params = {
+          question_id: question.id,
+          question: this.question,
+          type: question.type,
+          answer: this.answer,
+          choices: JSON.stringify(choices)
+        };
+
+        ajax.generateRequest();        
       }
+      
     });
   })();
   </script>

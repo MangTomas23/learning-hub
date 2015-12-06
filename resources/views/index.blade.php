@@ -269,7 +269,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
               <section data-route="edit-quiz">
                 <template is="dom-if" if="@{{ isTeacher() }}">
-                  <h3>Edit quiz</h3>
                   <edit-quiz quiz-id="@{{ quizId }}"></edit-quiz>
                 </template>
               </section>

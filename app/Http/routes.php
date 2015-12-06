@@ -24,6 +24,9 @@ Route::group(['prefix' => 'api'], function()
     Route::get('teacher/students', 'TeacherController@getStudents');
     Route::get('teacher/subjects', 'TeacherController@getSubjects');
     Route::get('teacher/subject/quizzes', 'TeacherController@getSubjectQuizzes');
+    Route::get('teacher/quiz/{id}', 'TeacherController@getQuiz');
+    Route::put('teacher/update/question', 'TeacherController@updateQuestion');
+    Route::delete('teacher/delete/question', 'TeacherController@deleteQuestion');
     Route::post('authenticate', 'AuthenticateController@authenticate');
     Route::put('user/password', 'UserController@changePassword');
     Route::get('student/subjects', 'StudentController@getSubjects');
