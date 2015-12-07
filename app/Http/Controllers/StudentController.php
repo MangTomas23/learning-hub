@@ -115,8 +115,8 @@ class StudentController extends Controller
         $subjects = SubjectStudent::select('subject_id')
             ->where('user_id',$request->user_id)->get();
         $quizzes = Quiz::whereIn('subject_id', $subjects)->get();
-        foreach ($quizzes as $i => $quiz) {
-            $quiz['subject'] = Subject::find($quiz->subject_id);
+        foreach ($quizzes as $quiz) {
+            $quiz->subject;
         }
 
         return $quizzes;
@@ -126,13 +126,8 @@ class StudentController extends Controller
         $questions = Question::where('quiz_id', $id)->get();
 
         foreach ($questions as $question) {
-            if($question->type == 'multiple_choice') {
-                $choices = json_decode(Choice::where('question_id', 
-                                $question->id)->get());
-
-                $answer = json_decode(Answer::where('question_id', $question->id)->get());
-                $question['choices'] = array_merge($choices, $answer);
-            }
+            $question->answers;
+            $question->choices;
         }
 
         return $questions;
@@ -140,12 +135,30 @@ class StudentController extends Controller
 
     public function submitQuiz($id, Request $request) {
         $quiz = Quiz::find($id);
-        $questions = $quiz->questions;
+        $data = json_decode($request->data);
+        $correctAnswer = 0;
 
-        foreach($questions as $question) {
-            $question->answers;
-            $question->choices;
+        //checking starts here....
+        foreach ($data as  $d) {
+            $question = Question::find($d->question);
+
+            switch ($question->type) {
+                case 'true_or_false':
+                    if($question->answers[0]->text == $d->answer) {
+                        $correctAnswer++;
+                    }
+                    break;
+                case 'multiple_choice':
+                    if($question->answers[0]->choice_id == $d->answer) {
+                        $correctAnswer++;
+                    }
+                    break;
+                
+            }
         }
-        return $questions;
+
+        $result = ['correct_answer' => $correctAnswer];
+
+        return $result;
     }
 }

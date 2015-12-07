@@ -51,20 +51,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       
         <iron-list items="[[data]]" as="question">
           <template>
-            <div class="items">
+            <div class="items" data-question="{{ question.id}}" 
+                               data-answer="{{ answer }}">
               <p class="question">
                 <span>{{ getNumber(index) }}</span>
                 <span>{{ question.text }}</span>
               </p>
 
               <template is="dom-if" if="{{ isTrueOrFalse(question.type) }}">
-                <paper-radio-group>
+                <paper-radio-group selected="{{ answer }}">
                   <paper-radio-button name="true">true</paper-radio-button>
                   <paper-radio-button name="false">false</paper-radio-button>
                 </paper-radio-group>
               </template>
               <template is="dom-if" if="{{ isMultipleChoice(question.type) }}">
-                <paper-radio-group>
+                <paper-radio-group selected="{{ answer }}">
                   <template is="dom-repeat" items="{{ question.choices }}">
                     <paper-radio-button class="choices" name="{{ item.id }}">{{ item.text }}</paper-radio-button>
                   </template>
@@ -89,6 +90,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <paper-button dialog-confirm on-tap="confirmSubmit">Confirm</paper-button>
       </div>
     </paper-dialog>
+
+    <iron-ajax
+      id="ajaxSendAnswers"
+      method="post"
+      handle-as="json"
+      on-response="handleSendAnswers"
+      last-response="{{ resultData }}"
+      debounce-duration="300"></iron-ajax>
 
   </template>
   <script>
@@ -128,7 +137,28 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       confirmSubmit: function() {
-        app.route = 'quiz-result';
+        var ajax = this.$.ajaxSendAnswers;
+        var items = this.querySelectorAll('.items');
+        var data = [];
+        for(var x=0;x<items.length;x++) {
+          data.push({
+            question: items[x].dataQuestion,
+            answer: items[x].dataAnswer
+          });
+        }
+
+        ajax.url = '/api/student/submit/quiz/' + app.quizId;
+        ajax.params = {
+          data: JSON.stringify(data)
+        };
+
+        ajax.generateRequest();
+
+        // app.route = 'quiz-result';
+      },
+
+      handleSendAnswers: function() {
+        console.log(this.resultData);
       }
       
     });
