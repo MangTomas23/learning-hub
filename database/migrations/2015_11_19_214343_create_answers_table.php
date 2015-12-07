@@ -18,6 +18,7 @@ class CreateAnswersTable extends Migration
             $table->integer('question_id')->unsigned()->nullable();
             $table->foreign('question_id')->on('questions')->references('id')->onDelete('cascade');
             $table->string('text')->nullable();
+            $table->integer('choice_id')->unsigned()->nullable();
         });
     }
 
