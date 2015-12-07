@@ -272,6 +272,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                   <edit-quiz quiz-id="@{{ quizId }}"></edit-quiz>
                 </template>
               </section>
+
+              <section data-route="quiz-result">
+                <template is="dom-if" if="@{{ isStudent() }}">
+                  <student-quiz-result></student-quiz-result>
+                </template>
+              </section>
+
+
               
               <quiz-page data-route="quiz-page"></quiz-page>
 

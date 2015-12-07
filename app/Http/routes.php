@@ -32,6 +32,8 @@ Route::group(['prefix' => 'api'], function()
     Route::get('student/subjects', 'StudentController@getSubjects');
     Route::get('student/quizzes', 'StudentController@getQuizzes');
     Route::get('student/quiz/{id}', 'StudentController@getQuiz');
+    Route::post('student/submit/quiz/{id}', 'StudentController@submitQuiz');
+
 
     
     Route::resource('authenticate', 'AuthenticateController', ['only' => ['index']]);

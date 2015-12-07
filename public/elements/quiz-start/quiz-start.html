@@ -86,7 +86,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       proceeding.</p>
       <div class="buttons">
         <paper-button dialog-dismiss>Cancel</paper-button>
-        <paper-button dialog-confirm>Confirm</paper-button>
+        <paper-button dialog-confirm on-tap="confirmSubmit">Confirm</paper-button>
       </div>
     </paper-dialog>
 
@@ -125,6 +125,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       openDlgSubmit: function() {
         this.$.dlgSubmit.open();
+      },
+
+      confirmSubmit: function() {
+        app.route = 'quiz-result';
       }
       
     });

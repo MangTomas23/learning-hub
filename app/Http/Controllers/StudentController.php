@@ -137,4 +137,15 @@ class StudentController extends Controller
 
         return $questions;
     }
+
+    public function submitQuiz($id, Request $request) {
+        $quiz = Quiz::find($id);
+        $questions = $quiz->questions;
+
+        foreach($questions as $question) {
+            $question->answers;
+            $question->choices;
+        }
+        return $questions;
+    }
 }
