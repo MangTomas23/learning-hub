@@ -157,7 +157,10 @@ class StudentController extends Controller
             }
         }
 
-        $result = ['correct_answer' => $correctAnswer];
+        $result = [
+            'correct_answer' => $correctAnswer, 
+            'no_of_items' => sizeof($data)
+            ];
 
         return $result;
     }
