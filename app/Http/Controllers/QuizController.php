@@ -60,20 +60,34 @@ class QuizController extends Controller
             $question->quiz_id = $quiz->id;
             $question->type = $q->type;
             $question->save();
-
-
-            if($q->type == 'multiple_choice') {
-                foreach ($q->choices as $i => $c) {
-                    $choice = new Choice;
-                    $choice->text = $c;
-                    $choice->question_id = $question->id;
-                    $choice->save();
-                }
-                
-            }
-            
             $answer = new Answer;
-            $answer->text = $q->answer;
+
+            switch ($q->type) {
+                case 'true_or_false':
+                    $answer->text = $q->answer;
+                    break;
+                case 'multiple_choice':
+                    $letters = ['A','B','C','D'];
+
+                    foreach ($q->choices as $i => $c) {
+                        $choice = new Choice;
+                        $choice->text = $c;
+                        $choice->question_id = $question->id;
+                        $choice->save();
+
+                        if($q->answer == $letters[$i]) {
+                            $answer->text = $q->answer;
+                            $answer->choice_id = $choice->id;
+                        }
+                    }
+
+                    break;
+                
+                default:
+                    # code...
+                    break;
+            }
+                
             $answer->question_id = $question->id;
             $answer->save();
         }
