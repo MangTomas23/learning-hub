@@ -16,8 +16,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       :host {
         display: block;
       }
+
+      paper-material {
+        padding: 12px;
+        background: #FFF;
+      }
+
+      .score {
+        text-align: center;
+      }
     </style>
-    <div>Hello from <span>{{foo}}</span></div>
+    <paper-material>
+      <h3>Results: </h3>
+      <h1 class="score"> 
+        <span>{{ resultData.correct_answer }}</span>
+        <span>/</span>
+        <span>{{ resultData.no_of_items }}</span>
+      </h1>
+      <paper-button on-tap="back">Back</paper-button>
+    </paper-material>
   </template>
   <script>
   (function() {
@@ -27,11 +44,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       is: 'student-quiz-result',
 
       properties: {
-        foo: {
-          type: String,
-          value: 'student-quiz-result',
-          notify: true
-        }
+        resultData: Object
+      },
+
+      back: function() {
+        app.route = 'start-quiz';
+      },
+
+      initializeResults: function() {
+        this.resultData = app.resultData;
       }
     });
   })();

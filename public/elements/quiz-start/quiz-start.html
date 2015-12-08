@@ -153,12 +153,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         };
 
         ajax.generateRequest();
-
-        // app.route = 'quiz-result';
       },
 
       handleSendAnswers: function() {
         app.resultData = this.resultData;
+        app.route = 'quiz-result';
+        document.querySelector('student-quiz-result').initializeResults();
       }
       
     });
