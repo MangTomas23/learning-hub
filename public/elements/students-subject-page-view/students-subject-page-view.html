@@ -16,6 +16,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       :host {
         display: block;
       }
+      .no-quiz {
+        display: none;
+      }
+
+      :host[no-quiz] .no-quiz{
+        display: block;
+      }
+
 
       paper-material {
         padding: 12px;
@@ -25,12 +33,32 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       paper-material p{
         margin: 0px;
       }
+
+      #lmContainer {
+        min-height: 120px;
+      }
     </style>
 
     <paper-material>
       <h3>{{ subject.subject_code }}</h3>   
       <p>{{ subject.description }}</p>
       <p>Teacher: <span>{{ teacher }}</span></p>
+
+      <h4>Learning Materials</h4>
+      <div id="lmContainer">
+        <p>No learning materials posted yet.</p>        
+      </div>
+
+      <h4>Quizzes</h4>
+      
+      <p class="no-quiz">No quiz available.</p>
+      <template is="dom-repeat" items="{{subject.quizzes}}" as="quiz">
+        <div class="item">
+          <p>{{ quiz.title }}</p>
+        </div>
+      </template>
+
+
 
     </paper-material>
 
@@ -53,6 +81,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         subjectId: {
           type: Number,
           observer: 'subjectChange'
+        },
+
+        noQuiz: {
+          type: Boolean,
+          reflectToAttribute: true,
+          notify: true
         }
       },
 
@@ -69,6 +103,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           teacher.firstname, 
           teacher.middlename, 
           teacher.lastname].join(' ');
+
+        this.noQuiz = this.subject.quizzes.length == 0;
       }
 
 
