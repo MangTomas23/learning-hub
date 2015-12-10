@@ -50,6 +50,7 @@ class QuizController extends Controller
         $quiz->duration = $request->duration;
         $quiz->status = $request->status;
         $quiz->due_date = $request->due_date;
+        $quiz->attempts = $request->attempts;
         $quiz->save();
 
         $questions = $request->questions;
@@ -134,7 +135,15 @@ class QuizController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $quiz = Quiz::find($id);
+        $quiz->title = $request->title;
+        $quiz->notes = $request->notes;
+        $quiz->duration = $request->duration;
+        $quiz->status = $request->status;
+        $quiz->due_date = $request->due_date;
+        $quiz->attempts = $request->attempts;
+        
+        return ['response' => $quiz->save() ? 'success':'failed'];        
     }
 
     /**

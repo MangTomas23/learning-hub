@@ -20,7 +20,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       paper-material {
         background: #FFF;
         padding: 12px;
+        padding-top: 26px;
+        margin-bottom: 10px;
       }
+
+
 
       .due-date {
         padding: 8px 0;
@@ -121,25 +125,57 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       #dlgTrueOrFalse {
         width: 320px;
       }
+
+      paper-icon-button[icon="arrow-back"] {
+        position: absolute;
+        left: 0;
+        top: 0;
+      }
+
+      paper-dropdown-menu + paper-input {
+        margin-top: 8px;
+      }
+
+      .note{
+        font-size: 0.7em;
+      }
+
+      paper-toast {
+        z-index: 1;
+      }
     </style>
     
     <paper-material>
-      <paper-input class="input" label="Title" value="{{ title }}"></paper-input>
-      <paper-textarea class="input" label="Notes" value="{{ notes }}"></paper-textarea>
+      <paper-icon-button icon="arrow-back" on-tap="back"></paper-icon-button>
+      <paper-input class="input" label="Title" 
+                   value="{{ title }}"></paper-input>
+      <paper-textarea class="input" 
+                      label="Notes" value="{{ notes }}"></paper-textarea>
       <div class="horizontal layout flex wrap">
-        <paper-input class="input" class="flex" type="number" label="Duration in Minutes" 
-        value="{{ duration }}"></paper-input>
+        <paper-input class="input" class="flex" type="number" 
+                     label="Duration in Minutes" 
+                     value="{{ duration }}"></paper-input>
         <div class="due-date flex">
           <label>Due Date</label>
-          <input class="input" id="dueDate" type="datetime-local" value="{{ due_date }}">
+          <input class="input" id="dueDate" type="datetime-local" 
+                 value="{{ due_date }}">
         </div>
       </div>
-      <paper-dropdown-menu label="Status" placeholder="Open" >
-        <paper-menu class="dropdown-content" selected="{{ status }}" attr-for-selected="data-value">
-          <paper-item data-value="open">Open</paper-item>
-          <paper-item data-value="close">Close</paper-item>
-        </paper-menu>
-      </paper-dropdown-menu>
+      <div class="horizontal layout">
+        <paper-dropdown-menu class="flex" label="Status" placeholder="Open" >
+          <paper-menu class="dropdown-content" selected="{{ status }}" 
+                      attr-for-selected="data-value">
+            <paper-item data-value="open">Open</paper-item>
+            <paper-item data-value="close">Close</paper-item>
+          </paper-menu>
+        </paper-dropdown-menu>
+        <paper-input class="input flex" label="Attempts" value="{{ attempts }}" 
+                     type="number"></paper-input>
+      </div>
+      <p class="note">*Please save the quiz details first before modifying the questions. 
+         Questions are saved automatically</p>
+      <p class="note">*0 attempts = unlimited attempts</p>
+      <paper-button raised on-tap="updateQuiz">Save Quiz Details</paper-button>
     </paper-material>
 
     <paper-material class="testpaper-container">
@@ -221,6 +257,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </div>
     </paper-dialog>
 
+    <paper-toast id="toastSuccess" text="Updated Succesfully."></paper-toast>
+
     <iron-ajax
       id="ajaxGetQuiz"
       handle-as="json"
@@ -241,6 +279,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       method="delete"
       handle-as="json"
       on-response="handleDeleteQuestion"
+      debounce-duration="300"></iron-ajax>
+
+    <iron-ajax
+      id="ajaxUpdateQuiz"
+      method="put"
+      handle-as="json"
+      on-response="handleUpdateQuiz"
+      last-response="{{ updateQuizData }}"
       debounce-duration="300"></iron-ajax>
     
   </template>
@@ -266,6 +312,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         this.duration = quiz.duration;
         this.due_date = quiz.due_date;
         this.status = quiz.status;
+        this.attempts = quiz.attempts;
       },
 
       refresh: function() {
@@ -371,6 +418,32 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         };
 
         ajax.generateRequest();        
+      },
+
+      back: function() {
+        app.route = 'subject-section';
+      },
+
+      handleUpdateQuiz: function() {
+        if(this.updateQuizData.response == 'success') {
+          this.$.toastSuccess.show();
+        }
+      },
+
+      updateQuiz: function() {
+        var datetime = this.querySelector('#dueDate').value;
+        var ajax = this.$.ajaxUpdateQuiz;
+        ajax.url = '/api/quiz/' + app.quizId;
+        ajax.params = {
+          title: this.title,
+          note: this.note,
+          duration: this.duration,
+          status: this.status,
+          due_date: datetime,
+          attempts: this.attempts
+        };
+
+        ajax.generateRequest();
       }
       
     });

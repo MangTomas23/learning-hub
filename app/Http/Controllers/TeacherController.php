@@ -139,25 +139,29 @@ class TeacherController extends Controller
         $question->text = $request->question;
         $question->save();
 
+        $answer = Answer::find($question->answers->first()->id);
+
         switch ($type) {
             case 'true_or_false':
-                $answer = Answer::find($question->answers->first()->id);
                 $answer->text = $request->answer;
-                $answer->save();
                 break;
-            
             case 'multiple_choice':
-                $answer = Answer::find($question->answers->first()->id);
                 $answer->text = $request->answer;
-                $answer->save();
                 $choices = $question->choices;
 
+                $letters = ['A','B','C','D'];
                 foreach ($choices as $i => $choice) {
                     $choice->text = json_decode($request->choices)[$i];
                     $choice->save();
+
+                    if($request->answer == $letters[$i]) {
+                        $answer->choice_id = $choice->id;
+                    }
                 }
                 break;
         }
+        
+        $answer->save();
     }
 
     public function deleteQuestion(Request $request) {

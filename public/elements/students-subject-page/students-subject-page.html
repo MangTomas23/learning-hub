@@ -49,7 +49,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <iron-list items="[[data]]" as="subject">
         <template>
           <div class="list">
-            <a href="">[[ subject.code ]]</a>
+            <a href="{{ getURL(subject.id) }}">[[ subject.code ]]</a>
             <div class="horizontal layout justified">
               <p>[[ subject.description ]]</p>
               <p>Teacher: <span>[[ subject.teacher ]]</span></p>
@@ -88,6 +88,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         return {
           user_id: jwt_decode(localStorage.token).id
         };
+      },
+
+      getURL: function(id) {
+        return '/subjects/' + id;
       },
 
       handleResponse: function() {

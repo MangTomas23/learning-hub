@@ -213,6 +213,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                   <teacher-subjects-page-view subject-id="@{{ params.id }}">
                   </teacher-subjects-page-view>
                 </template>
+
+                <template is="dom-if" if="@{{ isStudent() }}">
+                  <students-subject-page-view subject-id="@{{ params.id }}">
+                  </students-subject-page-view>
+                </template>
               </section>
 
               <section data-route="student">

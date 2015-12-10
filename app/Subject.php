@@ -11,6 +11,10 @@ class Subject extends Model
     }
 
     public function teacher() {
-    	return $this->hasOne('App\User');
+    	return $this->belongsTo('App\User', 'user_id');
+    }
+
+    public function quizzes() {
+    	return $this->hasMany('App\Quiz');
     }
 }

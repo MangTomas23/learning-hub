@@ -84,7 +84,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       properties: {
         subjectId: {
           type: Number,
-          notify: true
+          notify: true,
+          observer: 'subjectChanged'
         },
 
         params: {
@@ -125,6 +126,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       setQuizId: function(id) {
         this.quizId = id;
+      },
+
+      subjectChanged: function() {
+        this.refreshList();
       }
 
     });
