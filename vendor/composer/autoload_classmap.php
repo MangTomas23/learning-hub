@@ -13,6 +13,7 @@ return array(
     'AddTypeToUsersTable' => $baseDir . '/database/migrations/2015_10_15_170713_add_type_to_users_table.php',
     'AddUsnToUsers' => $baseDir . '/database/migrations/2015_10_16_160014_add_usn_to_users.php',
     'CreateAnswersTable' => $baseDir . '/database/migrations/2015_11_19_214343_create_answers_table.php',
+    'CreateAttemptsTable' => $baseDir . '/database/migrations/2015_12_13_051151_create_attempts_table.php',
     'CreateChoicesTable' => $baseDir . '/database/migrations/2015_11_22_113422_create_choices_table.php',
     'CreatePasswordResetsTable' => $baseDir . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
     'CreateQuestionsTable' => $baseDir . '/database/migrations/2015_11_19_194438_create_questions_table.php',

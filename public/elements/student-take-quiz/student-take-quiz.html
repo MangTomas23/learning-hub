@@ -50,15 +50,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </style>
 
     <paper-material>
-      <h3>{{ data.title }}</h3>
-      <p class="notes">{{ data.notes }}</p>
+      <h3>{{ quiz.title }}</h3>
+      <p class="notes">{{ quiz.notes }}</p>
       <div class="details horizontal layout justified">
-        <p>Duration: <span>{{ data.duration }}</span> mins.</p>
-        <p>Due Date: <span>{{ data.due_date }}</span></p>
-        <p>Status: <span>{{ data.status }}</span></p>
+        <p>Duration: <span>{{ quiz.duration }}</span> mins.</p>
+        <p>Due Date: <span>{{ quiz.due_date }}</span></p>
+        <p>Status: <span>{{ quiz.status }}</span></p>
+      </div>
+      <div class="details">
+        <p>Attempts: <span>{{ quiz.attempts }}</span></p>
+        <p>Attempts Taken: <span>{{ attempts.taken }}</span></p>
       </div>
       <div class="start-container">
-        <paper-button class="start" on-tap="showStartDlg" raised>Start</paper-button>
+        <paper-button id="btnStart" class="start" on-tap="showStartDlg" 
+                      raised>Start</paper-button>
       </div>
     </paper-material>
     <paper-dialog id="dlgStart" modal>
@@ -75,7 +80,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       url="{{ url }}"
       handle-as="json"
       on-response="handleResponse"
-      last-response="{{ data }}"
+      last-response="{{ quiz }}"
+      debounce-duration="300"></iron-ajax>
+
+    <iron-ajax
+      id="ajaxGetAttempts"
+      handle-as="json"
+      last-response="{{ attempts }}"
       debounce-duration="300"></iron-ajax>
   </template>
   <script>
@@ -89,7 +100,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         quizId: {
           type: Number,
           reflectToAttribute: true,
-          notify: true
+          observer: 'idChanged'
         },
 
         url: {
@@ -98,7 +109,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       handleResponse: function() {
-        // console.log(this.data);
+        if(this.quiz.status == 'close') {
+          this.$.btnStart.setAttribute('disabled', true);
+        }
+
+        if(this.quiz.attempts != 0) {
+          if(this.quiz.attempts == this.attempts.taken) {
+            this.$.btnStart.setAttribute('disabled', true);
+          }
+        }
       },
 
       _url: function(quizId) {
@@ -113,6 +132,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         app.route = 'start-quiz';
         app.quizId = this.quizId;
         app.startQuiz();
+      },
+      
+      idChanged: function() {
+        var ajax = this.$.ajaxGetAttempts;        
+
+        ajax.url = '/api/attempt/' + this.quizId; 
+        ajax.params = {
+          user_id: jwt_decode(localStorage.token).id
+        };
+
+        ajax.generateRequest();
       }
     });
   })();

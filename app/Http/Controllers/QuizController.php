@@ -9,6 +9,7 @@ use App\Quiz;
 use App\Question;
 use App\Answer;
 use App\Choice;
+use App\Attempt;
 
 class QuizController extends Controller
 {

@@ -43,6 +43,7 @@ Route::group(['prefix' => 'api'], function()
     Route::resource('user', 'UserController');
     Route::resource('subject', 'SubjectController');
     Route::resource('quiz', 'QuizController');
+    Route::resource('attempt', 'AttemptController');
 
 });
 Route::get('/record/user', function(Request $request) {

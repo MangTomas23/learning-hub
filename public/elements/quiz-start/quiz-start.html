@@ -99,6 +99,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       last-response="{{ resultData }}"
       debounce-duration="300"></iron-ajax>
 
+    <iron-ajax
+      id="ajaxAttempt"
+      method="post"
+      handle-as="json"
+      debounce-duration="300"></iron-ajax>
+
+
   </template>
   <script>
   (function() {
@@ -118,6 +125,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           token: localStorage.token
         };
         ajax.generateRequest();        
+
+        this.attemptQuiz();
       },
 
       getNumber: function(index) {
@@ -162,6 +171,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         app.resultData = this.resultData;
         app.route = 'quiz-result';
         document.querySelector('student-quiz-result').initializeResults();
+      },
+
+      attemptQuiz: function() {
+        var ajax = this.$.ajaxAttempt;
+        ajax.url = '/api/attempt';
+
+        ajax.params = {
+          token: localStorage.token,
+          student_id: jwt_decode(localStorage.token).id,
+          quiz_id: app.quizId
+        };
+
+        ajax.generateRequest();
       }
       
     });
