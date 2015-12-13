@@ -156,11 +156,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           });
         }
 
-        console.log('fucking data');
         console.log(data);
 
         ajax.url = '/api/student/submit/quiz/' + app.quizId;
         ajax.params = {
+          quiz_id: app.quizId,
+          user_id: jwt_decode(localStorage.token).id,
           data: JSON.stringify(data)
         };
 

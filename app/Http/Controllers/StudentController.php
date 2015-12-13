@@ -12,6 +12,7 @@ use App\User;
 use App\Question;
 use App\Choice;
 use App\Answer;
+use App\Result;
 
 class StudentController extends Controller
 {
@@ -165,11 +166,19 @@ class StudentController extends Controller
             }
         }
 
-        $result = [
+        $r = [
             'correct_answer' => $correctAnswer, 
             'no_of_items' => sizeof($data)
             ];
 
-        return $result;
+        $result = new Result;
+
+        $result->quiz_id = $request->quiz_id;
+        $result->user_id = $request->user_id;
+        $result->result_data = $request->data;
+        $result->score = $correctAnswer;
+        $result->save();
+
+        return $r;
     }
 }
