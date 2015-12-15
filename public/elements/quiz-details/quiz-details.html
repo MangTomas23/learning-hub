@@ -25,6 +25,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       p {
         margin: 0px;
       }
+
+      .theader {
+        border-bottom: 1px solid var(--divider-color);
+      }
+
+      .theader p{
+        font-weight: bold;
+        margin-top: 12px;
+      }
+
+      .item {
+        padding: 3px 0;
+      }
     </style>
     <paper-material>
       <h3 class="title">[[ quiz.title ]]</h3>
@@ -40,14 +53,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </div>
       <p>No of Items: <span>[[ quiz.no_of_items ]]</span></p>
       
-      <div class="horizontal layout justified">
-        <h3>Name</h3>
-        <h3>Score</h3>
+      <div class="horizontal layout justified theader">
+        <p>Name</p>
+        <p>Score</p>
       </div>
       <template is="dom-repeat" items="{{ quiz.results }}" as="result">
-        <div class="horizontal layout justified">
-          <h4>{{ getFullname(result.student) }}</h4>
-          <h4>{{ result.score }}</h4>
+        <div class="horizontal layout justified item">
+          <p>{{ getFullname(result.student) }}</p>
+          <p>{{ result.score }}</p>
         </div>
       </template>
 
