@@ -15,6 +15,7 @@ return array(
     'CreateAnswersTable' => $baseDir . '/database/migrations/2015_11_19_214343_create_answers_table.php',
     'CreateAttemptsTable' => $baseDir . '/database/migrations/2015_12_13_051151_create_attempts_table.php',
     'CreateChoicesTable' => $baseDir . '/database/migrations/2015_11_22_113422_create_choices_table.php',
+    'CreateLearningMaterialsTable' => $baseDir . '/database/migrations/2015_12_15_053006_create_learning_materials_table.php',
     'CreatePasswordResetsTable' => $baseDir . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
     'CreateQuestionsTable' => $baseDir . '/database/migrations/2015_11_19_194438_create_questions_table.php',
     'CreateQuizzesTable' => $baseDir . '/database/migrations/2015_11_05_063004_create_quizzes_table.php',
