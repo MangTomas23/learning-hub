@@ -167,4 +167,16 @@ class TeacherController extends Controller
     public function deleteQuestion(Request $request) {
         Question::destroy($request->question_id);
     }
+
+    public function getResults($id) {
+
+        $quiz = Quiz::find($id);
+        $quiz->no_of_items = $quiz->questions->count();
+        $quiz->results;
+        foreach ($quiz->results as $result) {
+            $result->student;
+        }
+
+        return $quiz;
+    }
 }

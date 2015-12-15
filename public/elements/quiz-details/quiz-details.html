@@ -39,6 +39,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <p>Due Date: <span>[[ quiz.due_date ]]</span> </p>
       </div>
       <p>No of Items: <span>[[ quiz.no_of_items ]]</span></p>
+      
+      <div class="horizontal layout justified">
+        <h3>Name</h3>
+        <h3>Score</h3>
+      </div>
+      <template is="dom-repeat" items="{{ quiz.results }}" as="result">
+        <div class="horizontal layout justified">
+          <h4>{{ getFullname(result.student) }}</h4>
+          <h4>{{ result.score }}</h4>
+        </div>
+      </template>
 
     </paper-material>
 
@@ -65,7 +76,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       _url: function(quizId) {
-        return ['/api/quiz', quizId].join('/');
+        return ['/api/teacher/quiz/results', quizId].join('/');
+      },
+
+      getFullname: function(o) {
+        return [o.firstname, o.middlename, o.lastname].join(' ');
       }
 
 
