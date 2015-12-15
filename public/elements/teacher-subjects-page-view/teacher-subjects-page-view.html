@@ -86,10 +86,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       paper-dialog {
         background: #FFF;
+        position: fixed;
       }
 
       paper-toast {
         z-index: 1;
+      }
+
+      select {
+        display: block;
+        width: 100%;  
+        padding: 3px;
+      }
+
+      .hide {
+        display: none;
       }
     </style>
 
@@ -123,6 +134,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <paper-material>
       <h3>Learning Materials</h3>
+
+      <paper-button raised on-tap="showAddLM">ADD</paper-button>
     </paper-material>
 
     <paper-fab icon="add"></paper-fab>
@@ -164,6 +177,29 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <paper-button dialog-confirm on-tap="deleteSubject">Confirm</paper-button>
       </div>
     </paper-dialog>
+
+    <paper-dialog id="dlgAddLearningMaterial">
+      <h2>Add</h2>
+      <div>
+        <label>Type</label>
+        <select id="uploadType" on-change="uploadTypeChanged">
+          <option value="url">URL</option>
+          <option value="file">File</option>
+        </select>
+        <paper-input label="Title"></paper-input>
+              
+        <template is="dom-if" if="{{ isURL }}">
+          <paper-input id="url" label="URL"></paper-input>
+        </template>
+        <template is="dom-if" if="{{ isFile }}">
+          <input type="file" name="File" id="file" on-change="{{setFiles}}">
+        </template>
+      </div>     
+      <div class="buttons">
+        <paper-button dialog-dismiss>Cancel</paper-button>
+      <paper-button dialog-confirm on-tap="deleteSubject">Confirm</paper-button>
+      </div>
+    </paper-dialog>
     
     <iron-ajax
       id="updateAjax"
@@ -183,8 +219,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       on-response="handleDeleteResponse"
       debounce-duration="300"></iron-ajax>
 
-    <paper-toast id="toastSuccess" text="Quiz created succesfully.">
-      </paper-toast>
+    <paper-toast id="toastSuccess" 
+                 text="Quiz created succesfully."></paper-toast>
 
   </template>
   <script>
@@ -202,7 +238,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         },
         url: {
           computed: 'computeUrl(subjectId)'
-        }
+        },
+        isURL: Boolean,
+        isFile: Boolean
       },
 
       listeners: {
@@ -273,6 +311,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         };
 
         this.$.deleteAjax.generateRequest();
+      },
+
+      showAddLM: function() {
+        this.$.dlgAddLearningMaterial.open();        
+      }, 
+
+      uploadTypeChanged: function() {
+        console.log(this.$.uploadType.value);
+        if(this.$.uploadType.value == 'url') {
+          this.isFile = false;
+          this.isURL = true;
+        }else {
+          this.isURL = false;
+          this.isFile = true;
+        }
       }
     });
   })();
