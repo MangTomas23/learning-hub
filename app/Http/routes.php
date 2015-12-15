@@ -45,6 +45,7 @@ Route::group(['prefix' => 'api'], function()
     Route::resource('subject', 'SubjectController');
     Route::resource('quiz', 'QuizController');
     Route::resource('attempt', 'AttemptController');
+    Route::resource('material', 'LearningMaterialsController');
 
 });
 Route::get('/record/user', function(Request $request) {

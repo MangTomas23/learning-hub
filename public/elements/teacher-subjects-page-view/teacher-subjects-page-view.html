@@ -186,18 +186,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <option value="url">URL</option>
           <option value="file">File</option>
         </select>
-        <paper-input label="Title"></paper-input>
+        <paper-input label="Title" value="{{ title }}"></paper-input>
               
         <template is="dom-if" if="{{ isURL }}">
-          <paper-input id="url" label="URL"></paper-input>
+          <paper-input id="url" label="URL" value="{{ uploadURL }}"></paper-input>
         </template>
         <template is="dom-if" if="{{ isFile }}">
-          <input type="file" name="File" id="file" on-change="{{setFiles}}">
+          <input type="file" name="File" id="file" on-change="setFiles">
         </template>
       </div>     
       <div class="buttons">
         <paper-button dialog-dismiss>Cancel</paper-button>
-      <paper-button dialog-confirm on-tap="deleteSubject">Confirm</paper-button>
+      <paper-button dialog-confirm on-tap="upload">Confirm</paper-button>
       </div>
     </paper-dialog>
     
@@ -218,6 +218,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       last-response="{{ deleteData }}"
       on-response="handleDeleteResponse"
       debounce-duration="300"></iron-ajax>
+
+    <iron-ajax
+      id="ajaxUpload"
+      method="post"
+      url="/api/material/"
+      handle-as="text"
+      on-response="handleUpload"
+      last-response="{{ uploadData }}"
+      debounce-duration="300"></iron-ajax>
+
 
     <paper-toast id="toastSuccess" 
                  text="Quiz created succesfully."></paper-toast>
@@ -326,6 +336,36 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           this.isURL = false;
           this.isFile = true;
         }
+      },
+
+      setFiles: function(e, detail, sender) {
+        console.log(sender);
+        console.log(e);
+        console.log(detail);
+        var formData = new FormData();
+        var files = e.path[0].files;
+        for (var i = 0, f; f = files[i]; ++i) {
+          formData.append('upload', f, f.name);
+        }
+
+        this.$.ajaxUpload.body = formData;
+        this.$.ajaxUpload.contentType = null;
+      },
+
+      upload: function() {
+        var ajax = this.$.ajaxUpload;
+        ajax.params = {
+          title: this.title,
+          subject_id: this.subjectId,
+          type: this.$.uploadType.value,
+          url: this.uploadURL || ''
+        };
+
+        ajax.generateRequest();
+      },
+
+      handleUpload: function() {
+        console.log(this.uploadData);        
       }
     });
   })();
