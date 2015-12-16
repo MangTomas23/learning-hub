@@ -33,10 +33,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       .theader p{
         font-weight: bold;
         margin-top: 12px;
+        font-size: 0.9em;
       }
 
       .item {
         padding: 3px 0;
+      }
+
+      h4 + .theader {
+        margin-bottom: 4px;
       }
     </style>
     <paper-material>
@@ -53,6 +58,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </div>
       <p>No of Items: <span>[[ quiz.no_of_items ]]</span></p>
       
+      <h4>Result: </h4>
+
       <div class="horizontal layout justified theader">
         <p>Name</p>
         <p>Score</p>

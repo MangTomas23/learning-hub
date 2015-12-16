@@ -12,6 +12,8 @@ use App\Quiz;
 use App\Question;
 use App\Answer;
 use App\Choice;
+use App\Result;
+use DB;
 
 class TeacherController extends Controller
 {
@@ -172,9 +174,11 @@ class TeacherController extends Controller
 
         $quiz = Quiz::find($id);
         $quiz->no_of_items = $quiz->questions->count();
-        $quiz->results;
-        foreach ($quiz->results as $result) {
-            $result->student;
+        $quiz['results'] = DB::table('results')->select(DB::raw('id, max(score) as score, quiz_id, user_id'))
+                            ->groupBy('user_id')->orderBy('score')->get();
+        foreach ($quiz['results'] as $result) {
+
+            $result->student = User::find($result->user_id);
         }
 
         return $quiz;

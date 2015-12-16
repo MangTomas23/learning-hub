@@ -43,23 +43,33 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         margin: 0px;
       }
 
+      h3 {
+        margin-bottom: 3px;
+      }
+
       #lmContainer {
         min-height: 120px;
       }
 
-      .lm {
-        padding: 3px;
+      .lm, .item {
+        padding: 8px;
       }
 
-      .lm a {
-        color: var(--default-primary-color);
-        text-decoration: none;
+      .lm + .lm, .item + .item {
+        border-top: 1px solid var(--divider-color);
       }
 
-      .item a {
+      .lm a, .item a {
         color: var(--default-primary-color);
         text-decoration: none;
+        font-size: 1.1em;
       }
+
+      .lm p, .item p {
+        font-size: 0.8em;
+      }
+
+
     </style>
 
     <paper-material>
@@ -73,7 +83,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         <template is="dom-repeat" items="{{ subject.learning_materials }}">
           <div class="lm">
-            <a href="{{ item.url }}">{{ item.title }}</a>
+            <a href="{{ item.url }}" target="_blank">{{ item.title }}</a>
+            <div class="horizontal layout justified">
+              <p>Date Uploaded: <span>{{ item.created_at }}</span></p>
+              <p>type: <span>{{ item.type }}</span></p>
+            </div>
           </div>
         </template>
 
@@ -85,6 +99,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <template is="dom-repeat" items="{{subject.quizzes}}" as="quiz">
         <div class="item">
           <a href="{{ _setUrl(quiz.id) }}">{{ quiz.title }}</a>
+          <div class="horizontal layout justified">
+            <p>Due Date: <span>{{ quiz.due_date }}</span></p>
+            <p>Status: <span>{{ quiz.status }}</span></p>
+          </div>
         </div>
       </template>
 

@@ -135,6 +135,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
       
       idChanged: function() {
+        this.refresh();
+      },
+
+      refresh: function() {
         var ajax = this.$.ajaxGetAttempts;        
 
         ajax.url = '/api/attempt/' + this.quizId; 

@@ -94,30 +94,29 @@ class StudentController extends Controller
 
     public function getSubject($id) {
         $subject = Subject::find($id);
-        $subject['teacher'] = $subject->teacher;
+        $subject->teacher;
         $subject->learningMaterials;
         $subject->quizzes;
         return $subject;
     }
 
     public function getSubjects(Request $request) {
-        $subjects = SubjectStudent::where('user_id',$request->user_id)->get();
-        foreach ($subjects as $i => $subject) {
-            $s = Subject::find($subject->subject_id);
-            $subject['code'] = $s->subject_code;
-            $subject['description'] = $s->description;
+        $subjectStudents = SubjectStudent::where('user_id',$request->user_id)->get();
+        foreach ($subjectStudents as $subjectStudent) {
 
-            $t = User::find($s->user_id);
+            $subjectStudent->subject;
+
+            $t = $subjectStudent->subject->teacher;
             $firstname = $t->firstname;
             $middlename = $t->middlename;
             $lastname = $t->lastname;
 
             $fullname = $firstname . ' ' . $middlename . ' ' . $lastname;
 
-            $subject['teacher'] = $fullname;
+            $subjectStudent['teacher'] = $fullname;
         }
 
-        return $subjects;
+        return $subjectStudents;
     }
 
     public function getQuizzes(Request $request) {
