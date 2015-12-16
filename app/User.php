@@ -41,4 +41,8 @@ class User extends Model implements AuthenticatableContract,
     public function subjects() {
         return $this->hasMany('App\Subject');
     }
+
+    public function temporaryPassword() {
+        return $this->hasOne('App\temporaryPassword');
+    }
 }

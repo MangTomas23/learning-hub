@@ -75,6 +75,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <p>LASTNAME</p>
         <p>FIRSTNAME</p>
         <p>MIDDLENAME</p>
+        <p>TEMPORARY PASSWORD</p>
       </div>
 
       <iron-list items="[[ response ]]" as="user">
@@ -89,6 +90,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 middlename="[[ user.middlename ]]"
                 lastname="[[ user.lastname ]]"
                 usn="[[ user.usn ]]"
+                temp="[[ user.temporary_password.password ]]"
                 ></user-list-item>
             </div>
           </div>

@@ -9,6 +9,7 @@ use App\User;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Hash;
+use App\TemporaryPassword;
 
 class UserController extends Controller
 {
@@ -26,7 +27,12 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $type = $request->type;
-        return User::where('type', $request->type)->get();
+        $users = User::where('type', $request->type)->get(); 
+
+        foreach ($users as $user) {
+            $user->temporaryPassword;
+        }
+        return $users;
     }
 
     /**
@@ -58,6 +64,11 @@ class UserController extends Controller
 
         $r = array();
         $r['response'] = $user->save() ? 'success':'failed';
+
+        $temp = new TemporaryPassword;
+        $temp->user_id = $user->id;
+        $temp->password = $request->password;
+        $temp->save();
         return $r;
     }
 

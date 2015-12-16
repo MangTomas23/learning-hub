@@ -101,6 +101,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <p>{{ lastname }}</p>
       <p>{{ firstname }}</p>
       <p>{{ middlename }}</p>
+      <p>{{ temp }}</p>
     </div>
     
     <iron-ajax
@@ -128,7 +129,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         firstname: String,
         middlename: String,
         lastname: String,
-        usn: String
+        usn: String,
+        temp: String
       },
 
      showDialog: function() {
@@ -138,6 +140,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           firstname: this.firstname,
           middlename: this.middlename,
           lastname: this.lastname,
+          temp: this.temp,
         };
         var dlgEdits = document.querySelectorAll('user-list #dlgEdit');
         var userLists = document.querySelectorAll('user-list');
