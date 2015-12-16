@@ -62,7 +62,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <p>Attempts Taken: <span>{{ attempts.taken }}</span></p>
       </div>
       <div class="start-container">
-        <paper-button id="btnStart" class="start" on-tap="showStartDlg" 
+        <paper-button id="btnStart" class="start" on-mouseover="check" on-tap="showStartDlg" 
                       raised>Start</paper-button>
       </div>
     </paper-material>
@@ -109,15 +109,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       handleResponse: function() {
-        if(this.quiz.status == 'close') {
-          this.$.btnStart.setAttribute('disabled', true);
-        }
-
-        if(this.quiz.attempts != 0) {
-          if(this.quiz.attempts == this.attempts.taken) {
-            this.$.btnStart.setAttribute('disabled', true);
-          }
-        }
+        this.check();
       },
 
       _url: function(quizId) {
@@ -147,6 +139,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         };
 
         ajax.generateRequest();
+      },
+
+      check: function() {
+        if(this.quiz.status == 'close') {
+          this.$.btnStart.setAttribute('disabled', true);
+        }
+
+        if(this.quiz.attempts != 0) {
+          if(this.attempts.taken >= this.quiz.attempts) {
+            this.$.btnStart.setAttribute('disabled', true);
+          }
+        }
       }
     });
   })();
