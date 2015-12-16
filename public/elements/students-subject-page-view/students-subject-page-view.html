@@ -16,11 +16,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       :host {
         display: block;
       }
+
       .no-quiz {
         display: none;
       }
 
       :host[no-quiz] .no-quiz{
+        display: block;
+      }
+
+      :host[has-learning-materials] .no-lm{
+        display: none;
+      }
+
+      .no-lm {
         display: block;
       }
 
@@ -37,6 +46,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       #lmContainer {
         min-height: 120px;
       }
+
+      .lm {
+        padding: 3px;
+      }
+
+      .lm a {
+        color: var(--default-primary-color);
+        text-decoration: none;
+      }
+
+      .item a {
+        color: var(--default-primary-color);
+        text-decoration: none;
+      }
     </style>
 
     <paper-material>
@@ -46,7 +69,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       <h4>Learning Materials</h4>
       <div id="lmContainer">
-        <p>No learning materials posted yet.</p>        
+        <p class="no-lm">No learning materials posted yet.</p>
+
+        <template is="dom-repeat" items="{{ subject.learning_materials }}">
+          <div class="lm">
+            <a href="{{ item.url }}">{{ item.title }}</a>
+          </div>
+        </template>
+
       </div>
 
       <h4>Quizzes</h4>
@@ -54,10 +84,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <p class="no-quiz">No quiz available.</p>
       <template is="dom-repeat" items="{{subject.quizzes}}" as="quiz">
         <div class="item">
-          <p>{{ quiz.title }}</p>
+          <a href="{{ _setUrl(quiz.id) }}">{{ quiz.title }}</a>
         </div>
       </template>
-
 
 
     </paper-material>
@@ -87,8 +116,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           type: Boolean,
           reflectToAttribute: true,
           notify: true
+        }, 
+
+        hasLearningMaterials: {
+          type: Boolean,
+          reflectToAttribute: true
         }
       },
+
+      observers: [
+        'lmChanged(subject.learning_materials)'
+      ],
 
       subjectChange: function() {
         var ajax = this.$.ajaxGetSubject;
@@ -105,8 +143,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           teacher.lastname].join(' ');
 
         this.noQuiz = this.subject.quizzes.length == 0;
-      }
+      },
 
+      lmChanged: function() {
+        this.hasLearningMaterials = this.subject.learning_materials.length != 0;
+      },
+
+      _setUrl: function(id) {
+        return ['/quiz', id].join('/');
+      }
 
     });
   })();

@@ -102,6 +102,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       .hide {
         display: none;
       }
+
+      .lm {
+        padding: 3px;
+      }
+
+      .lm a {
+        color: var(--default-primary-color);
+        text-decoration: none;
+      }
     </style>
 
     <paper-material>
@@ -134,6 +143,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <paper-material>
       <h3>Learning Materials</h3>
+        
+      <template is="dom-repeat" items="{{ learningMaterialsData }}">
+        <div class="lm">
+          <a href="{{ item.url }}" target="_blank">{{ item.title }}</a>
+        </div>
+      </template>
 
       <paper-button raised on-tap="showAddLM">ADD</paper-button>
     </paper-material>
@@ -223,9 +238,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       id="ajaxUpload"
       method="post"
       url="/api/material/"
-      handle-as="text"
+      handle-as="json"
       on-response="handleUpload"
       last-response="{{ uploadData }}"
+      debounce-duration="300"></iron-ajax>
+
+    <iron-ajax
+      id="ajaxLoadLearningMaterials"
+      handle-as="json"
+      last-response="{{ learningMaterialsData }}"
+      on-response="handleLearningMaterials"
       debounce-duration="300"></iron-ajax>
 
 
@@ -249,9 +271,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         url: {
           computed: 'computeUrl(subjectId)'
         },
-        isURL: Boolean,
-        isFile: Boolean
+        isURL: {
+          value: true
+        },
+
+        isFile: Boolean,
       },
+
+      observers: [
+        'subjectChange(subjectId)'
+      ],
 
       listeners: {
         'btnAddStudent.tap': '_dlgAddStudent',
@@ -365,7 +394,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       handleUpload: function() {
-        console.log(this.uploadData);        
+        this.loadMaterials();
+      },
+
+      handleLearningMaterials: function() {
+        console.log(this.learningMaterialsData);       
+      },
+
+      subjectChange: function() {
+        this.loadMaterials();
+      },
+
+      loadMaterials: function() {
+        var ajax = this.$.ajaxLoadLearningMaterials;
+        ajax.url = ['/api/material', this.subjectId].join('/');
+        ajax.generateRequest();
       }
     });
   })();

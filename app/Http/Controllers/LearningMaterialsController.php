@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\LearningMaterial;
+use App\Subject;
 
 class LearningMaterialsController extends Controller
 {
@@ -16,7 +17,7 @@ class LearningMaterialsController extends Controller
      */
     public function index()
     {
-        return LearningMaterial::all();
+
     }
 
     /**
@@ -57,7 +58,7 @@ class LearningMaterialsController extends Controller
                 break;
         }
 
-        ;
+        
         return ['response' => $learningMaterial->save() ? 'success':'failed'];    
     }
 
@@ -69,7 +70,7 @@ class LearningMaterialsController extends Controller
      */
     public function show($id)
     {
-        //
+        return Subject::find($id)->learningMaterials;
     }
 
     /**
