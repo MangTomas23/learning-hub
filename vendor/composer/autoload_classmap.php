@@ -22,6 +22,7 @@ return array(
     'CreateResultsTable' => $baseDir . '/database/migrations/2015_12_13_074632_create_results_table.php',
     'CreateSubjectStudentsTable' => $baseDir . '/database/migrations/2015_10_29_141428_create_subject_students_table.php',
     'CreateSubjectsTable' => $baseDir . '/database/migrations/2015_10_16_100238_create_subjects_table.php',
+    'CreateTemporaryPasswordsTable' => $baseDir . '/database/migrations/2015_12_16_173529_create_temporary_passwords_table.php',
     'CreateUsersTable' => $baseDir . '/database/migrations/2014_10_12_000000_create_users_table.php',
     'DatabaseSeeder' => $baseDir . '/database/seeds/DatabaseSeeder.php',
     'File_Iterator' => $vendorDir . '/phpunit/php-file-iterator/src/Iterator.php',
