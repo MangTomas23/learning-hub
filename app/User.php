@@ -43,6 +43,6 @@ class User extends Model implements AuthenticatableContract,
     }
 
     public function temporaryPassword() {
-        return $this->hasOne('App\temporaryPassword');
+        return $this->hasOne('App\TemporaryPassword');
     }
 }
