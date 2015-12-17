@@ -31,7 +31,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   }
 
   app.notifUrl = function() {
-    return '/api/student/notifications/' + jwt_decode(localStorage.token).id;
+    if(this.isAuthenticated()) {
+      return '/api/student/notifications/' + jwt_decode(localStorage.token).id;
+    }
   }
 
   // Listen for template bound event to know when bindings
