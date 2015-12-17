@@ -51,7 +51,7 @@ class LearningMaterialsController extends Controller
             case 'file':
                 $destination = join('/', array('learning-materials', $request->subject_id));
                 $filename = $request->file('upload')->getClientOriginalName();
-                $learningMaterial->url = $destination + $filename;
+                $learningMaterial->url = join('/', array($destination, $filename));
                 if ($request->hasFile('upload')) {
                     $request->file('upload')->move($destination, $filename);
                 }
