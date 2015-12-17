@@ -197,6 +197,6 @@ class StudentController extends Controller
             }
         }
 
-        return $availableQuiz;
+        return ['response' => $availableQuiz] ;
     }
 }

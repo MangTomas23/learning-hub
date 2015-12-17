@@ -30,6 +30,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     return false;
   }
 
+  app.notifUrl = function() {
+    return '/api/student/notifications/' + jwt_decode(localStorage.token).id;
+  }
+
   // Listen for template bound event to know when bindings
   // have resolved and content has been stamped to the page
   app.addEventListener('dom-change', function() {

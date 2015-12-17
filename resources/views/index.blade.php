@@ -123,6 +123,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               <a data-route="quiz" href="/quiz" on-click="onDataRouteClick">
                 <iron-icon icon="assignment"></iron-icon>
                 <span>My Quizzes</span>
+                <span class="notif">@{{ notif.response }}</span>
               </a>
 
               <a data-route="settings" href="/settings" on-click="onDataRouteClick">
@@ -334,6 +335,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </platinum-sw-cache>
     </platinum-sw-register>
     -->
+
+    <iron-ajax
+        auto
+        url="@{{ notifUrl() }}"
+        handle-as="json"
+        last-response="@{{ notif }}"
+        debounce-duration="300"></iron-ajax>
+
 
   </template>
 

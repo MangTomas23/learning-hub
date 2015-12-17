@@ -20,3 +20,13 @@ body {
 	top: 4px;
 	color: #FFF;
 }
+
+.notif {
+	width: 20px;	
+	height: 20px;	
+	border-radius: 100%;
+	color: #FFF;
+	background: #448AFF;
+	text-align: center;
+	margin-left: 50px;
+}
