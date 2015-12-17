@@ -13,6 +13,7 @@ use App\Question;
 use App\Choice;
 use App\Answer;
 use App\Result;
+use App\Attempt;
 
 class StudentController extends Controller
 {
@@ -179,5 +180,23 @@ class StudentController extends Controller
         $result->save();
 
         return $r;
+    }
+
+    public function getNotifications($id) {
+        $availableQuiz = 0;
+
+        $ss = SubjectStudent::where('user_id', $id)->get();
+        foreach ($ss as $s) {
+            $subject = $s->subject;
+            $quizzes = $subject->quizzes;
+            $availableQuiz += $quizzes->count();
+
+            foreach ($quizzes as $q) {
+                $attempts = Attempt::where(['user_id' => $id, 'quiz_id'=>$q->id])->groupBy('quiz_id')->count();
+                $availableQuiz -= $attempts;
+            }
+        }
+
+        return $availableQuiz;
     }
 }

@@ -17,4 +17,8 @@ class Quiz extends Model
     public function results() {
     	return $this->hasMany('App\Result');
     }
+
+    public function noAttempts() {
+        return $this->hasMany('App\Attempt', 'quiz_id');
+    }
 }

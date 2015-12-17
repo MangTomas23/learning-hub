@@ -36,6 +36,7 @@ Route::group(['prefix' => 'api'], function()
     Route::get('student/quizzes', 'StudentController@getQuizzes');
     Route::get('student/quiz/{id}', 'StudentController@getQuiz');
     Route::post('student/submit/quiz/{id}', 'StudentController@submitQuiz');
+    Route::get('student/notifications/{id}', 'StudentController@getNotifications');
 
     Route::post('authenticate', 'AuthenticateController@authenticate');
     Route::put('user/password', 'UserController@changePassword');

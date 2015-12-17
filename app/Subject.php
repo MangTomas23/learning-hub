@@ -19,6 +19,10 @@ class Subject extends Model
     }
 
     public function learningMaterials() {
-    	return $this->hasMany('App\LearningMaterial');
+        return $this->hasMany('App\LearningMaterial');
+    }
+
+    public function attempts() {
+        return $this->hasMany('App\Attempt');
     }
 }
