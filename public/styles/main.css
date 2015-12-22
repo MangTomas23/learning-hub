@@ -30,3 +30,7 @@ body {
 	text-align: center;
 	margin-left: 50px;
 }
+
+.notif:empty {
+	display: none;
+}

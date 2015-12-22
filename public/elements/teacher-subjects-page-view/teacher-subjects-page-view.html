@@ -147,6 +147,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <template is="dom-repeat" items="{{ learningMaterialsData }}">
         <div class="lm">
           <a href="{{ item.url }}" target="_blank">{{ item.title }}</a>
+          <p>{{ item.created_at }}</p>
         </div>
       </template>
 

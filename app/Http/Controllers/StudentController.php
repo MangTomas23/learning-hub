@@ -139,7 +139,7 @@ class StudentController extends Controller
             $question->choices;
         }
 
-        return $questions;
+        return $questions->shuffle();
     }
 
     public function submitQuiz($id, Request $request) {
@@ -197,6 +197,7 @@ class StudentController extends Controller
             }
         }
 
-        return ['response' => $availableQuiz] ;
+        // return ['response' => ''] ;
+        return ['response' => $availableQuiz==0 ? '':$availableQuiz] ;
     }
 }
