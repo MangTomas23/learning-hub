@@ -10,6 +10,7 @@ return array(
     'AddDueDate' => $baseDir . '/database/migrations/2015_11_19_190847_add_due_date.php',
     'AddFirstnameLastnameToUsersTable' => $baseDir . '/database/migrations/2015_10_15_171539_add_firstname_lastname_to_users_table.php',
     'AddForeignKeyToSubjectsTable' => $baseDir . '/database/migrations/2015_10_21_083923_add_foreign_key_to_subjects_table.php',
+    'AddPointsToQuestions' => $baseDir . '/database/migrations/2016_01_05_045811_add_points_to_questions.php',
     'AddTypeToUsersTable' => $baseDir . '/database/migrations/2015_10_15_170713_add_type_to_users_table.php',
     'AddUsnToUsers' => $baseDir . '/database/migrations/2015_10_16_160014_add_usn_to_users.php',
     'CreateAnswersTable' => $baseDir . '/database/migrations/2015_11_19_214343_create_answers_table.php',
