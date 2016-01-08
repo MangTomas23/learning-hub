@@ -64,15 +64,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <p>Name</p>
         <p>Score</p>
       </div>
-      <template is="dom-repeat" items="{{ quiz.results }}" as="result">
-        <div class="horizontal layout justified item">
-          <p>{{ getFullname(result.student) }}</p>
-          <p>{{ result.score }}</p>
-        </div>
+
+      <template is="dom-if" if="{{ isEmpty(quiz.results) }}">
+        <p>No results yet!</p>      
       </template>
 
-    </paper-material>
-
+      <template is="dom-if" if="{{ !isEmpty(quiz.results) }}">
+        <template is="dom-repeat" items="{{ quiz.results }}" as="result">
+          <div class="horizontal layout justified item">
+            <p>{{ getFullname(result.student) }}</p>
+            <p>{{ result.score }}</p>
+          </div>
+        </template>
+      </template>
     <iron-ajax
       auto
       url="{{url}}"
@@ -101,6 +105,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       getFullname: function(o) {
         return [o.firstname, o.middlename, o.lastname].join(' ');
+      },
+
+      isEmpty: function(o) {
+        return o.length == 0;
       }
 
 
