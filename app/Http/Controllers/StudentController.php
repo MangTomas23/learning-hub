@@ -146,6 +146,8 @@ class StudentController extends Controller
         $quiz = Quiz::find($id);
         $data = json_decode($request->data);
         $correctAnswer = 0;
+        $points = 0;
+        $total = $quiz->questions->sum('points');
 
         //checking starts here....
         foreach ($data as  $d) {
@@ -155,11 +157,13 @@ class StudentController extends Controller
                 case 'true_or_false':
                     if($question->answers[0]->text == $d->answer) {
                         $correctAnswer++;
+                        $points += $question->points;
                     }
                     break;
                 case 'multiple_choice':
                     if($question->answers[0]->choice_id == $d->answer) {
                         $correctAnswer++;
+                        $points += $question->points;
                     }
                     break;
                 
@@ -168,7 +172,10 @@ class StudentController extends Controller
 
         $r = [
             'correct_answer' => $correctAnswer, 
-            'no_of_items' => sizeof($data)
+            'no_of_items' => sizeof($data),
+            'points' => $points,
+            'total' => $total,
+            'mistakes' => count($quiz->questions) - $correctAnswer
             ];
 
         $result = new Result;

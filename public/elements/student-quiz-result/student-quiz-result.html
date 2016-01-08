@@ -29,10 +29,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <paper-material>
       <h3>Results: </h3>
       <h1 class="score"> 
-        <span>{{ resultData.correct_answer }}</span>
+        <span>{{ resultData.points }}</span>
         <span>/</span>
-        <span>{{ resultData.no_of_items }}</span>
+        <span>{{ resultData.total }}</span>
       </h1>
+      <p>Correct Answers: <span>{{ resultData.correct_answer }}</span></p>
+      <p>Mistakes: <span>{{ resultData.mistakes }}</span></p>
       <paper-button on-tap="back">Back</paper-button>
     </paper-material>
   </template>
