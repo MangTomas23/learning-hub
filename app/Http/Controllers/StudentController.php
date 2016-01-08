@@ -198,6 +198,6 @@ class StudentController extends Controller
         }
 
         // return ['response' => ''] ;
-        return ['response' => $availableQuiz==0 ? '':$availableQuiz] ;
+        return ['response' => $availableQuiz < 1 ? '':$availableQuiz] ;
     }
 }
