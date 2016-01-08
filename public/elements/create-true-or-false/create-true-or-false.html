@@ -35,11 +35,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </style>
 
     <paper-textarea id="question" label="Question" value="{{ question }}"></paper-textarea>
+    <paper-input label="Points" type="number" value="{{ points }}"></paper-input>
     <p>Correct Answer</p>
     <paper-radio-group selected="{{ answer }}">
       <paper-radio-button name="true">True</paper-radio-button>
       <paper-radio-button name="false">False</paper-radio-button>
     </paper-radio-group>
+
   </template>
   <script>
   (function() {
@@ -58,6 +60,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           type: Boolean,
           reflectToAttribute: true
         },
+
+        points: {
+          type: Number, 
+          reflectToAttribute: true
+        }
       }
     });
   })();

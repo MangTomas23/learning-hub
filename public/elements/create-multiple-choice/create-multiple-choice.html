@@ -42,7 +42,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </style>
 
     <paper-textarea label="Question" value="{{ question }}"></paper-textarea>
-    
+    <paper-input label="Points" value="{{ points }}" type="number"></paper-input>
+
     <p class="labels">Choices: </p>
     <paper-input class="choice" label="A" value="{{ ch0 }}"></paper-input>
     <paper-input class="choice" label="B" value="{{ ch1 }}"></paper-input>
@@ -92,6 +93,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         ch3: {
           type: String,
+          reflectToAttribute: true
+        },
+
+        points: {
+          type: Number,
           reflectToAttribute: true
         }
 

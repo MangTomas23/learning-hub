@@ -184,6 +184,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               <p class="question">Question #<span>{{ getNumber(index) }}</span>: 
                 <span>{{quiz.question}}</span></p>
               <p class="answer">Answer: <span>{{quiz.answer}}</span></p>
+              <p class="answer">Points: <span>{{ quiz.points }}</span></p>
 
               <template is="dom-if" if="{{ isMultipleChoice(quiz.type) }}">
                 <p class="choice">Choices: </p>
@@ -285,10 +286,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         var contents = "";
         var question = this.querySelector('create-true-or-false').getAttribute("question");
         var answer = this.querySelector('create-true-or-false').getAttribute("answer");
+        var points = this.querySelector('create-true-or-false').getAttribute("points");
 
         this.push('quizData', {
           question: question, 
           answer: answer,
+          points: points,
           type: 'true_or_false'
         });
       },
@@ -298,6 +301,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         var contents = "";
         var question = this.querySelector('create-multiple-choice').getAttribute("question");
         var answer = this.querySelector('create-multiple-choice').getAttribute("answer");
+        var points = this.querySelector('create-multiple-choice').getAttribute("points");
         var choices = [];
         for(var i=0;i<4;i++) {
           choices.push(this.querySelector('create-multiple-choice').getAttribute("ch" + i));
@@ -306,6 +310,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         this.push('quizData', {
           question: question, 
           answer: answer,
+          points: points,
           type: 'multiple_choice',
           choices: choices
         });
