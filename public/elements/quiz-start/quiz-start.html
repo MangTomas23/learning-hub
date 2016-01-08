@@ -39,6 +39,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         background: #FFF;
         position: fixed;
       }
+
+      .points {
+        font-size: 11px;
+        margin-top: 5px;
+      }
     </style>
     <paper-material>
       <paper-button on-tap="refresh"></paper-button>
@@ -57,6 +62,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 <span>{{ getNumber(index) }}</span>
                 <span>{{ question.text }}</span>
               </p>
+              <p class="points">[<span>{{ question.points  }}</span> points] </p>
 
               <template is="dom-if" if="{{ isTrueOrFalse(question.type) }}">
                 <paper-radio-group selected="{{ answer }}">
