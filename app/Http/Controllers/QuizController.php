@@ -61,6 +61,7 @@ class QuizController extends Controller
             $question->text = $q->question;
             $question->quiz_id = $quiz->id;
             $question->type = $q->type;
+            $question->points = $q->points;
             $question->save();
             $answer = new Answer;
 
