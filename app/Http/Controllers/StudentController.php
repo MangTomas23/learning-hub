@@ -175,7 +175,8 @@ class StudentController extends Controller
             'no_of_items' => sizeof($data),
             'points' => $points,
             'total' => $total,
-            'mistakes' => count($quiz->questions) - $correctAnswer
+            'mistakes' => count($quiz->questions) - $correctAnswer,
+            'percent' => round(($points / $total) * 100)
             ];
 
         $result = new Result;
