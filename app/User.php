@@ -9,13 +9,22 @@ use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Nicolaslopezj\Searchable\SearchableTrait;
 
 class User extends Model implements AuthenticatableContract,
                                     AuthorizableContract,
                                     CanResetPasswordContract
 {
     use Authenticatable, Authorizable, CanResetPassword;
+    use SearchableTrait;
 
+    protected $searchable = [
+        'columns' => [
+            'users.firstname' => 10,
+            'users.middlename' => 10,
+            'users.lastname' => 10,
+        ]
+    ];
     /**
      * The database table used by the model.
      *

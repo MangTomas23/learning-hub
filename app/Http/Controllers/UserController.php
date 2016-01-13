@@ -28,8 +28,11 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $type = $request->type;
-        $users = User::where('type', $request->type)->get(); 
-
+        if($request->has('search')) {
+            $users = User::search($request->search)->where('type', $request->type)->get();
+        }else{
+            $users = User::where('type', $request->type)->get(); 
+        }
         foreach ($users as $user) {
             $user->temporaryPassword;
         }
