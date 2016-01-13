@@ -21,6 +21,7 @@ Route::group(['prefix' => 'api'], function()
 {
     Route::get('subject/students', 'SubjectController@getStudents');
     Route::post('subject/students', 'SubjectController@addStudents');
+    Route::post('import', 'UserController@import');
 
     Route::get('teacher/students', 'TeacherController@getStudents');
     Route::get('teacher/subjects', 'TeacherController@getSubjects');
