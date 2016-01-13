@@ -25,9 +25,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       .score {
         text-align: center;
       }
+
+      .per {
+        font-size: 1.9em; 
+        text-align: center;
+      }
+
     </style>
     <paper-material>
       <h3>Results: </h3>
+      <h1 class="per"><span>{{ resultData.percent }}</span>%</h1>
       <h1 class="score"> 
         <span>{{ resultData.points }}</span>
         <span>/</span>
