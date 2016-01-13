@@ -146,7 +146,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
               <!-- Application name -->
             <div class="middle middle-container center horizontal layout">
-              <div class="app-name">AMACC Naga E-Learning Hub</div>
+              <div class="app-name"><img src="/images/logo.png" style="width: 50px; vertical-align: middle; margin-right: 12px">AMACC Naga E-Learning Hub</div>
             </div>
 
             <!-- Application sub title -->
