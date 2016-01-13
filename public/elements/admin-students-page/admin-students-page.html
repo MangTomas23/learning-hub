@@ -29,10 +29,46 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         z-index: 1;
       }
 
+      paper-material {
+        background: #FFF;
+        padding: 12px;
+        margin-top: 5px;
+      }
+
+      paper-material a {
+        text-decoration: none;
+        color: var(--default-primary-color);
+        display: block;
+        margin-bottom: 12px;
+      }
+
+      input {
+        display: block;
+      }
+
     </style>
     <user-list id="studentsList" type="student"></user-list>
     <add-user type="student"></add-user>
     <paper-fab id="fabAdd" icon="add" title="Add Student"></paper-fab>
+
+    <paper-material> 
+      <a href="/import.csv">Download Form</a>
+
+      <input type="file" name="File" id="file" on-change="setFiles">
+  
+      <div style="text-align: right">
+        <paper-button raised on-tap="upload">Import</paper-button>
+      </div>
+    </paper-material>
+
+    <iron-ajax
+      id="aUpload"
+      url="/api/import"
+      method="post"
+      handle-as="json"
+      on-response="handleResponse"
+      last-response="{{ data }}"
+      debounce-duration="300"></iron-ajax>
 
   </template>
   <script>
@@ -48,6 +84,31 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       addStudent: function() {
         this.querySelector('add-user').showDialog();
+      },
+
+      setFiles: function(e, detail, sender) {
+        var formData = new FormData();
+        var files = e.path[0].files;
+        for (var i = 0, f; f = files[i]; ++i) {
+          formData.append('upload', f, f.name);
+        }
+
+        this.$.aUpload.body = formData;
+        this.$.aUpload.contentType = null;
+      },
+
+      upload: function() {
+        var ajax = this.$.aUpload;
+        ajax.params = {
+          token: localStorage.token
+        };
+
+        ajax.generateRequest();
+      },
+
+      handleResponse: function() {
+        console.log(this.data);
+        document.querySelector('user-list #loadUsers').generateRequest();
       }
     });
   })();

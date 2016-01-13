@@ -132,6 +132,7 @@ class StudentController extends Controller
     }
 
     public function getQuiz($id) {
+        $quiz = Quiz::find($id);
         $questions = Question::where('quiz_id', $id)->get();
 
         foreach ($questions as $question) {
@@ -139,7 +140,8 @@ class StudentController extends Controller
             $question->choices;
         }
 
-        return $questions->shuffle();
+        $quiz['questions'] = $questions->shuffle();
+        return $quiz;
     }
 
     public function submitQuiz($id, Request $request) {

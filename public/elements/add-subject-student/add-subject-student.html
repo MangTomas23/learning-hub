@@ -40,7 +40,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <paper-dialog>
       <h2>Add Students</h2>
         <paper-dialog-scrollable>
-          <paper-input label="Search" type="search"></paper-input>
+          <paper-input label="Search" type="search" value="{{ query }}"></paper-input>
           <iron-list items="[[data]]" as="item">
             <template>
               <div>
@@ -67,6 +67,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       last-response="{{ data }}"
       debounce-duration="300"></iron-ajax>
 
+    <iron-ajax
+      id="search"
+      url="/api/user" 
+      handle-as="json"
+      last-response="{{ data }}"
+      debounce-duration="300"></iron-ajax>
     
     <iron-ajax
       id="addAjax"
@@ -92,18 +98,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           value: 0
         }
 
-
         // addParams: {
         //   computed: '_addParams(subjectId)'
         // }
       },
+
+      observers: [
+        'queryChanged(query)'
+      ],
 
       listeners: {
         'btnConfirm.tap': '_confirm'
       },
 
       params: function() {
-        return { token: localStorage.token, type: 'student' };
+        return { token: localStorage.token, type: 'student'};
       },
 
       openDialog: function() {
@@ -151,6 +160,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         this.querySelector('#addAjax').generateRequest();
         document.querySelector('students-list iron-ajax').generateRequest();
         document.querySelector('teacher-subjects-page-view').selected = 1;
+      },
+
+      queryChanged: function(query) {
+        var ajax = this.$.search;
+        ajax.params = {
+          token: localStorage.token,
+          type: 'student',
+          search: this.query
+        };
+
+        ajax.generateRequest();
       }
     });
   })();

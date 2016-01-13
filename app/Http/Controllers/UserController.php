@@ -10,6 +10,7 @@ use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Hash;
 use App\TemporaryPassword;
+use League\Csv\Reader;
 
 class UserController extends Controller
 {
@@ -27,8 +28,11 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $type = $request->type;
-        $users = User::where('type', $request->type)->get(); 
-
+        if($request->has('search')) {
+            $users = User::search($request->search)->where('type', $request->type)->get();
+        }else{
+            $users = User::where('type', $request->type)->get(); 
+        }
         foreach ($users as $user) {
             $user->temporaryPassword;
         }
@@ -137,5 +141,30 @@ class UserController extends Controller
         $user->password = Hash::make($request->new_password);
 
         return [ 'response' => $user->save() ? 'success':'failed' ];
+    }
+
+    public function import(Request $request) {
+        $request->file('upload')->move(public_path(), 'tempform.csv');
+        $reader = Reader::createFromPath(public_path() . '\tempform.csv');
+        $reader->setDelimiter(';');
+        $results = $reader->setOffset(1)->fetch();
+
+        foreach ($results as $row) {
+            $user = new User;
+            $user->usn = $row[0];
+            $user->firstname = $row[1];
+            $user->middlename = $row[2];
+            $user->lastname = $row[3];
+            $user->type = 'student';
+            $user->password = bcrypt($row[4]);
+            $user->save();
+
+            $temp = new TemporaryPassword;
+            $temp->user_id = $user->id;
+            $temp->password = $row[4];
+            $temp->save();
+        }
+
+        return ['response' => 'success'];
     }
 }
