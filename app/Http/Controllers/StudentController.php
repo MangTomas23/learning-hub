@@ -104,17 +104,21 @@ class StudentController extends Controller
     public function getSubjects(Request $request) {
         $subjectStudents = SubjectStudent::where('user_id',$request->user_id)->get();
         foreach ($subjectStudents as $subjectStudent) {
+            try{
 
-            $subjectStudent->subject;
+                $subjectStudent->subject;
 
-            $t = $subjectStudent->subject->teacher;
-            $firstname = $t->firstname;
-            $middlename = $t->middlename;
-            $lastname = $t->lastname;
+                $t = $subjectStudent->subject->teacher;
+                $firstname = $t->firstname;
+                $middlename = $t->middlename;
+                $lastname = $t->lastname;
 
-            $fullname = $firstname . ' ' . $middlename . ' ' . $lastname;
+                $fullname = $firstname . ' ' . $middlename . ' ' . $lastname;
 
-            $subjectStudent['teacher'] = $fullname;
+                $subjectStudent['teacher'] = $fullname;
+            }catch(\Exception $e) {
+
+            }
         }
 
         return $subjectStudents;
@@ -194,17 +198,21 @@ class StudentController extends Controller
 
     public function getNotifications($id) {
         $availableQuiz = 0;
+        try {
+            $ss = SubjectStudent::where('user_id', $id)->get();
+            foreach ($ss as $s) {
+                $subject = $s->subject;
+                $quizzes = $subject->quizzes;
+                $availableQuiz += $quizzes->count();
 
-        $ss = SubjectStudent::where('user_id', $id)->get();
-        foreach ($ss as $s) {
-            $subject = $s->subject;
-            $quizzes = $subject->quizzes;
-            $availableQuiz += $quizzes->count();
-
-            foreach ($quizzes as $q) {
-                $attempts = Attempt::where(['user_id' => $id, 'quiz_id'=>$q->id])->groupBy('quiz_id')->count();
-                $availableQuiz -= $attempts;
+                foreach ($quizzes as $q) {
+                    $attempts = Attempt::where(['user_id' => $id, 'quiz_id'=>$q->id])->groupBy('quiz_id')->count();
+                    $availableQuiz -= $attempts;
+                }
             }
+        }
+        catch(\Exception $e) {
+
         }
 
         // return ['response' => ''] ;
