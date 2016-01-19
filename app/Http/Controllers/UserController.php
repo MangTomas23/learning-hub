@@ -146,15 +146,15 @@ class UserController extends Controller
     public function import(Request $request) {
         $request->file('upload')->move(public_path(), 'tempform.csv');
         $reader = Reader::createFromPath(public_path() . '\tempform.csv');
-        $reader->setDelimiter(';');
+        // $reader->setDelimiter(';');
         $results = $reader->setOffset(1)->fetch();
 
         foreach ($results as $row) {
             $user = new User;
             $user->usn = $row[0];
-            $user->firstname = $row[1];
-            $user->middlename = $row[2];
-            $user->lastname = $row[3];
+            $user->lastname = $row[1];
+            $user->firstname = $row[2];
+            $user->middlename = $row[3];
             $user->type = 'student';
             $user->password = bcrypt($row[4]);
             $user->save();
