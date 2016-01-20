@@ -104,6 +104,7 @@ class LearningMaterialsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        LearningMaterial::destroy($id);
+        return ['response' => 'success'];
     }
 }

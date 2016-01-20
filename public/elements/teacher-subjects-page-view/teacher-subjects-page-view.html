@@ -145,9 +145,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <h3>Learning Materials</h3>
         
       <template is="dom-repeat" items="{{ learningMaterialsData }}">
-        <div class="lm">
-          <a href="{{ item.url }}" target="_blank">{{ item.title }}</a>
-          <p>{{ item.created_at }}</p>
+        <div class="lm horizontal layout" data-id="{{ item.id }}">
+          <div class="flex">
+            <a href="{{ item.url }}" target="_blank">{{ item.title }}</a>
+            <p>{{ item.created_at }}</p>
+          </div>
+          <div>
+            <paper-icon-button icon="delete" on-tap="deleteLM"></paper-button>
+          </div>
         </div>
       </template>
 
@@ -213,7 +218,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </div>     
       <div class="buttons">
         <paper-button dialog-dismiss>Cancel</paper-button>
-      <paper-button dialog-confirm on-tap="upload">Confirm</paper-button>
+        <paper-button dialog-confirm on-tap="upload">Confirm</paper-button>
+      </div>
+    </paper-dialog>
+
+    <paper-dialog id="dlgDelLM">
+      <h2>Delete</h2>
+      <p>Are you sure you want to delete?</p>
+      <div class="buttons">
+        <paper-button dialog-dismiss>Cancel</paper-button>
+        <paper-button dialog-confirm on-tap="confirmDel">Confirm</paper-button>
       </div>
     </paper-dialog>
     
@@ -251,6 +265,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       on-response="handleLearningMaterials"
       debounce-duration="300"></iron-ajax>
 
+    <iron-ajax
+      id="ajaxDELLM"
+      handle-as="json"
+      on-response="handleDELLM"
+      last-response="{{ dellmr }}"
+      debounce-duration="300"></iron-ajax>
+
 
     <paper-toast id="toastSuccess" 
                  text="Quiz created succesfully."></paper-toast>
@@ -277,6 +298,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         },
 
         isFile: Boolean,
+
+        LMID: Number
       },
 
       observers: [
@@ -410,6 +433,26 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         var ajax = this.$.ajaxLoadLearningMaterials;
         ajax.url = ['/api/material', this.subjectId].join('/');
         ajax.generateRequest();
+      },
+
+      deleteLM: function(e) {
+        this.$.dlgDelLM.open();
+        this.LMID = e.path[3].dataId;
+      },
+
+      confirmDel: function() {
+        var ajax = this.$.ajaxDELLM;
+        ajax.url = '/api/material/' + this.LMID;
+        ajax.method = 'delete';
+
+        ajax.generateRequest();
+
+        console.log(this.LMID);
+      },
+
+      handleDELLM: function() {
+        console.log(this.dellmr);
+        this.$.ajaxLoadLearningMaterials.generateRequest();
       }
     });
   })();
